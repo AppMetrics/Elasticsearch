@@ -13,7 +13,7 @@
   "copyright": "Allan Hardy 2016",
 
   "dependencies": {
-    "App.Metrics": "1.0.0-beta5-*",
+    "App.Metrics": "1.0.0-beta5-build00244",
     "Polly": "4.3.0",
     "StyleCop.Analyzers": {
       "version": "1.0.0",

@@ -149,7 +149,7 @@ task Pack -depends Restore, Clean {
 task Restore {
 	@($srcRoot, $testsRoot) | foreach {
         Write-Output "Restoring for '$_'"
-        dotnet restore "$_"
+        dotnet restore "$_" -f https://www.myget.org/F/alhardy/api/v3/index.json 
     }
 }
 
