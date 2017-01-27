@@ -1,0 +1,15 @@
+version: 1.0.{build}
+nuget:
+  disable_publish_on_pr: true
+build_script:
+- cmd: build.cmd
+test: off
+artifacts:
+- path: artifacts/packages/*.nupkg
+deploy:
+- provider: NuGet
+  server: https://www.myget.org/F/alhardy/api/v2/package
+  api_key:
+    secure: gIAiACgNj+JzXyLLTe3rLxZyrAB9RpC8Lw81xEjdOLXqotprqEwGiFWRipEqkpps
+  skip_symbols: true
+  symbol_server: https://www.myget.org/F/alhardy/symbol
