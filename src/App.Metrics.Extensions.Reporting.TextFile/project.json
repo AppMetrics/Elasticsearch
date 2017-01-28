@@ -46,7 +46,7 @@
   "packOptions": {
     "tags": [ "Metrics", "Monitoring", "Instrumentation", "Reporting", "TextFile" ],
     "projectUrl": "https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#text-file-reporter",
-    "licenseUrl": "https://github.com/alhardy/AppMetrics/blob/master/LICENSE",
+    "licenseUrl": "https://github.com/alhardy/AppMetrics.Reporting/blob/master/LICENSE",
     "iconUrl": "https://alhardy.github.io/app-metrics-docs/logo.png",
     "repository": {
       "type": "git",

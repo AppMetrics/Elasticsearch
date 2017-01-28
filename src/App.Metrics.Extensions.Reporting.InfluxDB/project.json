@@ -47,7 +47,7 @@
   "packOptions": {
     "tags": [ "Metrics", "Monitoring", "Instrumentation", "Reporting", "InfluxDB" ],
     "projectUrl": "https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#influxdb-reporter",
-    "licenseUrl": "https://github.com/alhardy/AppMetrics/blob/master/LICENSE",
+    "licenseUrl": "https://github.com/alhardy/AppMetrics.Reporting/blob/master/LICENSE",
     "iconUrl": "https://alhardy.github.io/app-metrics-docs/logo.png",
     "repository": {
       "type": "git",
