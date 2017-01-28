@@ -51,7 +51,7 @@
     "iconUrl": "https://alhardy.github.io/app-metrics-docs/logo.png",
     "repository": {
       "type": "git",
-      "url": "git://github.com/alhardy/AppMetrics"
+      "url": "git://github.com/alhardy/AppMetrics.Reporting"
     }
   },
   "title": "App.Metrics.Extensions.Reporting.Console",
