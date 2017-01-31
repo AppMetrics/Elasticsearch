@@ -150,43 +150,43 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             _logger.LogDebug($"Packed Health Checks for {Name}");
         }
 
-        public void ReportMetric<T>(string context, MetricValueSource<T> valueSource)
+        public void ReportMetric<T>(string context, MetricValueSourceBase<T> valueSource)
         {
             _logger.LogDebug($"Packing Metric {typeof(T)} for {Name}");
 
             if (typeof(T) == typeof(double))
             {
-                ReportGauge(context, valueSource as MetricValueSource<double>);
+                ReportGauge(context, valueSource as MetricValueSourceBase<double>);
                 return;
             }
 
             if (typeof(T) == typeof(CounterValue))
             {
-                ReportCounter(context, valueSource as MetricValueSource<CounterValue>);
+                ReportCounter(context, valueSource as MetricValueSourceBase<CounterValue>);
                 return;
             }
 
             if (typeof(T) == typeof(MeterValue))
             {
-                ReportMeter(context, valueSource as MetricValueSource<MeterValue>);
+                ReportMeter(context, valueSource as MetricValueSourceBase<MeterValue>);
                 return;
             }
 
             if (typeof(T) == typeof(TimerValue))
             {
-                ReportTimer(context, valueSource as MetricValueSource<TimerValue>);
+                ReportTimer(context, valueSource as MetricValueSourceBase<TimerValue>);
                 return;
             }
 
             if (typeof(T) == typeof(HistogramValue))
             {
-                ReportHistogram(context, valueSource as MetricValueSource<HistogramValue>);
+                ReportHistogram(context, valueSource as MetricValueSourceBase<HistogramValue>);
                 return;
             }
 
             if (typeof(T) == typeof(ApdexValue))
             {
-                ReportApdex(context, valueSource as MetricValueSource<ApdexValue>);
+                ReportApdex(context, valueSource as MetricValueSourceBase<ApdexValue>);
                 return;
             }
 
@@ -200,7 +200,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             _payloadBuilder.Init();
         }
 
-        private void ReportApdex(string name, MetricValueSource<ApdexValue> valueSource)
+        private void ReportApdex(string name, MetricValueSourceBase<ApdexValue> valueSource)
         {
             var apdexValueSource = valueSource as ApdexValueSource;
 
@@ -219,7 +219,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), keys, values, valueSource.Tags);
         }
 
-        private void ReportCounter(string name, MetricValueSource<CounterValue> valueSource)
+        private void ReportCounter(string name, MetricValueSourceBase<CounterValue> valueSource)
         {
             var counterValueSource = valueSource as CounterValueSource;
 
@@ -255,7 +255,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), count, valueSource.Tags);
         }
 
-        private void ReportGauge(string name, MetricValueSource<double> valueSource)
+        private void ReportGauge(string name, MetricValueSourceBase<double> valueSource)
         {
             if (!double.IsNaN(valueSource.Value) && !double.IsInfinity(valueSource.Value))
             {
@@ -263,7 +263,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             }
         }
 
-        private void ReportHistogram(string name, MetricValueSource<HistogramValue> valueSource)
+        private void ReportHistogram(string name, MetricValueSourceBase<HistogramValue> valueSource)
         {
             var data = new Dictionary<string, object>();
 
@@ -275,7 +275,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), keys, values, valueSource.Tags);
         }
 
-        private void ReportMeter(string name, MetricValueSource<MeterValue> valueSource)
+        private void ReportMeter(string name, MetricValueSourceBase<MeterValue> valueSource)
         {
             var data = new Dictionary<string, object>();
 
@@ -302,7 +302,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), keys, values, valueSource.Tags);
         }
 
-        private void ReportTimer(string name, MetricValueSource<TimerValue> valueSource)
+        private void ReportTimer(string name, MetricValueSourceBase<TimerValue> valueSource)
         {
             var data = new Dictionary<string, object>();
 

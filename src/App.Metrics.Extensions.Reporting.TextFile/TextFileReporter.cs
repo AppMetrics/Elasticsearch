@@ -104,7 +104,7 @@ namespace App.Metrics.Extensions.Reporting.TextFile
             _logger.LogDebug($"Writing Health Checks for {Name}");
         }
 
-        public void ReportMetric<T>(string context, MetricValueSource<T> valueSource)
+        public void ReportMetric<T>(string context, MetricValueSourceBase<T> valueSource)
         {
             _logger.LogDebug($"Start Writing Metric {typeof(T)} for {Name}");
 

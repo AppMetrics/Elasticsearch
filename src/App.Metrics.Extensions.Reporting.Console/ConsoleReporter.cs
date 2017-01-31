@@ -118,7 +118,7 @@ namespace App.Metrics.Extensions.Reporting.Console
             WriteLine(typeof(HealthStatus).HumanzeEndMetricType());
         }
 
-        public void ReportMetric<T>(string context, MetricValueSource<T> valueSource)
+        public void ReportMetric<T>(string context, MetricValueSourceBase<T> valueSource)
         {
             _logger.LogDebug("Writing Metric {T} for Console", typeof(T));
 
