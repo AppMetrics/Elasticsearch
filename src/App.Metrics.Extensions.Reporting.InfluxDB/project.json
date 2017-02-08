@@ -14,7 +14,7 @@
 
   "dependencies": {
     "App.Metrics": "1.0.0-beta5-2",
-    "Polly": "4.3.0",
+    "Polly": "5.0.5",
     "StyleCop.Analyzers": {
       "version": "1.0.0",
       "type": "build"

@@ -60,13 +60,13 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var result = await _policy.ExecuteAndCaptureAsync(
-                async () =>
+                async (token) =>
                 {
                     var payloadText = new StringWriter();
                     payload.Format(payloadText);
 
                     var content = new StringContent(payloadText.ToString(), Encoding.UTF8);
-                    var response = await _httpClient.PostAsync(_influxDbSettings.Endpoint, content, cancellationToken).ConfigureAwait(false);
+                    var response = await _httpClient.PostAsync(_influxDbSettings.Endpoint, content, token).ConfigureAwait(false);
 
                     response.EnsureSuccessStatusCode();
 
