@@ -48,11 +48,11 @@ namespace App.Metrics.Extensions.Reporting.Console
 
         public TimeSpan ReportInterval { get; }
 
-        public void Dispose() { _logger.LogDebug("Console Reporter Disposed"); }
+        public void Dispose() { }
 
         public Task<bool> EndAndFlushReportRunAsync(IMetrics metrics)
         {
-            _logger.LogDebug("Ending Console Report Run");
+            _logger.LogTrace("Ending Console Report Run");
 
             WriteLine(
                 string.Format(
@@ -80,7 +80,7 @@ namespace App.Metrics.Extensions.Reporting.Console
             IEnumerable<HealthCheck.Result> unhealthyChecks)
         {
             WriteLine(typeof(HealthStatus).HumanzeStartMetricType());
-            _logger.LogDebug("Writing Health Checks for Console");
+            _logger.LogTrace("Writing Health Checks for Console");
 
             var passed = healthyChecks.ToList();
             var failed = unhealthyChecks.ToList();
@@ -114,24 +114,24 @@ namespace App.Metrics.Extensions.Reporting.Console
 
             failed.ForEach(c => WriteLine(c.Hummanize()));
 
-            _logger.LogDebug("Writing Health Checks for Console");
+            _logger.LogTrace("Writing Health Checks for Console");
             WriteLine(typeof(HealthStatus).HumanzeEndMetricType());
         }
 
         public void ReportMetric<T>(string context, MetricValueSourceBase<T> valueSource)
         {
-            _logger.LogDebug("Writing Metric {T} for Console", typeof(T));
+            _logger.LogTrace("Writing Metric {T} for Console", typeof(T));
 
             WriteLine(valueSource.HumanzizeName(context));
 
             WriteLine(valueSource.Hummanize());
 
-            _logger.LogDebug("Writing Metric {T} for Console", typeof(T));
+            _logger.LogTrace("Writing Metric {T} for Console", typeof(T));
         }
 
         public void StartReportRun(IMetrics metrics)
         {
-            _logger.LogDebug("Starting Console Report Run");
+            _logger.LogTrace("Starting Console Report Run");
 
             WriteLine(
                 string.Format(

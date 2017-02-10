@@ -81,7 +81,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
                 return new LineProtocolWriteResult(false, result.FinalException.ToString());
             }
 
-            _logger.LogDebug("Successful write to InfluxDB");
+            _logger.LogTrace("Successful write to InfluxDB");
 
             return result.Result;
         }

@@ -67,7 +67,6 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         public void Dispose(bool disposing)
@@ -81,14 +80,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 }
             }
 
-            _logger.LogDebug($"{Name} Disposed");
-
             _disposed = true;
         }
 
         public async Task<bool> EndAndFlushReportRunAsync(IMetrics metrics)
         {
-            _logger.LogDebug($"Ending {Name} Run");
+            _logger.LogTrace($"Ending {Name} Run");
 
             var result = await _lineProtocolClient.WriteAsync(_payloadBuilder.Payload());
 
@@ -105,7 +102,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             IEnumerable<HealthCheck.Result> degradedChecks,
             IEnumerable<HealthCheck.Result> unhealthyChecks)
         {
-            _logger.LogDebug($"Packing Health Checks for {Name}");
+            _logger.LogTrace($"Packing Health Checks for {Name}");
 
             var unhealthy = unhealthyChecks as HealthCheck.Result[] ?? unhealthyChecks.ToArray();
             var degraded = degradedChecks as HealthCheck.Result[] ?? degradedChecks.ToArray();
@@ -147,12 +144,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 }
             }
 
-            _logger.LogDebug($"Packed Health Checks for {Name}");
+            _logger.LogTrace($"Packed Health Checks for {Name}");
         }
 
         public void ReportMetric<T>(string context, MetricValueSourceBase<T> valueSource)
         {
-            _logger.LogDebug($"Packing Metric {typeof(T)} for {Name}");
+            _logger.LogTrace($"Packing Metric {typeof(T)} for {Name}");
 
             if (typeof(T) == typeof(double))
             {
@@ -190,12 +187,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 return;
             }
 
-            _logger.LogDebug($"Finished Packing Metric {typeof(T)} for {Name}");
+            _logger.LogTrace($"Finished Packing Metric {typeof(T)} for {Name}");
         }
 
         public void StartReportRun(IMetrics metrics)
         {
-            _logger.LogDebug($"Starting {Name} Report Run");
+            _logger.LogTrace($"Starting {Name} Report Run");
 
             _payloadBuilder.Init();
         }
