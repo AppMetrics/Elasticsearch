@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
         public LineProtocolPoint(
             string measurement,
             IReadOnlyDictionary<string, object> fields,
-            MetricTags tags = null,
+            MetricTags tags,
             DateTime? utcTimestamp = null)
         {
             if (string.IsNullOrEmpty(measurement))
@@ -33,14 +32,6 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
                 throw new ArgumentException("Fields must have non-empty names");
             }
 
-            if (tags != null)
-            {
-                if (tags.Any(t => string.IsNullOrEmpty(t.Key)))
-                {
-                    throw new ArgumentException("Tags must have non-empty names");
-                }
-            }
-
             if (utcTimestamp != null && utcTimestamp.Value.Kind != DateTimeKind.Utc)
             {
                 throw new ArgumentException("Timestamps must be specified as UTC");
@@ -56,7 +47,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 
         public string Measurement { get; }
 
-        public ConcurrentDictionary<string, string> Tags { get; }
+        public MetricTags Tags { get; }
 
         public DateTime? UtcTimestamp { get; }
 
@@ -69,19 +60,16 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 
             textWriter.Write(LineProtocolSyntax.EscapeName(Measurement));
 
-            if (Tags != null)
+            if (Tags.Count > 0)
             {
-                foreach (var t in Tags.OrderBy(t => t.Key))
-                {
-                    if (string.IsNullOrEmpty(t.Value))
-                    {
-                        continue;
-                    }
+                Array.Sort(Tags.Keys);
 
+                for (var i = 0; i < Tags.Count; i++)
+                {
                     textWriter.Write(',');
-                    textWriter.Write(LineProtocolSyntax.EscapeName(t.Key));
+                    textWriter.Write(LineProtocolSyntax.EscapeName(Tags.Keys[i]));
                     textWriter.Write('=');
-                    textWriter.Write(LineProtocolSyntax.EscapeName(t.Value));
+                    textWriter.Write(LineProtocolSyntax.EscapeName(Tags.Values[i]));
                 }
             }
 

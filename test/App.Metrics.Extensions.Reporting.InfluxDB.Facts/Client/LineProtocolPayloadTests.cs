@@ -20,7 +20,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
             var payload = new LineProtocolPayload();
             var fieldsOne = new Dictionary<string, object> { { "key", "value" } };
             var timestampOne = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var pointOne = new LineProtocolPoint("measurement", fieldsOne, MetricTags.None, timestampOne);
+            var pointOne = new LineProtocolPoint("measurement", fieldsOne, MetricTags.Empty, timestampOne);
 
             var fieldsTwo = new Dictionary<string, object>
                             {
@@ -29,7 +29,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
                                 { "field3key", false }
                             };
             var timestampTwo = new DateTime(2017, 1, 2, 1, 1, 1, DateTimeKind.Utc);
-            var pointTwo = new LineProtocolPoint("measurement", fieldsTwo, MetricTags.None, timestampTwo);
+            var pointTwo = new LineProtocolPoint("measurement", fieldsTwo, MetricTags.Empty, timestampTwo);
 
             payload.Add(pointOne);
             payload.Add(pointTwo);
@@ -56,7 +56,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         {
             var payload = new LineProtocolPayload();
             var fields = new Dictionary<string, object> { { "key", "value" } };
-            var pointOne = new LineProtocolPoint("measurement", fields, MetricTags.None);
+            var pointOne = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
 
             Action action = () =>
             {

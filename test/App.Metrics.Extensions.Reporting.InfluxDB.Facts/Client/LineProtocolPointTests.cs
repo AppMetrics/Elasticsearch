@@ -19,7 +19,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
             var fields = new Dictionary<string, object>();
             Action action = () =>
             {
-                var point = new LineProtocolPoint("measurement", fields, MetricTags.None);
+                var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
             };
 
             action.ShouldThrow<ArgumentException>();
@@ -31,7 +31,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
             var textWriter = new StringWriter();
             var fields = new Dictionary<string, object> { { "key", "value" } };
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var point = new LineProtocolPoint("measurement", fields, MetricTags.None, timestamp);
+            var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
 
             point.Format(textWriter);
 
@@ -43,7 +43,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         {
             var textWriter = new StringWriter();
             var fields = new Dictionary<string, object> { { "key", "value" } };
-            var point = new LineProtocolPoint("measurement", fields, MetricTags.None);
+            var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
 
             point.Format(textWriter);
 
@@ -61,7 +61,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
                              { "field3key", false }
                          };
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var point = new LineProtocolPoint("measurement", fields, MetricTags.None, timestamp);
+            var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
 
             point.Format(textWriter);
 
@@ -74,7 +74,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
         {
             var textWriter = new StringWriter();
             var fields = new Dictionary<string, object> { { "key", "value" } };
-            var tags = new MetricTags().With("tagkey", "tagvalue");
+            var tags = new MetricTags("tagkey", "tagvalue");
             var timestamp = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
             var point = new LineProtocolPoint("measurement", fields, tags, timestamp);
 
@@ -89,7 +89,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
             var fields = new Dictionary<string, object> { { string.Empty, "value" } };
             Action action = () =>
             {
-                var point = new LineProtocolPoint("measurement", fields, MetricTags.None);
+                var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty);
             };
 
             action.ShouldThrow<ArgumentException>();
@@ -101,21 +101,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
             var fields = new Dictionary<string, object> { { "key", "value" } };
             Action action = () =>
             {
-                var point = new LineProtocolPoint(string.Empty, fields, MetricTags.None);
-            };
-
-            action.ShouldThrow<ArgumentException>();
-        }
-
-        [Fact]
-        public void tag_key_cannot_be_empty()
-        {
-            var fields = new Dictionary<string, object> { { "key", "value" } };
-            var tags = new MetricTags().With(string.Empty, "value");
-
-            Action action = () =>
-            {
-                var point = new LineProtocolPoint("measurement", fields, tags);
+                var point = new LineProtocolPoint(string.Empty, fields, MetricTags.Empty);
             };
 
             action.ShouldThrow<ArgumentException>();
@@ -132,7 +118,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
 
             Action action = () =>
             {
-                var point = new LineProtocolPoint("measurement", fields, MetricTags.None, timestamp);
+                var point = new LineProtocolPoint("measurement", fields, MetricTags.Empty, timestamp);
             };
 
             if (!expected)

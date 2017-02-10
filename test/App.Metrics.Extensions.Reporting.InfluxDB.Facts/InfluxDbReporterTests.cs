@@ -37,14 +37,14 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
             var meter = new DefaultMeterMetric(clock);
-            meter.Mark(new MetricItem().With("item1", "value1"), 1);
-            meter.Mark(new MetricItem().With("item2", "value2"), 1);
+            meter.Mark(new MetricSetItem("item1", "value1"), 1);
+            meter.Mark(new MetricSetItem("item2", "value2"), 1);
             var meterValueSource = new MeterValueSource(
                 "test meter",
                 ConstantValue.Provider(meter.Value),
                 Unit.None,
                 TimeUnit.Milliseconds,
-                MetricTags.None);
+                MetricTags.Empty);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -69,7 +69,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             var apdexValueSource = new ApdexValueSource(
                 "test apdex",
                 ConstantValue.Provider(gauge.Value),
-                MetricTags.None,
+                MetricTags.Empty,
                 false);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
@@ -85,13 +85,13 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         {
             var metricsMock = new Mock<IMetrics>();
             var counter = new DefaultCounterMetric();
-            counter.Increment(new MetricItem().With("item1", "value1"), 1);
-            counter.Increment(new MetricItem().With("item2", "value2"), 1);
+            counter.Increment(new MetricSetItem("item1", "value1"), 1);
+            counter.Increment(new MetricSetItem("item2", "value2"), 1);
             var counterValueSource = new CounterValueSource(
                 "test counter",
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
-                MetricTags.None);
+                MetricTags.Empty);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -109,13 +109,13 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         {
             var metricsMock = new Mock<IMetrics>();
             var counter = new DefaultCounterMetric();
-            counter.Increment(new MetricItem().With("item1", "value1"), 1);
-            counter.Increment(new MetricItem().With("item2", "value2"), 1);
+            counter.Increment(new MetricSetItem("item1", "value1"), 1);
+            counter.Increment(new MetricSetItem("item2", "value2"), 1);
             var counterValueSource = new CounterValueSource(
                 "test counter",
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
-                MetricTags.None,
+                MetricTags.Empty,
                 reportItemPercentages: false);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
@@ -139,7 +139,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
                 "test counter",
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
-                MetricTags.None);
+                MetricTags.Empty);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -158,7 +158,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
                 "test gauge",
                 ConstantValue.Provider(gauge.Value),
                 Unit.None,
-                MetricTags.None);
+                MetricTags.Empty);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -208,7 +208,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
                 "test histogram",
                 ConstantValue.Provider(histogram.Value),
                 Unit.None,
-                MetricTags.None);
+                MetricTags.Empty);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -233,7 +233,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
                 ConstantValue.Provider(meter.Value),
                 Unit.None,
                 TimeUnit.Milliseconds,
-                MetricTags.None);
+                MetricTags.Empty);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -249,14 +249,14 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
             var meter = new DefaultMeterMetric(clock);
-            meter.Mark(new MetricItem().With("item1", "value1"), 1);
-            meter.Mark(new MetricItem().With("item2", "value2"), 1);
+            meter.Mark(new MetricSetItem("item1", "value1"), 1);
+            meter.Mark(new MetricSetItem("item2", "value2"), 1);
             var meterValueSource = new MeterValueSource(
                 "test meter",
                 ConstantValue.Provider(meter.Value),
                 Unit.None,
                 TimeUnit.Milliseconds,
-                MetricTags.None);
+                MetricTags.Empty);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -282,7 +282,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
                 Unit.None,
                 TimeUnit.Milliseconds,
                 TimeUnit.Milliseconds,
-                MetricTags.None);
+                MetricTags.Empty);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
