@@ -62,8 +62,6 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 
             if (Tags.Count > 0)
             {
-                Array.Sort(Tags.Keys);
-
                 for (var i = 0; i < Tags.Count; i++)
                 {
                     textWriter.Write(',');
