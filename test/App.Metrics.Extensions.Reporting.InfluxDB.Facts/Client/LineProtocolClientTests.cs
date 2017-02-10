@@ -28,7 +28,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts.Client
             _payload = new LineProtocolPayload();
             var fieldsOne = new Dictionary<string, object> { { "key", "value" } };
             var timestampOne = new DateTime(2017, 1, 1, 1, 1, 1, DateTimeKind.Utc);
-            var pointOne = new LineProtocolPoint("measurement", fieldsOne, MetricTags.None, timestampOne);
+            var pointOne = new LineProtocolPoint("measurement", fieldsOne, MetricTags.Empty, timestampOne);
             _payload.Add(pointOne);
         }
 

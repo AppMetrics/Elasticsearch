@@ -122,25 +122,27 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 healthStatusValue = 1;
             }
 
-            _payloadBuilder.Pack("health", healthStatusValue, new MetricTags(globalTags));
+            var tags = new MetricTags(globalTags.Select(t => t.Key).ToArray(), globalTags.Select(t => t.Value).ToArray());
+
+            _payloadBuilder.Pack("health", healthStatusValue, tags);
 
             var checks = unhealthy.Concat(degraded).Concat(healthyChecks);
 
             foreach (var healthCheck in checks)
             {
-                var tags = new MetricTags(globalTags).With("health_check", healthCheck.Name);
+                var allTags = MetricTags.Concat(tags, new MetricTags("health_check", healthCheck.Name));
 
                 if (healthCheck.Check.Status == HealthCheckStatus.Unhealthy)
                 {
-                    _payloadBuilder.Pack("health_checks__unhealhty", healthCheck.Check.Message, tags);
+                    _payloadBuilder.Pack("health_checks__unhealhty", healthCheck.Check.Message, allTags);
                 }
                 else if (healthCheck.Check.Status == HealthCheckStatus.Healthy)
                 {
-                    _payloadBuilder.Pack("health_checks__healthy", healthCheck.Check.Message, tags);
+                    _payloadBuilder.Pack("health_checks__healthy", healthCheck.Check.Message, allTags);
                 }
                 else if (healthCheck.Check.Status == HealthCheckStatus.Degraded)
                 {
-                    _payloadBuilder.Pack("health_checks__degraded", healthCheck.Check.Message, tags);
+                    _payloadBuilder.Pack("health_checks__degraded", healthCheck.Check.Message, allTags);
                 }
             }
 
