@@ -23,7 +23,9 @@ namespace App.Metrics.Extensions.Reporting.TextFile
         private bool _disposed;
 
         public TextFileReporter(string file, TimeSpan interval, ILoggerFactory loggerFactory)
-            : this(typeof(TextFileReporter).Name, file, interval, loggerFactory) { }
+            : this(typeof(TextFileReporter).Name, file, interval, loggerFactory)
+        {
+        }
 
         public TextFileReporter(string name, string file, TimeSpan interval, ILoggerFactory loggerFactory)
         {
@@ -71,8 +73,6 @@ namespace App.Metrics.Extensions.Reporting.TextFile
                 }
             }
 
-            _logger.LogDebug($"{Name} Disposed");
-
             _disposed = true;
         }
 
@@ -80,7 +80,7 @@ namespace App.Metrics.Extensions.Reporting.TextFile
         {
             await _stringReporter.EndAndFlushReportRunAsync(metrics);
 
-            _logger.LogDebug($"End {Name} Run");
+            _logger.LogTrace($"End {Name} Run");
 
             var file = new FileInfo(_file);
             file.Directory.Create();
@@ -97,25 +97,25 @@ namespace App.Metrics.Extensions.Reporting.TextFile
             IEnumerable<HealthCheck.Result> degradedChecks,
             IEnumerable<HealthCheck.Result> unhealthyChecks)
         {
-            _logger.LogDebug($"Writing Health Checks for {Name}");
+            _logger.LogTrace($"Writing Health Checks for {Name}");
 
             _stringReporter.ReportHealth(globalMetrics, healthyChecks, degradedChecks, unhealthyChecks);
 
-            _logger.LogDebug($"Writing Health Checks for {Name}");
+            _logger.LogTrace($"Writing Health Checks for {Name}");
         }
 
         public void ReportMetric<T>(string context, MetricValueSourceBase<T> valueSource)
         {
-            _logger.LogDebug($"Start Writing Metric {typeof(T)} for {Name}");
+            _logger.LogTrace($"Start Writing Metric {typeof(T)} for {Name}");
 
             _stringReporter.ReportMetric(context, valueSource);
 
-            _logger.LogDebug($"End Writing Metric {typeof(T)} for {Name}");
+            _logger.LogTrace($"End Writing Metric {typeof(T)} for {Name}");
         }
 
         public void StartReportRun(IMetrics metrics)
         {
-            _logger.LogDebug($"Starting {Name} Run");
+            _logger.LogTrace($"Starting {Name} Run");
 
             _stringReporter.StartReportRun(metrics);
         }
