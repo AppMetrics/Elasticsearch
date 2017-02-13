@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using App.Metrics.Apdex;
-using App.Metrics.Data;
 using App.Metrics.Histogram;
 using App.Metrics.Meter;
 
