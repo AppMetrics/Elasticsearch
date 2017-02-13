@@ -41,7 +41,9 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 reportInterval,
                 typeof(InfluxDbReporter).Name,
                 loggerFactory,
-                metricNameFormatter) { }
+                metricNameFormatter)
+        {
+        }
 
         public InfluxDbReporter(
             ILineProtocolClient lineProtocolClient,
@@ -64,10 +66,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
 
         public TimeSpan ReportInterval { get; }
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
+        public void Dispose() { Dispose(true); }
 
         public void Dispose(bool disposing)
         {
@@ -199,7 +198,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             _payloadBuilder.Init();
         }
 
-        private void ReportApdex(string name, MetricValueSourceBase<ApdexValue> valueSource)
+        private void ReportApdex(string context, MetricValueSourceBase<ApdexValue> valueSource)
         {
             var apdexValueSource = valueSource as ApdexValueSource;
 
@@ -212,13 +211,10 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
 
             valueSource.Value.AddApdexValues(data);
 
-            var keys = data.Keys.ToList();
-            var values = keys.Select(k => data[k]);
-
-            _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), keys, values, valueSource.Tags);
+            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
         }
 
-        private void ReportCounter(string name, MetricValueSourceBase<CounterValue> valueSource)
+        private void ReportCounter(string context, MetricValueSourceBase<CounterValue> valueSource)
         {
             var counterValueSource = valueSource as CounterValueSource;
 
@@ -231,50 +227,31 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             {
                 foreach (var item in counterValueSource.Value.Items.Distinct())
                 {
-                    var data = new Dictionary<string, object> { { "total", item.Count } };
-
-                    if (counterValueSource.ReportItemPercentages)
-                    {
-                        data.Add("percent", item.Percent);
-                    }
-
-                    var keys = data.Keys.ToList();
-                    var values = keys.Select(k => data[k]);
-
-                    _payloadBuilder.Pack(
-                        _metricNameFormatter(name, valueSource.Name + "  items"),
-                        keys,
-                        values,
-                        item.Tags);
+                    _payloadBuilder.PackCounterSetItems(_metricNameFormatter, context, valueSource, item, counterValueSource);
                 }
             }
 
-            var count = counterValueSource.ValueProvider.GetValue(resetMetric: counterValueSource.ResetOnReporting).Count;
-
-            _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), count, valueSource.Tags);
+            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, counterValueSource);
         }
 
-        private void ReportGauge(string name, MetricValueSourceBase<double> valueSource)
+        private void ReportGauge(string context, MetricValueSourceBase<double> valueSource)
         {
             if (!double.IsNaN(valueSource.Value) && !double.IsInfinity(valueSource.Value))
             {
-                _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), valueSource.Value, valueSource.Tags);
+                _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource);
             }
         }
 
-        private void ReportHistogram(string name, MetricValueSourceBase<HistogramValue> valueSource)
+        private void ReportHistogram(string context, MetricValueSourceBase<HistogramValue> valueSource)
         {
             var data = new Dictionary<string, object>();
 
             valueSource.Value.AddHistogramValues(data);
 
-            var keys = data.Keys.ToList();
-            var values = keys.Select(k => data[k]);
-
-            _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), keys, values, valueSource.Tags);
+            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
         }
 
-        private void ReportMeter(string name, MetricValueSourceBase<MeterValue> valueSource)
+        private void ReportMeter(string context, MetricValueSourceBase<MeterValue> valueSource)
         {
             var data = new Dictionary<string, object>();
 
@@ -282,36 +259,23 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             {
                 foreach (var item in valueSource.Value.Items.Distinct())
                 {
-                    var itemData = new Dictionary<string, object>();
-
-                    item.Value.AddMeterValues(itemData);
-                    itemData.Add("percent", item.Percent);
-
-                    var itemKeys = itemData.Keys.ToList();
-                    var itemValues = itemKeys.Select(k => itemData[k]).ToList();
-                    _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name + "  items"), itemKeys, itemValues, item.Tags);
+                    _payloadBuilder.PackMeterSetItems(_metricNameFormatter, context, valueSource, item);
                 }
             }
 
             valueSource.Value.AddMeterValues(data);
 
-            var keys = data.Keys.ToList();
-            var values = keys.Select(k => data[k]);
-
-            _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), keys, values, valueSource.Tags);
+            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
         }
 
-        private void ReportTimer(string name, MetricValueSourceBase<TimerValue> valueSource)
+        private void ReportTimer(string context, MetricValueSourceBase<TimerValue> valueSource)
         {
             var data = new Dictionary<string, object>();
 
             valueSource.Value.Rate.AddMeterValues(data);
             valueSource.Value.Histogram.AddHistogramValues(data);
 
-            var keys = data.Keys.ToList();
-            var values = keys.Select(k => data[k]);
-
-            _payloadBuilder.Pack(_metricNameFormatter(name, valueSource.Name), keys, values, valueSource.Tags);
+            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
         }
     }
 }

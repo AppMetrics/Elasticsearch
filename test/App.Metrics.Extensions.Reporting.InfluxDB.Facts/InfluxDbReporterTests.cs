@@ -9,7 +9,6 @@ using App.Metrics.Abstractions.ReservoirSampling;
 using App.Metrics.Apdex;
 using App.Metrics.Core;
 using App.Metrics.Counter;
-using App.Metrics.Data;
 using App.Metrics.Extensions.Reporting.InfluxDB;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Gauge;
@@ -81,6 +80,74 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         }
 
         [Fact]
+        public void can_report_apdex_with_group()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var clock = new TestClock();
+            var gauge = new DefaultApdexMetric(_defaultReservoir, clock, false);
+            var apdexValueSource = new ApdexValueSource(
+                "test apdex",
+                "test group",
+                ConstantValue.Provider(gauge.Value),
+                MetricTags.Empty,
+                false);
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", apdexValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be("test__test_group,group_item=test_apdex samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
+        }
+
+        [Fact]
+        public void can_report_apdex_with_group_and_tags()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var clock = new TestClock();
+            var gauge = new DefaultApdexMetric(_defaultReservoir, clock, false);
+            var apdexValueSource = new ApdexValueSource(
+                "test apdex",
+                "test group",
+                ConstantValue.Provider(gauge.Value),
+                new MetricTags("key1", "value1"),
+                false);
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", apdexValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be("test__test_group,group_item=test_apdex,key1=value1 samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
+        }
+
+        [Fact]
+        public void can_report_apdex_with_tags()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var clock = new TestClock();
+            var gauge = new DefaultApdexMetric(_defaultReservoir, clock, false);
+            var apdexValueSource = new ApdexValueSource(
+                "test apdex",
+                ConstantValue.Provider(gauge.Value),
+                new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }),
+                false);
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", apdexValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be("test__test_apdex,key1=value1,key2=value2 samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
+        }
+
+        [Fact]
         public void can_report_counter_with_items()
         {
             var metricsMock = new Mock<IMetrics>();
@@ -98,10 +165,59 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", counterValueSource);
 
-            payloadBuilder.PayloadFormatted()
-                          .Should()
-                          .Be(
-                              "test__test_counter__items,item=item1:value1 total=1i,percent=50\ntest__test_counter__items,item=item2:value2 total=1i,percent=50\ntest__test_counter value=2i\n");
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__test_counter__items,item=item1:value1 total=1i,percent=50\ntest__test_counter__items,item=item2:value2 total=1i,percent=50\ntest__test_counter value=2i\n");
+        }
+
+        [Fact]
+        public void can_report_counter_with_items_and_tags()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var counter = new DefaultCounterMetric();
+            counter.Increment(new MetricSetItem("item1", "value1"), 1);
+            counter.Increment(new MetricSetItem("item2", "value2"), 1);
+            var counterValueSource = new CounterValueSource(
+                "test counter",
+                ConstantValue.Provider(counter.Value),
+                Unit.None,
+                new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }));
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", counterValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__test_counter__items,key1=value1,key2=value2,item=item1:value1 total=1i,percent=50\ntest__test_counter__items,key1=value1,key2=value2,item=item2:value2 total=1i,percent=50\ntest__test_counter,key1=value1,key2=value2 value=2i\n");
+        }
+
+        [Fact]
+        public void can_report_counter_with_items_tags_and_group()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var counter = new DefaultCounterMetric();
+            counter.Increment(new MetricSetItem("item1", "value1"), 1);
+            counter.Increment(new MetricSetItem("item2", "value2"), 1);
+            var counterValueSource = new CounterValueSource(
+                "test counter",
+                "counterGroup",
+                ConstantValue.Provider(counter.Value),
+                Unit.None,
+                new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }));
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", counterValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__countergroup__items,group_item=test_counter,key1=value1,key2=value2,item=item1:value1 total=1i,percent=50\ntest__countergroup__items,group_item=test_counter,key1=value1,key2=value2,item=item2:value2 total=1i,percent=50\ntest__countergroup,group_item=test_counter,key1=value1,key2=value2 value=2i\n");
         }
 
         [Fact]
@@ -123,10 +239,10 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", counterValueSource);
 
-            payloadBuilder.PayloadFormatted()
-                          .Should()
-                          .Be(
-                              "test__test_counter__items,item=item1:value1 total=1i\ntest__test_counter__items,item=item2:value2 total=1i\ntest__test_counter value=2i\n");
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__test_counter__items,item=item1:value1 total=1i\ntest__test_counter__items,item=item2:value2 total=1i\ntest__test_counter value=2i\n");
         }
 
         [Fact]
@@ -150,6 +266,27 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         }
 
         [Fact]
+        public void can_report_counters_with_group()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var counter = new DefaultCounterMetric();
+            counter.Increment(1);
+            var counterValueSource = new CounterValueSource(
+                "test counter",
+                "counter_group",
+                ConstantValue.Provider(counter.Value),
+                Unit.None,
+                MetricTags.Empty);
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", counterValueSource);
+
+            payloadBuilder.PayloadFormatted().Should().Be("test__counter_group,group_item=test_counter value=1i\n");
+        }
+
+        [Fact]
         public void can_report_gauges()
         {
             var metricsMock = new Mock<IMetrics>();
@@ -166,6 +303,26 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             reporter.ReportMetric("test", gaugeValueSource);
 
             payloadBuilder.PayloadFormatted().Should().Be("test__test_gauge value=1\n");
+        }
+
+        [Fact]
+        public void can_report_gauges_with_group()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var gauge = new FunctionGauge(() => 1);
+            var gaugeValueSource = new GaugeValueSource(
+                "test gauge",
+                "gauge-group",
+                ConstantValue.Provider(gauge.Value),
+                Unit.None,
+                MetricTags.Empty);
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", gaugeValueSource);
+
+            payloadBuilder.PayloadFormatted().Should().Be("test__gauge-group,group_item=test_gauge value=1\n");
         }
 
         [Fact]
@@ -192,10 +349,10 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportHealth(new GlobalMetricTags(), healthyChecks, degradedChecks, unhealthyChecks);
 
-            payloadBuilder.PayloadFormatted()
-                          .Should()
-                          .Be(
-                              "health value=3i\nhealth_checks__unhealhty,health_check=unhealthy\\ check value=\"unhealthy message\"\nhealth_checks__degraded,health_check=degraded\\ check value=\"degraded message\"\nhealth_checks__healthy,health_check=healthy\\ check value=\"healthy message\"\n");
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "health value=3i\nhealth_checks__unhealhty,health_check=unhealthy\\ check value=\"unhealthy message\"\nhealth_checks__degraded,health_check=degraded\\ check value=\"degraded message\"\nhealth_checks__healthy,health_check=healthy\\ check value=\"healthy message\"\n");
         }
 
         [Fact]
@@ -215,10 +372,34 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", histogramValueSource);
 
-            payloadBuilder.PayloadFormatted()
-                          .Should()
-                          .Be(
-                              "test__test_histogram samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__test_histogram samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+        }
+
+        [Fact]
+        public void can_report_histogramsWithGroups()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var histogram = new DefaultHistogramMetric(_defaultReservoir);
+            histogram.Update(1000, "client1");
+            var histogramValueSource = new HistogramValueSource(
+                "test histogram",
+                "group-1",
+                ConstantValue.Provider(histogram.Value),
+                Unit.None,
+                MetricTags.Empty);
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", histogramValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__group-1,group_item=test_histogram samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
         }
 
         [Fact]
@@ -244,6 +425,31 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         }
 
         [Fact]
+        public void can_report_meters_with_group()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var clock = new TestClock();
+            var meter = new DefaultMeterMetric(clock);
+            meter.Mark(1);
+            var meterValueSource = new MeterValueSource(
+                "test meter",
+                "http_transactions",
+                ConstantValue.Provider(meter.Value),
+                Unit.None,
+                TimeUnit.Milliseconds,
+                MetricTags.Empty);
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", meterValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be("test__http_transactions,group_item=test_meter count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity\n");
+        }
+
+        [Fact]
         public void can_report_meters_with_items()
         {
             var metricsMock = new Mock<IMetrics>();
@@ -263,10 +469,37 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", meterValueSource);
 
-            payloadBuilder.PayloadFormatted()
-                          .Should()
-                          .Be(
-                              "test__test_meter__items,item=item1:value1 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__test_meter__items,item=item2:value2 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__test_meter count.meter=2i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity\n");
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__test_meter__items,item=item1:value1 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__test_meter__items,item=item2:value2 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__test_meter count.meter=2i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity\n");
+        }
+
+        [Fact]
+        public void can_report_meters_with_items_tags_and_group()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var clock = new TestClock();
+            var meter = new DefaultMeterMetric(clock);
+            meter.Mark(new MetricSetItem("item1", "value1"), 1);
+            meter.Mark(new MetricSetItem("item2", "value2"), 1);
+            var meterValueSource = new MeterValueSource(
+                "test meter",
+                "requests",
+                ConstantValue.Provider(meter.Value),
+                Unit.None,
+                TimeUnit.Milliseconds,
+                new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }));
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", meterValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__requests__items,group_item=test_meter,key1=value1,key2=value2,item=item1:value1 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__requests__items,group_item=test_meter,key1=value1,key2=value2,item=item2:value2 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__requests,group_item=test_meter,key1=value1,key2=value2 count.meter=2i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity\n");
         }
 
         [Fact]
@@ -289,10 +522,37 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", timerValueSource);
 
-            payloadBuilder.PayloadFormatted()
-                          .Should()
-                          .Be(
-                              "test__test_timer count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__test_timer count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+        }
+
+        [Fact]
+        public void can_report_timers_with_group()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var clock = new TestClock();
+            var timer = new DefaultTimerMetric(_defaultReservoir, clock);
+            timer.Record(1000, TimeUnit.Milliseconds, "client1");
+            var timerValueSource = new TimerValueSource(
+                "test timer",
+                "endpoints",
+                ConstantValue.Provider(timer.Value),
+                Unit.None,
+                TimeUnit.Milliseconds,
+                TimeUnit.Milliseconds,
+                MetricTags.Empty);
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", timerValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__endpoints,group_item=test_timer count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
         }
 
         [Fact]

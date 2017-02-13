@@ -24,7 +24,9 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                              Timeout = Constants.DefaultTimeout
                          };
             ReportInterval = TimeSpan.FromSeconds(5);
-            MetricNameFormatter = (metricContext, metricName) => $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
+            MetricNameFormatter = (metricContext, metricName) => metricContext.IsMissing()
+                ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
+                : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
         }
 
         /// <summary>
