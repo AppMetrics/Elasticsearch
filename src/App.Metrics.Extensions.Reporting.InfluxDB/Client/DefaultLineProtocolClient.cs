@@ -69,28 +69,37 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
         {
             if (NeedToBackoff())
             {
-                return new LineProtocolWriteResult(false, "Too many failures in writing ");
+                return new LineProtocolWriteResult(false, "Too many failures in writing to InfluxDB, Circuit Opened");
             }
 
             var payloadText = new StringWriter();
             payload.Format(payloadText);
-
             var content = new StringContent(payloadText.ToString(), Encoding.UTF8);
-            var response = await _httpClient.PostAsync(_influxDbSettings.Endpoint, content, cancellationToken).ConfigureAwait(false);
 
-            if (!response.IsSuccessStatusCode)
+            try
+            {
+                var response = await _httpClient.PostAsync(_influxDbSettings.Endpoint, content, cancellationToken).ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Interlocked.Increment(ref _failureAttempts);
+
+                    var errorMessage = $"Failed to write to InfluxDB - StatusCode: {response.StatusCode} Reason: {response.ReasonPhrase}";
+                    _logger.LogError(LoggingEvents.InfluxDbWriteError, errorMessage);
+
+                    return new LineProtocolWriteResult(false, errorMessage);
+                }
+
+                _logger.LogTrace("Successful write to InfluxDB");
+
+                return new LineProtocolWriteResult(true);
+            }
+            catch (Exception ex)
             {
                 Interlocked.Increment(ref _failureAttempts);
-
-                var errorMessage = $"Failed to write to InfluxDB - StatusCode: {response.StatusCode} Reason: {response.ReasonPhrase}";
-                _logger.LogError(LoggingEvents.InfluxDbWriteError, errorMessage);
-
-                return new LineProtocolWriteResult(false, errorMessage);
+                _logger.LogError(LoggingEvents.InfluxDbWriteError, "Failed to write to InfluxDB", ex);
+                return new LineProtocolWriteResult(false, ex.ToString());
             }
-
-            _logger.LogTrace("Successful write to InfluxDB");
-
-            return new LineProtocolWriteResult(true);
         }
 
         private static HttpClient CreateHttpClient(
