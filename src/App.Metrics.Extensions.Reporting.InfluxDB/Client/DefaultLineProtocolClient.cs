@@ -134,9 +134,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
                 return false;
             }
 
-            _logger.LogError(
-                $"Failed to retrieve access token {Interlocked.Read(ref _failureAttempts)} " +
-                $"times. Connect Token calls will be skipped for {_backOffPeriod.Seconds} secs");
+            _logger.LogError($"InfluxDB write backoff for {_backOffPeriod.Seconds} secs");
 
             if (Interlocked.Read(ref _backOffTicks) == 0)
             {
