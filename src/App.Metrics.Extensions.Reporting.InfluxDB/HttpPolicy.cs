@@ -3,7 +3,6 @@
 
 using System;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
-using Polly;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB
 {
@@ -21,7 +20,5 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
         public int FailuresBeforeBackoff { get; set; }
 
         public TimeSpan Timeout { get; set; }
-
-        public Policy AsPolicy() { return Policy.Handle<Exception>().CircuitBreakerAsync(FailuresBeforeBackoff, BackoffPeriod); }
     }
 }
