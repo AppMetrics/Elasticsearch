@@ -9,16 +9,19 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Polly;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 {
     public class DefaultLineProtocolClient : ILineProtocolClient
     {
+        private static long _backOffTicks;
+        private static long _failureAttempts;
+        private static long _failuresBeforeBackoff;
+        private static TimeSpan _backOffPeriod;
+
         private readonly HttpClient _httpClient;
         private readonly InfluxDBSettings _influxDbSettings;
         private readonly ILogger<DefaultLineProtocolClient> _logger;
-        private readonly Policy _policy;
 
         public DefaultLineProtocolClient(ILoggerFactory loggerFactory, InfluxDBSettings influxDbSettings)
             : this(
@@ -30,7 +33,10 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
                     FailuresBeforeBackoff = Constants.DefaultFailuresBeforeBackoff,
                     BackoffPeriod = Constants.DefaultBackoffPeriod,
                     Timeout = Constants.DefaultTimeout
-                }) { }
+                })
+        {
+        }
+
 #pragma warning disable SA1118
 
         public DefaultLineProtocolClient(
@@ -51,7 +57,9 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
 
             _httpClient = CreateHttpClient(influxDbSettings, httpPolicy, httpMessageHandler);
             _influxDbSettings = influxDbSettings;
-            _policy = httpPolicy.AsPolicy();
+            _backOffPeriod = httpPolicy.BackoffPeriod;
+            _failuresBeforeBackoff = httpPolicy.FailuresBeforeBackoff;
+            _failureAttempts = 0;
             _logger = loggerFactory.CreateLogger<DefaultLineProtocolClient>();
         }
 
@@ -59,31 +67,30 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
             LineProtocolPayload payload,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var result = await _policy.ExecuteAndCaptureAsync(
-                async (token) =>
-                {
-                    var payloadText = new StringWriter();
-                    payload.Format(payloadText);
-
-                    var content = new StringContent(payloadText.ToString(), Encoding.UTF8);
-                    var response = await _httpClient.PostAsync(_influxDbSettings.Endpoint, content, token).ConfigureAwait(false);
-
-                    response.EnsureSuccessStatusCode();
-
-                    return new LineProtocolWriteResult(true, null);
-                },
-                cancellationToken);
-
-            if (result.Outcome == OutcomeType.Failure)
+            if (NeedToBackoff())
             {
-                _logger.LogError(LoggingEvents.InfluxDbWriteError, result.FinalException, "Failed to write to InfluxDB");
+                return new LineProtocolWriteResult(false, "Too many failures in writing ");
+            }
 
-                return new LineProtocolWriteResult(false, result.FinalException.ToString());
+            var payloadText = new StringWriter();
+            payload.Format(payloadText);
+
+            var content = new StringContent(payloadText.ToString(), Encoding.UTF8);
+            var response = await _httpClient.PostAsync(_influxDbSettings.Endpoint, content, cancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Interlocked.Increment(ref _failureAttempts);
+
+                var errorMessage = $"Failed to write to InfluxDB - StatusCode: {response.StatusCode} Reason: {response.ReasonPhrase}";
+                _logger.LogError(LoggingEvents.InfluxDbWriteError, errorMessage);
+
+                return new LineProtocolWriteResult(false, errorMessage);
             }
 
             _logger.LogTrace("Successful write to InfluxDB");
 
-            return result.Result;
+            return new LineProtocolWriteResult(true);
         }
 
         private static HttpClient CreateHttpClient(
@@ -109,6 +116,33 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Client
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
             return client;
+        }
+
+        private bool NeedToBackoff()
+        {
+            if (Interlocked.Read(ref _failureAttempts) < _failuresBeforeBackoff)
+            {
+                return false;
+            }
+
+            _logger.LogError(
+                $"Failed to retrieve access token {Interlocked.Read(ref _failureAttempts)} " +
+                $"times. Connect Token calls will be skipped for {_backOffPeriod.Seconds} secs");
+
+            if (Interlocked.Read(ref _backOffTicks) == 0)
+            {
+                Interlocked.Exchange(ref _backOffTicks, DateTime.UtcNow.Add(_backOffPeriod).Ticks);
+            }
+
+            if (DateTime.UtcNow.Ticks <= Interlocked.Read(ref _backOffTicks))
+            {
+                return true;
+            }
+
+            Interlocked.Exchange(ref _failureAttempts, 0);
+            Interlocked.Exchange(ref _backOffTicks, 0);
+
+            return false;
         }
     }
 }
