@@ -13,7 +13,7 @@
   "copyright": "Allan Hardy 2016",
 
   "dependencies": {
-    "App.Metrics": "1.0.0-rc1-build00285",
+    "App.Metrics": "1.0.0-rc1",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "StyleCop.Analyzers": {
       "version": "1.0.0",
