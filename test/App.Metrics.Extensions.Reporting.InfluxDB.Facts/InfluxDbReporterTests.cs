@@ -28,7 +28,9 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
 {
     public class InfluxDbReporterTests
     {
+        private const string MultidimensionalMetricNameSuffix = "|host:server1,env:staging";
         private readonly Lazy<IReservoir> _defaultReservoir = new Lazy<IReservoir>(() => new DefaultForwardDecayingReservoir());
+        private readonly MetricTags _tags = new MetricTags(new[] { "host", "env" }, new[] { "server1", "staging" });
 
         [Fact]
         public void can_clear_payload()
@@ -80,17 +82,16 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         }
 
         [Fact]
-        public void can_report_apdex_with_group()
+        public void can_report_apdex__when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
             var gauge = new DefaultApdexMetric(_defaultReservoir, clock, false);
             var apdexValueSource = new ApdexValueSource(
-                "test apdex",
-                "test group",
+                "test apdex" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(gauge.Value),
-                MetricTags.Empty,
-                false);
+                _tags,
+                resetOnReporting: false);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -99,30 +100,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
 
             payloadBuilder.PayloadFormatted().
                            Should().
-                           Be("test__test_group,group_item=test_apdex samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
-        }
-
-        [Fact]
-        public void can_report_apdex_with_group_and_tags()
-        {
-            var metricsMock = new Mock<IMetrics>();
-            var clock = new TestClock();
-            var gauge = new DefaultApdexMetric(_defaultReservoir, clock, false);
-            var apdexValueSource = new ApdexValueSource(
-                "test apdex",
-                "test group",
-                ConstantValue.Provider(gauge.Value),
-                new MetricTags("key1", "value1"),
-                false);
-            var payloadBuilder = new LineProtocolPayloadBuilder();
-            var reporter = CreateReporter(payloadBuilder);
-
-            reporter.StartReportRun(metricsMock.Object);
-            reporter.ReportMetric("test", apdexValueSource);
-
-            payloadBuilder.PayloadFormatted().
-                           Should().
-                           Be("test__test_group,group_item=test_apdex,key1=value1 samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
+                           Be("test__test_apdex,host=server1,env=staging samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
         }
 
         [Fact]
@@ -145,6 +123,29 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be("test__test_apdex,key1=value1,key2=value2 samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
+        }
+
+        [Fact]
+        public void can_report_apdex_with_tags_when_multidimensional()
+        {
+            var metricsMock = new Mock<IMetrics>();
+            var clock = new TestClock();
+            var gauge = new DefaultApdexMetric(_defaultReservoir, clock, false);
+            var apdexValueSource = new ApdexValueSource(
+                "test apdex" + MultidimensionalMetricNameSuffix,
+                ConstantValue.Provider(gauge.Value),
+                MetricTags.Concat(_tags, new MetricTags("anothertag", "thevalue")),
+                resetOnReporting: false);
+            var payloadBuilder = new LineProtocolPayloadBuilder();
+            var reporter = CreateReporter(payloadBuilder);
+
+            reporter.StartReportRun(metricsMock.Object);
+            reporter.ReportMetric("test", apdexValueSource);
+
+            payloadBuilder.PayloadFormatted().
+                           Should().
+                           Be(
+                               "test__test_apdex,host=server1,env=staging,anothertag=thevalue samples=0i,score=0,satisfied=0i,tolerating=0i,frustrating=0i\n");
         }
 
         [Fact]
@@ -196,18 +197,18 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         }
 
         [Fact]
-        public void can_report_counter_with_items_tags_and_group()
+        public void can_report_counter_with_items_tags_when_multidimensional()
         {
+            var counterTags = new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" });
             var metricsMock = new Mock<IMetrics>();
             var counter = new DefaultCounterMetric();
             counter.Increment(new MetricSetItem("item1", "value1"), 1);
             counter.Increment(new MetricSetItem("item2", "value2"), 1);
             var counterValueSource = new CounterValueSource(
-                "test counter",
-                "counterGroup",
+                "test counter" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
-                new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }));
+                MetricTags.Concat(_tags, counterTags));
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -217,7 +218,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__countergroup__items,group_item=test_counter,key1=value1,key2=value2,item=item1:value1 total=1i,percent=50\ntest__countergroup__items,group_item=test_counter,key1=value1,key2=value2,item=item2:value2 total=1i,percent=50\ntest__countergroup,group_item=test_counter,key1=value1,key2=value2 value=2i\n");
+                               "test__test_counter__items,host=server1,env=staging,key1=value1,key2=value2,item=item1:value1 total=1i,percent=50\ntest__test_counter__items,host=server1,env=staging,key1=value1,key2=value2,item=item2:value2 total=1i,percent=50\ntest__test_counter,host=server1,env=staging,key1=value1,key2=value2 value=2i\n");
         }
 
         [Fact]
@@ -266,24 +267,23 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         }
 
         [Fact]
-        public void can_report_counters_with_group()
+        public void can_report_counters__when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var counter = new DefaultCounterMetric();
             counter.Increment(1);
             var counterValueSource = new CounterValueSource(
-                "test counter",
-                "counter_group",
+                "test counter" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(counter.Value),
                 Unit.None,
-                MetricTags.Empty);
+                _tags);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", counterValueSource);
 
-            payloadBuilder.PayloadFormatted().Should().Be("test__counter_group,group_item=test_counter value=1i\n");
+            payloadBuilder.PayloadFormatted().Should().Be("test__test_counter,host=server1,env=staging value=1i\n");
         }
 
         [Fact]
@@ -306,23 +306,22 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         }
 
         [Fact]
-        public void can_report_gauges_with_group()
+        public void can_report_gauges__when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var gauge = new FunctionGauge(() => 1);
             var gaugeValueSource = new GaugeValueSource(
-                "test gauge",
-                "gauge-group",
+                "gauge-group" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(gauge.Value),
                 Unit.None,
-                MetricTags.Empty);
+                _tags);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", gaugeValueSource);
 
-            payloadBuilder.PayloadFormatted().Should().Be("test__gauge-group,group_item=test_gauge value=1\n");
+            payloadBuilder.PayloadFormatted().Should().Be("test__gauge-group,host=server1,env=staging value=1\n");
         }
 
         [Fact]
@@ -379,17 +378,16 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         }
 
         [Fact]
-        public void can_report_histogramsWithGroups()
+        public void can_report_histograms_when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var histogram = new DefaultHistogramMetric(_defaultReservoir);
             histogram.Update(1000, "client1");
             var histogramValueSource = new HistogramValueSource(
-                "test histogram",
-                "group-1",
+                "test histogram" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(histogram.Value),
                 Unit.None,
-                MetricTags.Empty);
+                _tags);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -399,7 +397,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__group-1,group_item=test_histogram samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+                               "test__test_histogram,host=server1,env=staging samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
         }
 
         [Fact]
@@ -421,23 +419,22 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             reporter.StartReportRun(metricsMock.Object);
             reporter.ReportMetric("test", meterValueSource);
 
-            payloadBuilder.PayloadFormatted().Should().Be("test__test_meter count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity\n");
+            payloadBuilder.PayloadFormatted().Should().Be("test__test_meter count.meter=1i,rate1m=0,rate5m=0,rate15m=0\n");
         }
 
         [Fact]
-        public void can_report_meters_with_group()
+        public void can_report_meters_when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
             var meter = new DefaultMeterMetric(clock);
             meter.Mark(1);
             var meterValueSource = new MeterValueSource(
-                "test meter",
-                "http_transactions",
+                "test meter" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(meter.Value),
                 Unit.None,
                 TimeUnit.Milliseconds,
-                MetricTags.Empty);
+                _tags);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -446,7 +443,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
 
             payloadBuilder.PayloadFormatted().
                            Should().
-                           Be("test__http_transactions,group_item=test_meter count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity\n");
+                           Be("test__test_meter,host=server1,env=staging count.meter=1i,rate1m=0,rate5m=0,rate15m=0\n");
         }
 
         [Fact]
@@ -472,11 +469,11 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__test_meter__items,item=item1:value1 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__test_meter__items,item=item2:value2 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__test_meter count.meter=2i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity\n");
+                               "test__test_meter__items,item=item1:value1 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,percent=50\ntest__test_meter__items,item=item2:value2 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,percent=50\ntest__test_meter count.meter=2i,rate1m=0,rate5m=0,rate15m=0\n");
         }
 
         [Fact]
-        public void can_report_meters_with_items_tags_and_group()
+        public void can_report_meters_with_items_tags_when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
@@ -484,12 +481,11 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             meter.Mark(new MetricSetItem("item1", "value1"), 1);
             meter.Mark(new MetricSetItem("item2", "value2"), 1);
             var meterValueSource = new MeterValueSource(
-                "test meter",
-                "requests",
+                "test meter" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(meter.Value),
                 Unit.None,
                 TimeUnit.Milliseconds,
-                new MetricTags(new[] { "key1", "key2" }, new[] { "value1", "value2" }));
+                _tags);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -499,7 +495,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__requests__items,group_item=test_meter,key1=value1,key2=value2,item=item1:value1 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__requests__items,group_item=test_meter,key1=value1,key2=value2,item=item2:value2 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,percent=50\ntest__requests,group_item=test_meter,key1=value1,key2=value2 count.meter=2i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity\n");
+                               "test__test_meter__items,host=server1,env=staging,item=item1:value1 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,percent=50\ntest__test_meter__items,host=server1,env=staging,item=item2:value2 count.meter=1i,rate1m=0,rate5m=0,rate15m=0,percent=50\ntest__test_meter,host=server1,env=staging count.meter=2i,rate1m=0,rate5m=0,rate15m=0\n");
         }
 
         [Fact]
@@ -525,24 +521,23 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__test_timer count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+                               "test__test_timer count.meter=1i,rate1m=0,rate5m=0,rate15m=0,samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
         }
 
         [Fact]
-        public void can_report_timers_with_group()
+        public void can_report_timers__when_multidimensional()
         {
             var metricsMock = new Mock<IMetrics>();
             var clock = new TestClock();
             var timer = new DefaultTimerMetric(_defaultReservoir, clock);
             timer.Record(1000, TimeUnit.Milliseconds, "client1");
             var timerValueSource = new TimerValueSource(
-                "test timer",
-                "endpoints",
+                "test timer" + MultidimensionalMetricNameSuffix,
                 ConstantValue.Provider(timer.Value),
                 Unit.None,
                 TimeUnit.Milliseconds,
                 TimeUnit.Milliseconds,
-                MetricTags.Empty);
+                _tags);
             var payloadBuilder = new LineProtocolPayloadBuilder();
             var reporter = CreateReporter(payloadBuilder);
 
@@ -552,7 +547,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__endpoints,group_item=test_timer count.meter=1i,rate1m=0,rate5m=0,rate15m=0,rate.mean=Infinity,samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+                               "test__test_timer,host=server1,env=staging count.meter=1i,rate1m=0,rate5m=0,rate15m=0,samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
         }
 
         [Fact]

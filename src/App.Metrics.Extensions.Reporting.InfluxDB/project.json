@@ -7,13 +7,13 @@
       "CS1591"
     ],
     "xmlDoc": true,
-    "debugType": "full",
+    "debugType": "portable",
     "additionalArguments": [ "/ruleset:../../AppMetrics.ruleset", "/additionalfile:../../stylecop.json" ]
   },
   "copyright": "Allan Hardy 2016",
 
   "dependencies": {
-    "App.Metrics": "1.0.0-*",
+    "App.Metrics": "1.0.0-stable-0327",
     "StyleCop.Analyzers": {
       "version": "1.0.0",
       "type": "build"
