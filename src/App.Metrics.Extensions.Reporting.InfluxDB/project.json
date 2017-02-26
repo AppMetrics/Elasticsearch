@@ -7,13 +7,12 @@
       "CS1591"
     ],
     "xmlDoc": true,
-    "debugType": "portable",
     "additionalArguments": [ "/ruleset:../../AppMetrics.ruleset", "/additionalfile:../../stylecop.json" ]
   },
   "copyright": "Allan Hardy 2016",
 
   "dependencies": {
-    "App.Metrics": "1.0.0-stable-0327",
+    "App.Metrics": "1.0.0-stable-0330",
     "StyleCop.Analyzers": {
       "version": "1.0.0",
       "type": "build"
@@ -54,5 +53,5 @@
     }
   },
   "title": "App.Metrics.Extensions.Reporting.InfluxDB",
-  "version": "1.0.0"
+  "version": "1.0.0-*"
 }
