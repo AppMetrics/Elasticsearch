@@ -12,7 +12,7 @@
   "copyright": "Allan Hardy 2016",
 
   "dependencies": {
-    "App.Metrics": "1.0.0-*",
+    "App.Metrics": "1.0.0-stable-0333",
     "StyleCop.Analyzers": {
       "version": "1.0.0",
       "type": "build"
