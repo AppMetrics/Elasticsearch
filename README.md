@@ -88,3 +88,7 @@ See the [contribution guidlines](https://github.com/alhardy/AppMetrics/blob/mast
 ## License
 
 This library is release under Apache 2.0 License ( see LICENSE ) Copyright (c) 2016 Allan Hardy
+
+----------
+
+[![](https://codescene.io/projects/868/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/868/jobs/latest-successful/results)
