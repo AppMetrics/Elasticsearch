@@ -24,9 +24,9 @@ See the following for build arguments and running locally.
 
 |Configuration|Description|Default|Environment|Required|
 |------|--------|:--------:|:--------:|:--------:|
-|Configuration|The configuration to run the build, **Debug** or **Release** |*Release*|All|Optional|
+|BuildConfiguration|The configuration to run the build, **Debug** or **Release** |*Release*|All|Optional|
 |PreReleaseSuffix|The pre-release suffix for versioning nuget package artifacts e.g. `beta`|*ci*|All|Optional|
-|SkipCoverage|**false** to calculate and report code coverage, **true** to skip. When **true**, an open cover code coverage file and html report will be generated at `./artifacts/coverage`|*false*|Windows Only|Optional|
+|CoverWith|**DotCover** or **OpenCover** to calculate and report code coverage, **None** to skip. When not **None**, a coverage file and html report will be generated at `./artifacts/coverage`|*OpenCover*|Windows Only|Optional|
 |SkipCodeInspect|**false** to run ReSharper code inspect and report results, **true** to skip. When **true**, the code inspection html report and xml output will be generated at `./artifacts/resharper-reports`|*false*|Windows Only|Optional|
 |BuildNumber|The build number to use for pre-release versions|*0*|All|Optional|
 
@@ -42,7 +42,7 @@ Run `build.ps1` from the repositories root directory.
 **With Arguments**
 
 ```
-	.\build.ps1 --ScriptArgs '-Configuration=Release -PreReleaseSuffix=beta -SkipCoverage=false -SkipCodeInspect=false -BuildNumber=1'
+	.\build.ps1 --ScriptArgs '-BuildConfiguration=Release -PreReleaseSuffix=beta -CoverWith=OpenCover -SkipCodeInspect=false -BuildNumber=1'
 ```
 
 ### Linux & OSX
@@ -56,8 +56,13 @@ Run `build.sh` from the repositories root directory. Code Coverage reports are n
 **With Arguments**
 
 ```
-	.\build.sh --ScriptArgs '-Configuration=Release -PreReleaseSuffix=beta -BuildNumber=1'
+	.\build.sh --ScriptArgs '-BuildConfiguration=Release -PreReleaseSuffix=beta -BuildNumber=1'
 ```
+
+> #### Nuget Packages
+> Nuget packages won't be generated on non-windows environments by default.
+> 
+> Unfortunately there is [currently no way out-of-the-box to conditionally build & pack a project by framework](https://github.com/dotnet/roslyn-project-system/issues/1586#issuecomment-280978851). Because `App.Metrics` packages target `.NET 4.5.2` as well as `dotnet standard` there is a work around in the build script to force `dotnet standard` on build but no work around for packaging on non-windows environments. 
 
 ## Contributing
 
