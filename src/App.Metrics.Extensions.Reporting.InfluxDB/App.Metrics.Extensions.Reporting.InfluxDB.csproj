@@ -32,7 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.0.0-stable-0333" />
+    <PackageReference Include="App.Metrics" Version="1.0.0-stable-0371" />
+    <PackageReference Include="App.Metrics.Concurrency" Version="1.0.0-stable-0371" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
