@@ -3,6 +3,7 @@
 
 using System;
 using App.Metrics.Abstractions.Reporting;
+using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch
 {
@@ -15,7 +16,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         /// </summary>
         public ElasticSearchReporterSettings()
         {
-            ElasticSearchSettings = new ElasticSearchSettings();
+            ElasticSearchSettings = new ElasticSearchSettings(new Uri("http://localhost:9200"), "metrics");
             HttpPolicy = new HttpPolicy
                          {
                              FailuresBeforeBackoff = Constants.DefaultFailuresBeforeBackoff,

@@ -4,6 +4,8 @@
 using System;
 using App.Metrics.Abstractions.Filtering;
 using App.Metrics.Reporting.Abstractions;
+using App.Metrics.Extensions.Reporting.ElasticSearch;
+using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 
 // ReSharper disable CheckNamespace
 namespace App.Metrics.Reporting.Interfaces
@@ -22,16 +24,16 @@ namespace App.Metrics.Reporting.Interfaces
 
         public static IReportFactory AddElasticSearch(
             this IReportFactory factory,
-            string database,
-            Uri baseAddress,
+            Uri address,
+            string indexName,
             IFilterMetrics filter = null)
         {
-            var settings = new ElasticSearchBReporterSettings
+            var settings = new ElasticSearchReporterSettings
             {
-                ElasticSearchSettings = new ElasticSearchSettings(database, baseAddress)
-                           };
+                ElasticSearchSettings = new ElasticSearchSettings(address, indexName)
+            };
 
-            factory.AddElasticSearch(settings, filter);
+            factory.AddElasticSearch(settings, filter); 
             return factory;
         }
     }
