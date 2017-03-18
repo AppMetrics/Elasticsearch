@@ -101,51 +101,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             IEnumerable<HealthCheck.Result> degradedChecks,
             IEnumerable<HealthCheck.Result> unhealthyChecks)
         {
-            _logger.LogTrace($"Packing Health Checks for {Name}");
-
-            var unhealthy = unhealthyChecks as HealthCheck.Result[] ?? unhealthyChecks.ToArray();
-            var degraded = degradedChecks as HealthCheck.Result[] ?? degradedChecks.ToArray();
-
-            var isUnhealthy = unhealthy.Any();
-            var isDegraded = degraded.Any();
-            var healthy = !isUnhealthy && !isDegraded;
-
-            var healthStatusValue = 2;
-
-            if (isUnhealthy)
-            {
-                healthStatusValue = 3;
-            }
-            else if (healthy)
-            {
-                healthStatusValue = 1;
-            }
-
-            var tags = new MetricTags(globalTags.Select(t => t.Key).ToArray(), globalTags.Select(t => t.Value).ToArray());
-
-            _payloadBuilder.Pack("health", healthStatusValue, tags);
-
-            var checks = unhealthy.Concat(degraded).Concat(healthyChecks);
-
-            foreach (var healthCheck in checks)
-            {
-                var allTags = MetricTags.Concat(tags, new MetricTags("health_check", healthCheck.Name));
-
-                if (healthCheck.Check.Status == HealthCheckStatus.Unhealthy)
-                {
-                    _payloadBuilder.Pack("health_checks__unhealhty", healthCheck.Check.Message, allTags);
-                }
-                else if (healthCheck.Check.Status == HealthCheckStatus.Healthy)
-                {
-                    _payloadBuilder.Pack("health_checks__healthy", healthCheck.Check.Message, allTags);
-                }
-                else if (healthCheck.Check.Status == HealthCheckStatus.Degraded)
-                {
-                    _payloadBuilder.Pack("health_checks__degraded", healthCheck.Check.Message, allTags);
-                }
-            }
-
-            _logger.LogTrace($"Packed Health Checks for {Name}");
+            // Health checks are reported as metrics as well
         }
 
         public void ReportMetric<T>(string context, MetricValueSourceBase<T> valueSource)

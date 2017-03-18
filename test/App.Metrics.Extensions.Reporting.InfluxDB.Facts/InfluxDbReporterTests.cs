@@ -325,36 +325,6 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
         }
 
         [Fact]
-        public void can_report_health()
-        {
-            var metricsMock = new Mock<IMetrics>();
-            var healthyChecks = new[]
-                                {
-                                    new HealthCheck.Result("healthy check", HealthCheckResult.Healthy("healthy message"))
-                                }.AsEnumerable();
-
-            var degradedChecks = new[]
-                                 {
-                                     new HealthCheck.Result("degraded check", HealthCheckResult.Degraded("degraded message"))
-                                 }.AsEnumerable();
-
-            var unhealthyChecks = new[]
-                                  {
-                                      new HealthCheck.Result("unhealthy check", HealthCheckResult.Unhealthy("unhealthy message"))
-                                  }.AsEnumerable();
-            var payloadBuilder = new LineProtocolPayloadBuilder();
-            var reporter = CreateReporter(payloadBuilder);
-
-            reporter.StartReportRun(metricsMock.Object);
-            reporter.ReportHealth(new GlobalMetricTags(), healthyChecks, degradedChecks, unhealthyChecks);
-
-            payloadBuilder.PayloadFormatted().
-                           Should().
-                           Be(
-                               "health value=3i\nhealth_checks__unhealhty,health_check=unhealthy\\ check value=\"unhealthy message\"\nhealth_checks__degraded,health_check=degraded\\ check value=\"degraded message\"\nhealth_checks__healthy,health_check=healthy\\ check value=\"healthy message\"\n");
-        }
-
-        [Fact]
         public void can_report_histograms()
         {
             var metricsMock = new Mock<IMetrics>();
