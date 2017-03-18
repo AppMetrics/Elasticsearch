@@ -22,7 +22,8 @@ $appProjects = Get-ChildItem "$srcRoot\**\$projectFileName" | foreach { $_.FullN
 $testProjects = Get-ChildItem "$testsRoot\**\$projectFileName" | foreach { $_.FullName }
 $packableProjectDirectories = @("$srcRoot\App.Metrics.Extensions.Reporting.TextFile",
 								"$srcRoot\App.Metrics.Extensions.Reporting.Console",
-								"$srcRoot\App.Metrics.Extensions.Reporting.InfluxDB")
+								"$srcRoot\App.Metrics.Extensions.Reporting.InfluxDB",
+								"$srcRoot\App.Metrics.Extensions.Reporting.ElasticSearch")
 
 task default -depends PatchProject, TestParams, Setup, Build, RunTests, Pack
 
