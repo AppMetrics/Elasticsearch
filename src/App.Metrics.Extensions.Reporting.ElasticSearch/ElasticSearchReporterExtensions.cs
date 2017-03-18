@@ -3,14 +3,12 @@
 
 using System;
 using App.Metrics.Abstractions.Filtering;
-using App.Metrics.Reporting.Abstractions;
 using App.Metrics.Extensions.Reporting.ElasticSearch;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
+using App.Metrics.Reporting.Abstractions;
 
-// ReSharper disable CheckNamespace
 namespace App.Metrics.Reporting.Interfaces
 {
-    // ReSharper restore CheckNamespace
     public static class ElasticSearchReporterExtensions
     {
         public static IReportFactory AddElasticSearch(
@@ -33,7 +31,7 @@ namespace App.Metrics.Reporting.Interfaces
                 ElasticSearchSettings = new ElasticSearchSettings(address, indexName)
             };
 
-            factory.AddElasticSearch(settings, filter); 
+            factory.AddElasticSearch(settings, filter);
             return factory;
         }
     }

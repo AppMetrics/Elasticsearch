@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// Copyright (c) Allan Hardy. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
 using System;
 using System.IO;
 using System.Net.Http;
@@ -6,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
@@ -20,17 +23,12 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         private readonly ILogger<ElasticSearchBulkClient> _logger;
 
         public ElasticSearchBulkClient(
-            ILoggerFactory loggerFactory, 
+            ILoggerFactory loggerFactory,
             ElasticSearchSettings elasticSearchSettings)
             : this(
                 loggerFactory,
                 elasticSearchSettings,
-                new HttpPolicy
-                {
-                    FailuresBeforeBackoff = Constants.DefaultFailuresBeforeBackoff,
-                    BackoffPeriod = Constants.DefaultBackoffPeriod,
-                    Timeout = Constants.DefaultTimeout
-                })
+                new HttpPolicy())
         {
         }
 
@@ -40,10 +38,17 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             HttpPolicy httpPolicy,
             HttpMessageHandler httpMessageHandler = null)
         {
-            if (elasticSearchSettings == null) throw new ArgumentNullException(nameof(elasticSearchSettings));
-            if (httpPolicy == null) throw new ArgumentNullException(nameof(httpPolicy));
+            if (elasticSearchSettings == null)
+            {
+                throw new ArgumentNullException(nameof(elasticSearchSettings));
+            }
 
-            _httpClient = createClient(elasticSearchSettings, httpPolicy);            
+            if (httpPolicy == null)
+            {
+                throw new ArgumentNullException(nameof(httpPolicy));
+            }
+
+            _httpClient = CreateClient(elasticSearchSettings, httpPolicy);
             _backOffPeriod = httpPolicy.BackoffPeriod;
             _failuresBeforeBackoff = httpPolicy.FailuresBeforeBackoff;
             _failureAttempts = 0;
@@ -54,7 +59,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             BulkPayload payload,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (needToBackoff())
+            if (NeedToBackoff())
             {
                 _logger.LogTrace("Too many failures in writing to ElasticSearch, Circuit Opened");
                 return false;
@@ -95,7 +100,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             }
         }
 
-        private HttpClient createClient(ElasticSearchSettings settings, HttpPolicy httpPolicy)
+        private HttpClient CreateClient(ElasticSearchSettings settings, HttpPolicy httpPolicy)
         {
             var httpClient = new HttpClient()
             {
@@ -111,7 +116,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                     break;
                 case ElasticSearchAuthorizationSchemas.Basic:
                     var byteArray = Encoding.ASCII.GetBytes($"{settings.UserName}:{settings.Password}");
-                    httpClient.DefaultRequestHeaders.Authorization = 
+                    httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                     break;
                 case ElasticSearchAuthorizationSchemas.BearerToken:
@@ -123,7 +128,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             return httpClient;
         }
 
-        private bool needToBackoff()
+        private bool NeedToBackoff()
         {
             if (Interlocked.Read(ref _failureAttempts) < _failuresBeforeBackoff)
             {

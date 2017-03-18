@@ -9,6 +9,8 @@ using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Apdex;
 using App.Metrics.Core.Abstractions;
 using App.Metrics.Counter;
+using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
+using App.Metrics.Extensions.Reporting.ElasticSearch.Extensions;
 using App.Metrics.Health;
 using App.Metrics.Histogram;
 using App.Metrics.Infrastructure;
@@ -16,7 +18,6 @@ using App.Metrics.Meter;
 using App.Metrics.Tagging;
 using App.Metrics.Timer;
 using Microsoft.Extensions.Logging;
-using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch
 {

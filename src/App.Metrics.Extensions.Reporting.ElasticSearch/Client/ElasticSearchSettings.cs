@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Allan Hardy. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
@@ -18,8 +21,15 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 
         public ElasticSearchSettings(Uri address, string indexName)
         {
-            if (address == null) throw new ArgumentNullException(nameof(address));
-            if (String.IsNullOrEmpty(indexName)) throw new ArgumentNullException(nameof(indexName));
+            if (address == null)
+            {
+                throw new ArgumentNullException(nameof(address));
+            }
+
+            if (string.IsNullOrEmpty(indexName))
+            {
+                throw new ArgumentNullException(nameof(indexName));
+            }
 
             this.AuthorizationSchema = ElasticSearchAuthorizationSchemas.Basic;
             this.Address = address;
@@ -29,8 +39,15 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         public ElasticSearchSettings(Uri address, string indexName, string userName, string password)
             : this(address, indexName)
         {
-            if (String.IsNullOrEmpty(userName)) throw new ArgumentNullException(nameof(userName));
-            if (String.IsNullOrEmpty(password)) throw new ArgumentNullException(nameof(password));
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentNullException(nameof(userName));
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
 
             this.AuthorizationSchema = ElasticSearchAuthorizationSchemas.Anonymous;
             this.UserName = userName;
@@ -40,7 +57,10 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         public ElasticSearchSettings(Uri address, string indexName, string bearerToken)
             : this(address, indexName)
         {
-            if (String.IsNullOrEmpty(bearerToken)) throw new ArgumentNullException(nameof(bearerToken));
+            if (string.IsNullOrEmpty(bearerToken))
+            {
+                throw new ArgumentNullException(nameof(bearerToken));
+            }
 
             this.AuthorizationSchema = ElasticSearchAuthorizationSchemas.BearerToken;
             this.BearerToken = bearerToken;

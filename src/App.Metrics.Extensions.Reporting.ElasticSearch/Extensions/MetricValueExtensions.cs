@@ -6,7 +6,7 @@ using App.Metrics.Apdex;
 using App.Metrics.Histogram;
 using App.Metrics.Meter;
 
-namespace App.Metrics.Extensions.Reporting.InfluxDB.Extensions
+namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
 {
     internal static class MetricValueExtensions
     {

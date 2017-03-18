@@ -4,9 +4,9 @@
 using System;
 using App.Metrics.Abstractions.Filtering;
 using App.Metrics.Abstractions.Reporting;
+using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 using App.Metrics.Internal;
 using Microsoft.Extensions.Logging;
-using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch
 {

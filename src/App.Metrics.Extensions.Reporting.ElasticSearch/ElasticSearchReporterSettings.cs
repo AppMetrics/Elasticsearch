@@ -4,15 +4,14 @@
 using System;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
+using App.Metrics.Internal;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch
 {
-    // ReSharper disable InconsistentNaming
     public class ElasticSearchReporterSettings : IReporterSettings
-        // ReSharper restore InconsistentNaming
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ElasticSearchReporterSettings" /> class.
+        /// Initializes a new instance of the <see cref="ElasticSearchReporterSettings" /> class.
         /// </summary>
         public ElasticSearchReporterSettings()
         {

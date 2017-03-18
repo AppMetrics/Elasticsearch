@@ -1,5 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿// Copyright (c) Allan Hardy. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
 using System;
+using Newtonsoft.Json;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
@@ -10,8 +13,16 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 
         public BulkDocumentMetaData(string indexName, string typeName)
         {
-            if (String.IsNullOrEmpty(indexName)) throw new ArgumentNullException(nameof(indexName));
-            if (String.IsNullOrEmpty(typeName)) throw new ArgumentNullException(nameof(typeName));
+            if (string.IsNullOrEmpty(indexName))
+            {
+                throw new ArgumentNullException(nameof(indexName));
+            }
+
+            if (string.IsNullOrEmpty(typeName))
+            {
+                throw new ArgumentNullException(nameof(typeName));
+            }
+
             this.MetaData = new DocumentMetaData
             {
                 IndexName = indexName,
