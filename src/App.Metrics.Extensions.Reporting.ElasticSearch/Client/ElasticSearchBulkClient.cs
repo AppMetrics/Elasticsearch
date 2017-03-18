@@ -66,22 +66,23 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             }
 
             using (var stream = new MemoryStream())
-            using (var payloadText = new StreamWriter(stream))
             {
-                payload.Write(payloadText);
-
+                payload.Write(new StreamWriter(stream));
+                var content = new StreamContent(stream);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 try
                 {
                     var response = await _httpClient.PostAsync(
                         "/_bulk",
-                        new StreamContent(stream),
+                        content,
                         cancellationToken).ConfigureAwait(false);
 
                     if (!response.IsSuccessStatusCode)
                     {
                         Interlocked.Increment(ref _failureAttempts);
 
-                        var errorMessage = $"Failed to write to ElasticSearch - StatusCode: {response.StatusCode} Reason: {response.ReasonPhrase}";
+                        var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        var errorMessage = $"Failed to write to ElasticSearch - StatusCode: {response.StatusCode} Reason: {body}";
                         _logger.LogError(LoggingEvents.ElasticSearchWriteError, errorMessage);
 
                         return false;
