@@ -54,6 +54,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                 _serializer.Serialize(textWriter, new BulkDocumentMetaData(_indexName, _typeName));
                 textWriter.Write('\n');
                 _serializer.Serialize(textWriter, document);
+                textWriter.Write('\n');
             }
         }
     }

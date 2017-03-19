@@ -65,39 +65,37 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                 return false;
             }
 
-            using (var stream = new MemoryStream())
+            var writer = new StringWriter();
+            payload.Write(writer);
+            var content = new StringContent(writer.ToString(), Encoding.UTF8, "application/json");
+
+            try
             {
-                payload.Write(new StreamWriter(stream));
-                var content = new StreamContent(stream);
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                try
-                {
-                    var response = await _httpClient.PostAsync(
-                        "/_bulk",
-                        content,
-                        cancellationToken).ConfigureAwait(false);
+                var response = await _httpClient.PostAsync(
+                    "/_bulk",
+                    content,
+                    cancellationToken).ConfigureAwait(false);
 
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        Interlocked.Increment(ref _failureAttempts);
-
-                        var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        var errorMessage = $"Failed to write to ElasticSearch - StatusCode: {response.StatusCode} Reason: {body}";
-                        _logger.LogError(LoggingEvents.ElasticSearchWriteError, errorMessage);
-
-                        return false;
-                    }
-
-                    _logger.LogTrace("Successful write to ElasticSearch");
-
-                    return true;
-                }
-                catch (Exception ex)
+                if (!response.IsSuccessStatusCode)
                 {
                     Interlocked.Increment(ref _failureAttempts);
-                    _logger.LogError(LoggingEvents.ElasticSearchWriteError, "Failed to write to ElasticSearch", ex);
+
+                    var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var errorMessage = $"Failed to write to ElasticSearch - StatusCode: {response.StatusCode} Reason: {body}";
+                    _logger.LogError(LoggingEvents.ElasticSearchWriteError, errorMessage);
+
                     return false;
                 }
+
+                _logger.LogTrace("Successful write to ElasticSearch");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Interlocked.Increment(ref _failureAttempts);
+                _logger.LogError(LoggingEvents.ElasticSearchWriteError, "Failed to write to ElasticSearch", ex);
+                return false;
             }
         }
 
