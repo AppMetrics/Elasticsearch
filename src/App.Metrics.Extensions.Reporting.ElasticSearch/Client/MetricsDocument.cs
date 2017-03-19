@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Allan Hardy. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -16,5 +17,8 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 
         [JsonProperty("tags")]
         public IDictionary<string, string> Tags { get; set; }
+
+        [JsonProperty("written")]
+        public DateTime WrittenOn { get; set; } = DateTime.UtcNow;
     }
 }
