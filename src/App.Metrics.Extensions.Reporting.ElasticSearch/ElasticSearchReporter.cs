@@ -123,7 +123,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 
             var tags = new MetricTags(globalTags.Select(t => t.Key).ToArray(), globalTags.Select(t => t.Value).ToArray());
 
-            _payloadBuilder.Pack("health", healthStatusValue, tags);
+            _payloadBuilder.Pack("health", "health", healthStatusValue, tags);
 
             var checks = unhealthy.Concat(degraded).Concat(healthyChecks);
 
@@ -133,15 +133,15 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 
                 if (healthCheck.Check.Status == HealthCheckStatus.Unhealthy)
                 {
-                    _payloadBuilder.Pack("health_checks__unhealhty", healthCheck.Check.Message, allTags);
+                    _payloadBuilder.Pack("health", "health_checks__unhealhty", healthCheck.Check.Message, allTags);
                 }
                 else if (healthCheck.Check.Status == HealthCheckStatus.Healthy)
                 {
-                    _payloadBuilder.Pack("health_checks__healthy", healthCheck.Check.Message, allTags);
+                    _payloadBuilder.Pack("health", "health_checks__healthy", healthCheck.Check.Message, allTags);
                 }
                 else if (healthCheck.Check.Status == HealthCheckStatus.Degraded)
                 {
-                    _payloadBuilder.Pack("health_checks__degraded", healthCheck.Check.Message, allTags);
+                    _payloadBuilder.Pack("health", "health_checks__degraded", healthCheck.Check.Message, allTags);
                 }
             }
 
@@ -155,37 +155,26 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
             if (typeof(T) == typeof(double))
             {
                 ReportGauge(context, valueSource as MetricValueSourceBase<double>);
-                return;
             }
-
-            if (typeof(T) == typeof(CounterValue))
+            else if (typeof(T) == typeof(CounterValue))
             {
                 ReportCounter(context, valueSource as MetricValueSourceBase<CounterValue>);
-                return;
             }
-
-            if (typeof(T) == typeof(MeterValue))
+            else if (typeof(T) == typeof(MeterValue))
             {
                 ReportMeter(context, valueSource as MetricValueSourceBase<MeterValue>);
-                return;
             }
-
-            if (typeof(T) == typeof(TimerValue))
+            else if (typeof(T) == typeof(TimerValue))
             {
                 ReportTimer(context, valueSource as MetricValueSourceBase<TimerValue>);
-                return;
             }
-
-            if (typeof(T) == typeof(HistogramValue))
+            else if (typeof(T) == typeof(HistogramValue))
             {
                 ReportHistogram(context, valueSource as MetricValueSourceBase<HistogramValue>);
-                return;
             }
-
-            if (typeof(T) == typeof(ApdexValue))
+            else if (typeof(T) == typeof(ApdexValue))
             {
                 ReportApdex(context, valueSource as MetricValueSourceBase<ApdexValue>);
-                return;
             }
 
             _logger.LogTrace($"Finished Packing Metric {typeof(T)} for {Name}");
@@ -211,7 +200,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 
             valueSource.Value.AddApdexValues(data);
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
+            _payloadBuilder.PackValueSource("apdex", _metricNameFormatter, context, valueSource, data);
         }
 
         private void ReportCounter(string context, MetricValueSourceBase<CounterValue> valueSource)
@@ -227,18 +216,18 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
             {
                 foreach (var item in counterValueSource.Value.Items.Distinct())
                 {
-                    _payloadBuilder.PackCounterSetItems(_metricNameFormatter, context, valueSource, item, counterValueSource);
+                    _payloadBuilder.PackCounterSetItems("counter", _metricNameFormatter, context, valueSource, item, counterValueSource);
                 }
             }
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, counterValueSource);
+            _payloadBuilder.PackValueSource("counter", _metricNameFormatter, context, valueSource, counterValueSource);
         }
 
         private void ReportGauge(string context, MetricValueSourceBase<double> valueSource)
         {
             if (!double.IsNaN(valueSource.Value) && !double.IsInfinity(valueSource.Value))
             {
-                _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource);
+                _payloadBuilder.PackValueSource("gauge", _metricNameFormatter, context, valueSource);
             }
         }
 
@@ -248,7 +237,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 
             valueSource.Value.AddHistogramValues(data);
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
+            _payloadBuilder.PackValueSource("histogram", _metricNameFormatter, context, valueSource, data);
         }
 
         private void ReportMeter(string context, MetricValueSourceBase<MeterValue> valueSource)
@@ -259,13 +248,13 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
             {
                 foreach (var item in valueSource.Value.Items.Distinct())
                 {
-                    _payloadBuilder.PackMeterSetItems(_metricNameFormatter, context, valueSource, item);
+                    _payloadBuilder.PackMeterSetItems("meter", _metricNameFormatter, context, valueSource, item);
                 }
             }
 
             valueSource.Value.AddMeterValues(data);
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
+            _payloadBuilder.PackValueSource("meter", _metricNameFormatter, context, valueSource, data);
         }
 
         private void ReportTimer(string context, MetricValueSourceBase<TimerValue> valueSource)
@@ -275,7 +264,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
             valueSource.Value.Rate.AddMeterValues(data);
             valueSource.Value.Histogram.AddHistogramValues(data);
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
+            _payloadBuilder.PackValueSource("timer", _metricNameFormatter, context, valueSource, data);
         }
     }
 }

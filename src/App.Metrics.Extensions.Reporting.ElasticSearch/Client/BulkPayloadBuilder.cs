@@ -38,10 +38,11 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             return this;
         }
 
-        public BulkPayloadBuilder Pack(string name, object value, MetricTags tags)
+        public BulkPayloadBuilder Pack(string type, string name, object value, MetricTags tags)
         {
             Payload.Add(new MetricsDocument
             {
+                MeasurementType = type,
                 MeasurementName = name,
                 Fields = new Dictionary<string, object> { { "value", value } },
                 Tags = tags.ToDictionary()
@@ -51,6 +52,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         }
 
         public BulkPayloadBuilder Pack(
+            string type,
             string name,
             IEnumerable<string> columns,
             IEnumerable<object> values,
@@ -60,6 +62,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                                 .ToDictionary(pair => pair.column, pair => pair.data);
             Payload.Add(new MetricsDocument
             {
+                MeasurementType = type,
                 MeasurementName = name,
                 Fields = fields,
                 Tags = tags.ToDictionary()

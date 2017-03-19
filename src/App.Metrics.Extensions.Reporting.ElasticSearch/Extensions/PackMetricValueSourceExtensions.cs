@@ -20,6 +20,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
 
         public static void PackCounterSetItems<T>(
             this BulkPayloadBuilder payloadBuilder,
+            string type,
             Func<string, string, string> metricNameFormatter,
             string context,
             MetricValueSourceBase<T> valueSource,
@@ -40,16 +41,21 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
             if (valueSource.Group.IsPresent())
             {
                 var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group + MetricSetItemSuffix), keys, values, MetricTags.Concat(groupTag, tags));
-
+                payloadBuilder.Pack(
+                    type,
+                    metricNameFormatter(context, valueSource.Group + MetricSetItemSuffix),
+                    keys,
+                    values,
+                    MetricTags.Concat(groupTag, tags));
                 return;
             }
 
-            payloadBuilder.Pack(metricNameFormatter(context, valueSource.Name + MetricSetItemSuffix), keys, values, tags);
+            payloadBuilder.Pack(type, metricNameFormatter(context, valueSource.Name + MetricSetItemSuffix), keys, values, tags);
         }
 
         public static void PackMeterSetItems<T>(
             this BulkPayloadBuilder payloadBuilder,
+            string type,
             Func<string, string, string> metricNameFormatter,
             string context,
             MetricValueSourceBase<T> valueSource,
@@ -68,16 +74,26 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
             if (valueSource.Group.IsPresent())
             {
                 var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group + MetricSetItemSuffix), keys, values, MetricTags.Concat(groupTag, tags));
-
+                payloadBuilder.Pack(
+                    type,
+                    metricNameFormatter(context, valueSource.Group + MetricSetItemSuffix),
+                    keys,
+                    values,
+                    MetricTags.Concat(groupTag, tags));
                 return;
             }
 
-            payloadBuilder.Pack(metricNameFormatter(context, valueSource.Name + MetricSetItemSuffix), keys, values, setItem.Tags);
+            payloadBuilder.Pack(
+                type,
+                metricNameFormatter(context, valueSource.Name + MetricSetItemSuffix),
+                keys,
+                values,
+                setItem.Tags);
         }
 
         public static void PackValueSource<T>(
             this BulkPayloadBuilder payloadBuilder,
+            string type,
             Func<string, string, string> metricNameFormatter,
             string context,
             MetricValueSourceBase<T> valueSource,
@@ -89,16 +105,26 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
             if (valueSource.Group.IsPresent())
             {
                 var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group), keys, values, MetricTags.Concat(groupTag, valueSource.Tags));
-
+                payloadBuilder.Pack(
+                    type,
+                    metricNameFormatter(context, valueSource.Group),
+                    keys,
+                    values,
+                    MetricTags.Concat(groupTag, valueSource.Tags));
                 return;
             }
 
-            payloadBuilder.Pack(metricNameFormatter(context, valueSource.Name), keys, values, valueSource.Tags);
+            payloadBuilder.Pack(
+                    type,
+                    metricNameFormatter(context, valueSource.Name),
+                    keys,
+                    values,
+                    valueSource.Tags);
         }
 
         public static void PackValueSource(
             this BulkPayloadBuilder payloadBuilder,
+            string type,
             Func<string, string, string> metricNameFormatter,
             string context,
             MetricValueSourceBase<double> valueSource)
@@ -106,16 +132,24 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
             if (valueSource.Group.IsPresent())
             {
                 var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group), valueSource.Value, MetricTags.Concat(groupTag, valueSource.Tags));
-
+                payloadBuilder.Pack(
+                    type,
+                    metricNameFormatter(context, valueSource.Group),
+                    valueSource.Value,
+                    MetricTags.Concat(groupTag, valueSource.Tags));
                 return;
             }
 
-            payloadBuilder.Pack(metricNameFormatter(context, valueSource.Name), valueSource.Value, valueSource.Tags);
+            payloadBuilder.Pack(
+                    type,
+                    metricNameFormatter(context, valueSource.Name),
+                    valueSource.Value,
+                    valueSource.Tags);
         }
 
         public static void PackValueSource(
             this BulkPayloadBuilder payloadBuilder,
+            string type,
             Func<string, string, string> metricNameFormatter,
             string context,
             MetricValueSourceBase<CounterValue> valueSource,
@@ -126,12 +160,19 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
             if (valueSource.Group.IsPresent())
             {
                 var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group), count, MetricTags.Concat(groupTag, valueSource.Tags));
-
+                payloadBuilder.Pack(
+                    type,
+                    metricNameFormatter(context, valueSource.Group),
+                    count,
+                    MetricTags.Concat(groupTag, valueSource.Tags));
                 return;
             }
 
-            payloadBuilder.Pack(metricNameFormatter(context, valueSource.Name), count, valueSource.Tags);
+            payloadBuilder.Pack(
+                    type,
+                    metricNameFormatter(context, valueSource.Name),
+                    count,
+                    valueSource.Tags);
         }
     }
 }

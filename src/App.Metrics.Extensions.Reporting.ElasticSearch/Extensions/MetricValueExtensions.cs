@@ -23,7 +23,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
         {
             values.Add("samples", histogram.SampleSize);
             values.Add("last", histogram.LastValue);
-            values.Add("count.hist", histogram.Count);
+            values.Add("countHist", histogram.Count);
             values.Add("min", histogram.Min);
             values.Add("max", histogram.Max);
             values.Add("mean", histogram.Mean);
@@ -37,27 +37,27 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
 
             if (histogram.LastUserValue != null)
             {
-                values.Add("user.last", histogram.LastUserValue);
+                values.Add("userLast", histogram.LastUserValue);
             }
 
             if (histogram.MinUserValue != null)
             {
-                values.Add("user.min", histogram.MinUserValue);
+                values.Add("userMin", histogram.MinUserValue);
             }
 
             if (histogram.MaxUserValue != null)
             {
-                values.Add("user.max", histogram.MaxUserValue);
+                values.Add("userMax", histogram.MaxUserValue);
             }
         }
 
         public static void AddMeterValues(this MeterValue meter, IDictionary<string, object> values)
         {
-            values.Add("count.meter", meter.Count);
+            values.Add("countMeter", meter.Count);
             values.Add("rate1m", meter.OneMinuteRate);
             values.Add("rate5m", meter.FiveMinuteRate);
             values.Add("rate15m", meter.FifteenMinuteRate);
-            values.Add("rate.mean", meter.MeanRate);
+            values.Add("rateMean", meter.MeanRate);
         }
     }
 }

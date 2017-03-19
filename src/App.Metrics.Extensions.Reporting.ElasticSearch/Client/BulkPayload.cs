@@ -10,7 +10,6 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
     public class BulkPayload
     {
-        private const string _typeName = "common";
         private List<MetricsDocument> _documents;
         private JsonSerializer _serializer;
         private string _indexName;
@@ -51,7 +50,9 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 
             foreach (var document in _documents)
             {
-                _serializer.Serialize(textWriter, new BulkDocumentMetaData(_indexName, _typeName));
+                _serializer.Serialize(
+                    textWriter,
+                    new BulkDocumentMetaData(_indexName, document.MeasurementType));
                 textWriter.Write('\n');
                 _serializer.Serialize(textWriter, document);
                 textWriter.Write('\n');

@@ -12,6 +12,9 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         [JsonProperty("name")]
         public string MeasurementName { get; set; }
 
+        [JsonIgnore]
+        public string MeasurementType { get; internal set; }
+
         [JsonProperty("fields")]
         public IDictionary<string, object> Fields { get; set; }
 
