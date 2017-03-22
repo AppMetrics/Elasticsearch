@@ -7,7 +7,6 @@ using System.Linq;
 using App.Metrics.Core.Abstractions;
 using App.Metrics.Counter;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
-using App.Metrics.Internal;
 using App.Metrics.Meter;
 using App.Metrics.Tagging;
 
@@ -15,7 +14,6 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
 {
     public static class PackMetricValueSourceExtensions
     {
-        private static readonly string MetricGroupTagKey = "group_item";
         private static readonly string MetricSetItemSuffix = "  items";
 
         public static void PackCounterSetItems<T>(
@@ -38,15 +36,14 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
             var values = keys.Select(k => itemData[k]);
             var tags = MetricTags.Concat(valueSource.Tags, setItem.Tags);
 
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
                 payloadBuilder.Pack(
                     type,
-                    metricNameFormatter(context, valueSource.Group + MetricSetItemSuffix),
+                    metricNameFormatter(context, valueSource.MultidimensionalName + MetricSetItemSuffix),
                     keys,
                     values,
-                    MetricTags.Concat(groupTag, tags));
+                    tags);
                 return;
             }
 
@@ -71,15 +68,14 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
 
             var tags = MetricTags.Concat(valueSource.Tags, setItem.Tags);
 
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
                 payloadBuilder.Pack(
                     type,
-                    metricNameFormatter(context, valueSource.Group + MetricSetItemSuffix),
+                    metricNameFormatter(context, valueSource.IsMultidimensional + MetricSetItemSuffix),
                     keys,
                     values,
-                    MetricTags.Concat(groupTag, tags));
+                    tags);
                 return;
             }
 
@@ -102,15 +98,14 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
             var keys = data.Keys.ToList();
             var values = keys.Select(k => data[k]);
 
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
                 payloadBuilder.Pack(
                     type,
-                    metricNameFormatter(context, valueSource.Group),
+                    metricNameFormatter(context, valueSource.MultidimensionalName),
                     keys,
                     values,
-                    MetricTags.Concat(groupTag, valueSource.Tags));
+                    valueSource.Tags);
                 return;
             }
 
@@ -129,14 +124,13 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
             string context,
             MetricValueSourceBase<double> valueSource)
         {
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
                 payloadBuilder.Pack(
                     type,
-                    metricNameFormatter(context, valueSource.Group),
+                    metricNameFormatter(context, valueSource.MultidimensionalName),
                     valueSource.Value,
-                    MetricTags.Concat(groupTag, valueSource.Tags));
+                    valueSource.Tags);
                 return;
             }
 
@@ -157,14 +151,13 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
         {
             var count = valueSource.ValueProvider.GetValue(resetMetric: counterValueSource.ResetOnReporting).Count;
 
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
                 payloadBuilder.Pack(
                     type,
-                    metricNameFormatter(context, valueSource.Group),
+                    metricNameFormatter(context, valueSource.MultidimensionalName),
                     count,
-                    MetricTags.Concat(groupTag, valueSource.Tags));
+                    valueSource.Tags);
                 return;
             }
 
