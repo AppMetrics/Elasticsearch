@@ -14,7 +14,6 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Extensions
 {
     public static class PackMetricValueSourceExtensions
     {
-        private static readonly string MetricGroupTagKey = "group_item";
         private static readonly string MetricSetItemSuffix = "  items";
 
         public static void PackCounterSetItems<T>(
@@ -29,17 +28,20 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Extensions
 
             if (counterValueSource.ReportItemPercentages)
             {
-                itemData.Add("percent", setItem.Percent);
+                itemData.AddIfNotNanOrInfinity("percent", setItem.Percent);
             }
 
             var keys = itemData.Keys.ToList();
             var values = keys.Select(k => itemData[k]);
             var tags = MetricTags.Concat(valueSource.Tags, setItem.Tags);
 
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group + MetricSetItemSuffix), keys, values, MetricTags.Concat(groupTag, tags));
+                payloadBuilder.Pack(
+                    metricNameFormatter(context, valueSource.MultidimensionalName + MetricSetItemSuffix),
+                    keys,
+                    values,
+                    tags);
 
                 return;
             }
@@ -57,17 +59,20 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Extensions
             var itemData = new Dictionary<string, object>();
 
             setItem.Value.AddMeterValues(itemData);
-            itemData.Add("percent", setItem.Percent);
+            itemData.AddIfNotNanOrInfinity("percent", setItem.Percent);
 
             var keys = itemData.Keys.ToList();
             var values = keys.Select(k => itemData[k]);
 
             var tags = MetricTags.Concat(valueSource.Tags, setItem.Tags);
 
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group + MetricSetItemSuffix), keys, values, MetricTags.Concat(groupTag, tags));
+                payloadBuilder.Pack(
+                    metricNameFormatter(context, valueSource.MultidimensionalName + MetricSetItemSuffix),
+                    keys,
+                    values,
+                    tags);
 
                 return;
             }
@@ -85,10 +90,13 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Extensions
             var keys = data.Keys.ToList();
             var values = keys.Select(k => data[k]);
 
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group), keys, values, MetricTags.Concat(groupTag, valueSource.Tags));
+                payloadBuilder.Pack(
+                    metricNameFormatter(context, valueSource.MultidimensionalName),
+                    keys,
+                    values,
+                    valueSource.Tags);
 
                 return;
             }
@@ -102,10 +110,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Extensions
             string context,
             MetricValueSourceBase<double> valueSource)
         {
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group), valueSource.Value, MetricTags.Concat(groupTag, valueSource.Tags));
+                payloadBuilder.Pack(
+                    metricNameFormatter(context, valueSource.MultidimensionalName),
+                    valueSource.Value,
+                    valueSource.Tags);
 
                 return;
             }
@@ -122,10 +132,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Extensions
         {
             var count = valueSource.ValueProvider.GetValue(resetMetric: counterValueSource.ResetOnReporting).Count;
 
-            if (valueSource.Group.IsPresent())
+            if (valueSource.IsMultidimensional)
             {
-                var groupTag = new MetricTags(MetricGroupTagKey, metricNameFormatter(string.Empty, valueSource.Name));
-                payloadBuilder.Pack(metricNameFormatter(context, valueSource.Group), count, MetricTags.Concat(groupTag, valueSource.Tags));
+                payloadBuilder.Pack(
+                    metricNameFormatter(context, valueSource.MultidimensionalName),
+                    count,
+                    valueSource.Tags);
 
                 return;
             }

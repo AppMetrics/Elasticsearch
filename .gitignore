@@ -58,6 +58,10 @@ BuildOutput/*
 WebPublish
 WebPublish/*
 
+#Cake
+tools/*
+!tools/packages.config
+
 .vs
 
 # visual studio database projects
@@ -84,3 +88,15 @@ BDN.Generated/*
 scripts/BenchMarkDotNet.Artifacts
 scripts/BenchMarkDotNet.Artifacts/*
 **/BenchMarkDotNet.Artifacts/*
+!/benchmarks/App.Metrics.Benchmarks.Runner/BenchMarkDotNet.Artifacts/*
+/benchmarks/App.Metrics.Benchmarks.Runner/BenchMarkDotNet.Artifacts/*.log
+/benchmarks/App.Metrics.Benchmarks.Runner/BenchMarkDotNet.Artifacts/results/*.csv
+/benchmarks/App.Metrics.Benchmarks.Runner/BenchMarkDotNet.Artifacts/results/*.html
+
+#NDepend
+*.ndproj
+NDependOut/*
+
+#DotCover
+Session/*
+Session.html
