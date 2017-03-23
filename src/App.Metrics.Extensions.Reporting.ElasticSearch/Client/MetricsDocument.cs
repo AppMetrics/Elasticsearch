@@ -21,7 +21,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         [JsonProperty("tags")]
         public IDictionary<string, string> Tags { get; set; }
 
-        [JsonProperty("written")]
+        [JsonProperty("@timestamp")]
         public DateTime WrittenOn { get; set; } = DateTime.UtcNow;
     }
 }
