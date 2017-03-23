@@ -13,7 +13,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
         public static void AddApdexValues(this ApdexValue apdex, IDictionary<string, object> values)
         {
             values.Add("samples", apdex.SampleSize);
-            values.Add("score", apdex.Score);
+            values.AddIfNotNanOrInfinity("score", apdex.Score);
             values.Add("satisfied", apdex.Satisfied);
             values.Add("tolerating", apdex.Tolerating);
             values.Add("frustrating", apdex.Frustrating);
@@ -22,42 +22,31 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Extensions
         public static void AddHistogramValues(this HistogramValue histogram, IDictionary<string, object> values)
         {
             values.Add("samples", histogram.SampleSize);
-            values.Add("last", histogram.LastValue);
+            values.AddIfNotNanOrInfinity("last", histogram.LastValue);
             values.Add("countHist", histogram.Count);
-            values.Add("min", histogram.Min);
-            values.Add("max", histogram.Max);
-            values.Add("mean", histogram.Mean);
-            values.Add("median", histogram.Median);
-            values.Add("stddev", histogram.StdDev);
-            values.Add("p999", histogram.Percentile999);
-            values.Add("p99", histogram.Percentile99);
-            values.Add("p98", histogram.Percentile98);
-            values.Add("p95", histogram.Percentile95);
-            values.Add("p75", histogram.Percentile75);
-
-            if (histogram.LastUserValue != null)
-            {
-                values.Add("userLast", histogram.LastUserValue);
-            }
-
-            if (histogram.MinUserValue != null)
-            {
-                values.Add("userMin", histogram.MinUserValue);
-            }
-
-            if (histogram.MaxUserValue != null)
-            {
-                values.Add("userMax", histogram.MaxUserValue);
-            }
+            values.Add("sum", histogram.Sum);
+            values.AddIfNotNanOrInfinity("min", histogram.Min);
+            values.AddIfNotNanOrInfinity("max", histogram.Max);
+            values.AddIfNotNanOrInfinity("mean", histogram.Mean);
+            values.AddIfNotNanOrInfinity("median", histogram.Median);
+            values.AddIfNotNanOrInfinity("stddev", histogram.StdDev);
+            values.AddIfNotNanOrInfinity("p999", histogram.Percentile999);
+            values.AddIfNotNanOrInfinity("p99", histogram.Percentile99);
+            values.AddIfNotNanOrInfinity("p98", histogram.Percentile98);
+            values.AddIfNotNanOrInfinity("p95", histogram.Percentile95);
+            values.AddIfNotNanOrInfinity("p75", histogram.Percentile75);
+            values.AddIfPresent("userLast", histogram.LastUserValue);
+            values.AddIfPresent("userMin", histogram.MinUserValue);
+            values.AddIfPresent("userMax", histogram.MaxUserValue);
         }
 
         public static void AddMeterValues(this MeterValue meter, IDictionary<string, object> values)
         {
             values.Add("countMeter", meter.Count);
-            values.Add("rate1m", meter.OneMinuteRate);
-            values.Add("rate5m", meter.FiveMinuteRate);
-            values.Add("rate15m", meter.FifteenMinuteRate);
-            values.Add("rateMean", meter.MeanRate);
+            values.AddIfNotNanOrInfinity("rate1m", meter.OneMinuteRate);
+            values.AddIfNotNanOrInfinity("rate5m", meter.FiveMinuteRate);
+            values.AddIfNotNanOrInfinity("rate15m", meter.FifteenMinuteRate);
+            values.AddIfNotNanOrInfinity("rateMean", meter.MeanRate);
         }
     }
 }
