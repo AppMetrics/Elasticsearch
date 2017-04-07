@@ -26,15 +26,32 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>
     <DebugType>full</DebugType>
+    <VersionPrefix>1.1.0</VersionPrefix>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.6|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.6\App.Metrics.Extensions.Reporting.TextFile.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard1.6|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard1.6\App.Metrics.Extensions.Reporting.TextFile.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net452|AnyCPU'">
+    <DocumentationFile>bin\Release\net452\App.Metrics.Extensions.Reporting.TextFile.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net452|AnyCPU'">
+    <DocumentationFile>bin\Debug\net452\App.Metrics.Extensions.Reporting.TextFile.xml</DocumentationFile>
+  </PropertyGroup>
+  
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.0.0" />
-    <PackageReference Include="App.Metrics.Concurrency" Version="1.0.0" />
+    <PackageReference Include="App.Metrics" Version="1.1.0-alpha-0412" />
+    <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0-alpha-0412" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>

@@ -3,16 +3,13 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using App.Metrics.Abstractions.ReservoirSampling;
 using App.Metrics.Apdex;
 using App.Metrics.Core;
 using App.Metrics.Counter;
-using App.Metrics.Extensions.Reporting.InfluxDB;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Gauge;
-using App.Metrics.Health;
 using App.Metrics.Histogram;
 using App.Metrics.Infrastructure;
 using App.Metrics.Meter;
@@ -24,12 +21,12 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace App.Metrics.Extensions.Middleware.Integration.Facts
+namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
 {
     public class InfluxDbReporterTests
     {
         private const string MultidimensionalMetricNameSuffix = "|host:server1,env:staging";
-        private readonly Lazy<IReservoir> _defaultReservoir = new Lazy<IReservoir>(() => new DefaultForwardDecayingReservoir());
+        private readonly IReservoir _defaultReservoir = new DefaultForwardDecayingReservoir();
         private readonly MetricTags _tags = new MetricTags(new[] { "host", "env" }, new[] { "server1", "staging" });
 
         [Fact]
@@ -344,7 +341,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__test_histogram samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+                               "test__test_histogram samples=1i,last=1000,count.hist=1i,sum=1000,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
         }
 
         [Fact]
@@ -367,7 +364,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__test_histogram,host=server1,env=staging samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+                               "test__test_histogram,host=server1,env=staging samples=1i,last=1000,count.hist=1i,sum=1000,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
         }
 
         [Fact]
@@ -491,7 +488,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__test_timer count.meter=1i,rate1m=0,rate5m=0,rate15m=0,samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+                               "test__test_timer count.meter=1i,rate1m=0,rate5m=0,rate15m=0,samples=1i,last=1000,count.hist=1i,sum=1000,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
         }
 
         [Fact]
@@ -517,7 +514,7 @@ namespace App.Metrics.Extensions.Middleware.Integration.Facts
             payloadBuilder.PayloadFormatted().
                            Should().
                            Be(
-                               "test__test_timer,host=server1,env=staging count.meter=1i,rate1m=0,rate5m=0,rate15m=0,samples=1i,last=1000,count.hist=1i,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
+                               "test__test_timer,host=server1,env=staging count.meter=1i,rate1m=0,rate5m=0,rate15m=0,samples=1i,last=1000,count.hist=1i,sum=1000,min=1000,max=1000,mean=1000,median=1000,stddev=0,p999=1000,p99=1000,p98=1000,p95=1000,p75=1000,user.last=\"client1\",user.min=\"client1\",user.max=\"client1\"\n");
         }
 
         [Fact]

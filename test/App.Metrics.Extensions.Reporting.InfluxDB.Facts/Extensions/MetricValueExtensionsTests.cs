@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Allan Hardy. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 using App.Metrics.Abstractions.ReservoirSampling;
 using App.Metrics.Apdex;
@@ -12,11 +11,11 @@ using App.Metrics.ReservoirSampling.ExponentialDecay;
 using FluentAssertions;
 using Xunit;
 
-namespace App.Metrics.Extensions.Middleware.Integration.Facts.Extensions
+namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Extensions
 {
     public class MetricValueExtensionsTests
     {
-        private readonly Lazy<IReservoir> _defaultReservoir = new Lazy<IReservoir>(() => new DefaultForwardDecayingReservoir());
+        private readonly IReservoir _defaultReservoir = new DefaultForwardDecayingReservoir();
 
         [Fact]
         public void can_add_apdex_values()
