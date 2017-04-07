@@ -24,6 +24,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Extensions
             values.Add("samples", histogram.SampleSize);
             values.AddIfNotNanOrInfinity("last", histogram.LastValue);
             values.Add("count.hist", histogram.Count);
+            values.Add("sum", histogram.Sum);
             values.AddIfNotNanOrInfinity("min", histogram.Min);
             values.AddIfNotNanOrInfinity("max", histogram.Max);
             values.AddIfNotNanOrInfinity("mean", histogram.Mean);
