@@ -3,7 +3,7 @@ image: Visual Studio 2017
 environment:
   COVERALLS_REPO_TOKEN:
     secure: /E0lZiubAjZhemO2k7Y0q7oJZivfJaFrFrcNHCCtNiGkTuJj50HWsgzIN9YZGQ6x
-  PreReleaseSuffix: stable
+  PreReleaseSuffix: alpha
   CoverWith: OpenCover
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
