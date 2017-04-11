@@ -15,6 +15,8 @@ using App.Metrics.Health;
 using App.Metrics.Histogram;
 using App.Metrics.Infrastructure;
 using App.Metrics.Meter;
+using App.Metrics.Reporting;
+using App.Metrics.Reporting.Abstractions;
 using App.Metrics.Tagging;
 using App.Metrics.Timer;
 using Microsoft.Extensions.Logging;
@@ -26,12 +28,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
         private readonly ILineProtocolClient _lineProtocolClient;
         private readonly ILogger<InfluxDbReporter> _logger;
         private readonly Func<string, string, string> _metricNameFormatter;
-        private readonly ILineProtocolPayloadBuilder _payloadBuilder;
+        private readonly IMetricPayloadBuilder<LineProtocolPayload> _payloadBuilder;
         private bool _disposed;
 
         public InfluxDbReporter(
             ILineProtocolClient lineProtocolClient,
-            ILineProtocolPayloadBuilder payloadBuilder,
+            IMetricPayloadBuilder<LineProtocolPayload> payloadBuilder,
             TimeSpan reportInterval,
             ILoggerFactory loggerFactory,
             Func<string, string, string> metricNameFormatter)
@@ -47,7 +49,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
 
         public InfluxDbReporter(
             ILineProtocolClient lineProtocolClient,
-            ILineProtocolPayloadBuilder payloadBuilder,
+            IMetricPayloadBuilder<LineProtocolPayload> payloadBuilder,
             TimeSpan reportInterval,
             string name,
             ILoggerFactory loggerFactory,
@@ -167,7 +169,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
 
             valueSource.Value.AddApdexValues(data);
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
+            _payloadBuilder.PackApdex(_metricNameFormatter, context, valueSource, data);
         }
 
         private void ReportCounter(string context, MetricValueSourceBase<CounterValue> valueSource)
@@ -187,14 +189,14 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 }
             }
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, counterValueSource);
+            _payloadBuilder.PackCounter(_metricNameFormatter, context, valueSource, counterValueSource);
         }
 
         private void ReportGauge(string context, MetricValueSourceBase<double> valueSource)
         {
             if (!double.IsNaN(valueSource.Value) && !double.IsInfinity(valueSource.Value))
             {
-                _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource);
+                _payloadBuilder.PackGauge(_metricNameFormatter, context, valueSource);
             }
         }
 
@@ -204,24 +206,26 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
 
             valueSource.Value.AddHistogramValues(data);
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
+            _payloadBuilder.PackHistogram(_metricNameFormatter, context, valueSource, data);
         }
 
         private void ReportMeter(string context, MetricValueSourceBase<MeterValue> valueSource)
         {
-            var data = new Dictionary<string, object>();
-
             if (valueSource.Value.Items.Any())
             {
                 foreach (var item in valueSource.Value.Items.Distinct())
                 {
-                    _payloadBuilder.PackMeterSetItems(_metricNameFormatter, context, valueSource, item);
+                    var itemData = new Dictionary<string, object>();
+                    item.Value.AddMeterValues(itemData);
+                    itemData.AddIfNotNanOrInfinity("percent", item.Percent);
+                    _payloadBuilder.PackMeterSetItems(_metricNameFormatter, context, valueSource, item.Tags, itemData);
                 }
             }
 
+            var data = new Dictionary<string, object>();
             valueSource.Value.AddMeterValues(data);
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
+            _payloadBuilder.PackMeter(_metricNameFormatter, context, valueSource, data);
         }
 
         private void ReportTimer(string context, MetricValueSourceBase<TimerValue> valueSource)
@@ -231,7 +235,7 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
             valueSource.Value.Rate.AddMeterValues(data);
             valueSource.Value.Histogram.AddHistogramValues(data);
 
-            _payloadBuilder.PackValueSource(_metricNameFormatter, context, valueSource, data);
+            _payloadBuilder.PackTimer(_metricNameFormatter, context, valueSource, data);
         }
     }
 }
