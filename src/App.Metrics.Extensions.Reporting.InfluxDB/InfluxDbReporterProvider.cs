@@ -6,6 +6,7 @@ using App.Metrics.Abstractions.Filtering;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
 using App.Metrics.Internal;
+using App.Metrics.Reporting;
 using Microsoft.Extensions.Logging;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB
@@ -36,8 +37,12 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 _settings.HttpPolicy);
             var payloadBuilder = new LineProtocolPayloadBuilder();
 
-            return new InfluxDbReporter(
-                lineProtocolClient,
+            return new ReportRunner<LineProtocolPayload>(
+                async p =>
+                {
+                    var result = await lineProtocolClient.WriteAsync(p.Payload());
+                    return result.Success;
+                },
                 payloadBuilder,
                 _settings.ReportInterval,
                 name,

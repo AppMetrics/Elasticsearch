@@ -49,8 +49,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.1.0-alpha-0429" />
-    <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0-alpha-0429" />
+    <PackageReference Include="App.Metrics" Version="1.1.0-alpha-0431" />
+    <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0-alpha-0431" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">

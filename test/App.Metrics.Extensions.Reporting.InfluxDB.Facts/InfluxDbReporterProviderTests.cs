@@ -2,14 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using System;
-using App.Metrics.Extensions.Reporting.InfluxDB;
 using App.Metrics.Filtering;
 using App.Metrics.Internal;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace App.Metrics.Extensions.Middleware.Integration.Facts
+namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
 {
     public class InfluxDbReporterProviderTests
     {

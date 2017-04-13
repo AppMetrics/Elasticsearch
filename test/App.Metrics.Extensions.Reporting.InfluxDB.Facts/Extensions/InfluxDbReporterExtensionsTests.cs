@@ -3,17 +3,15 @@
 
 using System;
 using App.Metrics.Configuration;
-using App.Metrics.Extensions.Reporting.InfluxDB;
 using App.Metrics.Filtering;
 using App.Metrics.Reporting;
-using App.Metrics.Reporting.Abstractions;
 using App.Metrics.Reporting.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
-namespace App.Metrics.Extensions.Middleware.Integration.Facts.Extensions
+namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts.Extensions
 {
     public class InfluxDbReporterExtensionsTests
     {

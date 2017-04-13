@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Abstractions.ReservoirSampling;
 using App.Metrics.Apdex;
 using App.Metrics.Core;
@@ -13,6 +14,7 @@ using App.Metrics.Gauge;
 using App.Metrics.Histogram;
 using App.Metrics.Infrastructure;
 using App.Metrics.Meter;
+using App.Metrics.Reporting;
 using App.Metrics.Reporting.Abstractions;
 using App.Metrics.ReservoirSampling.ExponentialDecay;
 using App.Metrics.Tagging;
@@ -543,19 +545,20 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB.Facts
             payloadBuilderMock.Verify(p => p.Clear(), Times.Once);
         }
 
-        private static InfluxDbReporter CreateReporter(IMetricPayloadBuilder<LineProtocolPayload> payloadBuilder)
+        private static IMetricReporter CreateReporter(IMetricPayloadBuilder<LineProtocolPayload> payloadBuilder)
         {
-            var lineProtocolClientMock = new Mock<ILineProtocolClient>();
             var reportInterval = TimeSpan.FromSeconds(1);
             var loggerFactory = new LoggerFactory();
             var settings = new InfluxDBReporterSettings();
 
-            return new InfluxDbReporter(
-                lineProtocolClientMock.Object,
+            return new ReportRunner<LineProtocolPayload>(
+                p => AppMetricsTaskCache.SuccessTask,
                 payloadBuilder,
                 reportInterval,
+                "InfluxDB Reporter",
                 loggerFactory,
-                settings.MetricNameFormatter);
+                settings.MetricNameFormatter,
+                settings.DataKeys);
         }
     }
 }
