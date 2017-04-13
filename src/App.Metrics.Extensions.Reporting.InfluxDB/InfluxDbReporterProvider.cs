@@ -16,23 +16,13 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
 
         public InfluxDbReporterProvider(InfluxDBReporterSettings settings)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             Filter = new NoOpMetricsFilter();
         }
 
         public InfluxDbReporterProvider(InfluxDBReporterSettings settings, IFilterMetrics fitler)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             Filter = fitler ?? new NoOpMetricsFilter();
         }
 
@@ -52,7 +42,8 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
                 _settings.ReportInterval,
                 name,
                 loggerFactory,
-                _settings.MetricNameFormatter);
+                _settings.MetricNameFormatter,
+                _settings.DataKeys);
         }
     }
 }

@@ -4,6 +4,7 @@
 using System;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.InfluxDB.Client;
+using App.Metrics.Reporting;
 
 namespace App.Metrics.Extensions.Reporting.InfluxDB
 {
@@ -53,6 +54,9 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
         ///     The metric name formatter.
         /// </value>
         public Func<string, string, string> MetricNameFormatter { get; set; }
+
+        /// <inheritdoc />
+        public MetricValueDataKeys DataKeys { get; set; }
 
         /// <summary>
         ///     Gets or sets the report interval for which to flush metrics to influxdb.
