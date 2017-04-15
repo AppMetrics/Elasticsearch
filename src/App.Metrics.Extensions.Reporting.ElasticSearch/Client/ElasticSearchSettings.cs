@@ -1,25 +1,13 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="ElasticSearchSettings.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
-using App.Metrics.Internal;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
     public class ElasticSearchSettings
     {
-        public Uri Address { get; }
-
-        public string Index { get; }
-
-        public ElasticSearchAuthorizationSchemas AuthorizationSchema { get; }
-
-        public string UserName { get; }
-
-        public string Password { get; }
-
-        public string BearerToken { get; }
-
         public ElasticSearchSettings(Uri address, string indexName)
         {
             Address = address ?? throw new ArgumentNullException(nameof(address));
@@ -30,7 +18,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                 throw new ArgumentException("Cannot be empty", nameof(indexName));
             }
 
-            AuthorizationSchema = ElasticSearchAuthorizationSchemas.Basic;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Basic;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string userName, string password)
@@ -49,7 +37,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                 throw new ArgumentException("Cannot be empty", nameof(password));
             }
 
-            AuthorizationSchema = ElasticSearchAuthorizationSchemas.Anonymous;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Anonymous;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string bearerToken)
@@ -62,7 +50,19 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                 throw new ArgumentException("Cannot be empty", nameof(bearerToken));
             }
 
-            AuthorizationSchema = ElasticSearchAuthorizationSchemas.BearerToken;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.BearerToken;
         }
+
+        public Uri Address { get; }
+
+        public ElasticSearchAuthorizationSchemes AuthorizationSchema { get; }
+
+        public string BearerToken { get; }
+
+        public string Index { get; }
+
+        public string Password { get; }
+
+        public string UserName { get; }
     }
 }

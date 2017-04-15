@@ -1,10 +1,10 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="BulkPayload.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using System.Collections.Generic;
 using System.IO;
-using App.Metrics.Internal;
 using Newtonsoft.Json;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
@@ -12,8 +12,8 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
     public class BulkPayload
     {
         private readonly List<MetricsDocument> _documents;
-        private readonly JsonSerializer _serializer;
         private readonly string _indexName;
+        private readonly JsonSerializer _serializer;
 
         public BulkPayload(JsonSerializer serializer, string indexName)
         {
