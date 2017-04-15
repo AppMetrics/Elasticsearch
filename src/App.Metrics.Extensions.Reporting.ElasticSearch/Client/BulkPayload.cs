@@ -17,13 +17,14 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 
         public BulkPayload(JsonSerializer serializer, string indexName)
         {
-            if (indexName.IsMissing())
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _indexName = indexName ?? throw new ArgumentNullException(nameof(indexName));
+
+            if (string.IsNullOrWhiteSpace(indexName))
             {
-                throw new ArgumentNullException(nameof(indexName));
+                throw new ArgumentException("Cannot be empty", nameof(indexName));
             }
 
-            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            _indexName = indexName;
             _documents = new List<MetricsDocument>();
         }
 

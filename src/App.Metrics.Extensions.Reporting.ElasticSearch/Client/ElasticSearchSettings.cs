@@ -22,44 +22,47 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 
         public ElasticSearchSettings(Uri address, string indexName)
         {
-            if (indexName.IsMissing())
+            Address = address ?? throw new ArgumentNullException(nameof(address));
+            Index = indexName ?? throw new ArgumentNullException(nameof(indexName));
+
+            if (string.IsNullOrWhiteSpace(indexName))
             {
-                throw new ArgumentNullException(nameof(indexName));
+                throw new ArgumentException("Cannot be empty", nameof(indexName));
             }
 
             AuthorizationSchema = ElasticSearchAuthorizationSchemas.Basic;
-            Address = address ?? throw new ArgumentNullException(nameof(address));
-            Index = indexName;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string userName, string password)
             : this(address, indexName)
         {
-            if (userName.IsMissing())
+            UserName = userName ?? throw new ArgumentNullException(nameof(userName));
+            Password = password ?? throw new ArgumentNullException(nameof(password));
+
+            if (string.IsNullOrWhiteSpace(userName))
             {
-                throw new ArgumentNullException(nameof(userName));
+                throw new ArgumentException("Cannot be empty", nameof(userName));
             }
 
-            if (password.IsMissing())
+            if (string.IsNullOrWhiteSpace(password))
             {
-                throw new ArgumentNullException(nameof(password));
+                throw new ArgumentException("Cannot be empty", nameof(password));
             }
 
             AuthorizationSchema = ElasticSearchAuthorizationSchemas.Anonymous;
-            UserName = userName;
-            Password = password;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string bearerToken)
             : this(address, indexName)
         {
-            if (bearerToken.IsMissing())
+            BearerToken = bearerToken ?? throw new ArgumentNullException(nameof(bearerToken));
+
+            if (string.IsNullOrWhiteSpace(bearerToken))
             {
-                throw new ArgumentNullException(nameof(bearerToken));
+                throw new ArgumentException("Cannot be empty", nameof(bearerToken));
             }
 
             AuthorizationSchema = ElasticSearchAuthorizationSchemas.BearerToken;
-            BearerToken = bearerToken;
         }
     }
 }

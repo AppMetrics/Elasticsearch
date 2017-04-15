@@ -2,9 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
-using App.Metrics.Internal;
 using App.Metrics.Reporting;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch
@@ -16,6 +16,21 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         /// </summary>
         public ElasticSearchReporterSettings()
         {
+            var customHistogramDataKeys = new Dictionary<HistogramValueDataKeys, string>
+                                          {
+                                              { HistogramValueDataKeys.Count, "countHist" },
+                                              { HistogramValueDataKeys.UserLastValue, "userLast" },
+                                              { HistogramValueDataKeys.UserMinValue, "userMin" },
+                                              { HistogramValueDataKeys.UserMaxValue, "userMax" }
+                                          };
+
+            var customMeterDataKeys = new Dictionary<MeterValueDataKeys, string>
+                                      {
+                                          { MeterValueDataKeys.Count, "countMeter" },
+                                          { MeterValueDataKeys.RateMean, "rateMean" }
+                                      };
+            DataKeys = new MetricValueDataKeys(histogram: customHistogramDataKeys, meter: customMeterDataKeys);
+
             ElasticSearchSettings = new ElasticSearchSettings(new Uri("http://localhost:9200"), "metrics");
             HttpPolicy = new HttpPolicy
                          {
@@ -24,7 +39,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
                              Timeout = Constants.DefaultTimeout
                          };
             ReportInterval = TimeSpan.FromSeconds(5);
-            MetricNameFormatter = (metricContext, metricName) => metricContext.IsMissing()
+            MetricNameFormatter = (metricContext, metricName) => string.IsNullOrWhiteSpace(metricContext)
                 ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
                 : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
             MetricTagValueFormatter = tagValue => tagValue.Replace(' ', '_');
