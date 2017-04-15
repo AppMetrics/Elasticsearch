@@ -67,7 +67,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             }
 
             var writer = new StringWriter();
-            payload.Write(writer);
+            payload.Format(writer);
             var content = new StringContent(writer.ToString(), Encoding.UTF8, "application/json");
 
             try

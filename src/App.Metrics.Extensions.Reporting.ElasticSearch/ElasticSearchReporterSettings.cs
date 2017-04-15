@@ -43,7 +43,10 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
             MetricNameFormatter = (metricContext, metricName) => string.IsNullOrWhiteSpace(metricContext)
                 ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
                 : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
-            MetricTagValueFormatter = tagValue => tagValue.Replace(' ', '_');
+            MetricTagValueFormatter = tagValue => tagValue.Replace("=", "\\=")
+                                                          .Replace(" ", "\\ ")
+                                                          .Replace(@"\", @"\\\")
+                                                          .Replace(",", "\\,");
         }
 
         /// <summary>

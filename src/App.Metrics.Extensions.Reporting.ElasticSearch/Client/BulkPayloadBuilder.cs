@@ -68,7 +68,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         public string PayloadFormatted()
         {
             var result = new StringWriter();
-            _payload.Write(result);
+            _payload.Format(result);
             return result.ToString();
         }
     }

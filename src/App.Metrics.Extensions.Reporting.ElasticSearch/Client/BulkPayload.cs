@@ -32,17 +32,17 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         {
             if (document == null)
             {
-                throw new ArgumentNullException(nameof(document));
+                return;
             }
 
             _documents.Add(document);
         }
 
-        public void Write(TextWriter textWriter)
+        public void Format(TextWriter textWriter)
         {
             if (textWriter == null)
             {
-                throw new ArgumentNullException(nameof(textWriter));
+                return;
             }
 
             foreach (var document in _documents)
