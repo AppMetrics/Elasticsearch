@@ -44,8 +44,9 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
                 ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
                 : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
             MetricTagValueFormatter = tagValue => tagValue.Replace("=", "\\=")
-                                                          .Replace(" ", "\\ ")
                                                           .Replace(@"\", @"\\\")
+                                                          .Replace(@"/", @"\\/")
+                                                          .Replace(" ", "\\ ")
                                                           .Replace(",", "\\,");
         }
 
