@@ -47,6 +47,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
                                                           .Replace(@"\", "_")
                                                           .Replace(@"/", "_")
                                                           .Replace(' ', '_')
+                                                          .Replace('-', '_')
                                                           .Replace(',', '_');
         }
 
