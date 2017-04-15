@@ -16,23 +16,13 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 
         public ElasticSearchReporterProvider(ElasticSearchReporterSettings settings)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             Filter = new NoOpMetricsFilter();
         }
 
         public ElasticSearchReporterProvider(ElasticSearchReporterSettings settings, IFilterMetrics fitler)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             Filter = fitler ?? new NoOpMetricsFilter();
         }
 
@@ -44,7 +34,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
                 loggerFactory,
                 _settings.ElasticSearchSettings,
                 _settings.HttpPolicy);
-            var payloadBuilder = new BulkPayloadBuilder(_settings.ElasticSearchSettings);
+            var payloadBuilder = new BulkPayloadBuilder(_settings.ElasticSearchSettings, _settings.MetricTagValueFormatter);
 
             return new ElasticSearchReporter(
                 lineProtocolClient,

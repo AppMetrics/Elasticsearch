@@ -4,29 +4,25 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using App.Metrics.Internal;
 using Newtonsoft.Json;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
     public class BulkPayload
     {
-        private List<MetricsDocument> _documents;
-        private JsonSerializer _serializer;
-        private string _indexName;
+        private readonly List<MetricsDocument> _documents;
+        private readonly JsonSerializer _serializer;
+        private readonly string _indexName;
 
         public BulkPayload(JsonSerializer serializer, string indexName)
         {
-            if (serializer == null)
-            {
-                throw new ArgumentNullException(nameof(serializer));
-            }
-
-            if (string.IsNullOrEmpty(indexName))
+            if (indexName.IsMissing())
             {
                 throw new ArgumentNullException(nameof(indexName));
             }
 
-            _serializer = serializer;
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _indexName = indexName;
             _documents = new List<MetricsDocument>();
         }

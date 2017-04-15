@@ -7,7 +7,9 @@ using App.Metrics.Extensions.Reporting.ElasticSearch;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 using App.Metrics.Reporting.Abstractions;
 
+// ReSharper disable CheckNamespace
 namespace App.Metrics.Reporting.Interfaces
+    // ReSharper restore CheckNamespace
 {
     public static class ElasticSearchReporterExtensions
     {

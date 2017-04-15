@@ -2,68 +2,64 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using System;
+using App.Metrics.Internal;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
     public class ElasticSearchSettings
     {
-        public Uri Address { get; private set; }
+        public Uri Address { get; }
 
-        public string Index { get; private set; }
+        public string Index { get; }
 
-        public ElasticSearchAuthorizationSchemas AuthorizationSchema { get; private set; }
+        public ElasticSearchAuthorizationSchemas AuthorizationSchema { get; }
 
-        public string UserName { get; private set; }
+        public string UserName { get; }
 
-        public string Password { get; private set; }
+        public string Password { get; }
 
-        public string BearerToken { get; private set; }
+        public string BearerToken { get; }
 
         public ElasticSearchSettings(Uri address, string indexName)
         {
-            if (address == null)
-            {
-                throw new ArgumentNullException(nameof(address));
-            }
-
-            if (string.IsNullOrEmpty(indexName))
+            if (indexName.IsMissing())
             {
                 throw new ArgumentNullException(nameof(indexName));
             }
 
-            this.AuthorizationSchema = ElasticSearchAuthorizationSchemas.Basic;
-            this.Address = address;
-            this.Index = indexName;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemas.Basic;
+            Address = address ?? throw new ArgumentNullException(nameof(address));
+            Index = indexName;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string userName, string password)
             : this(address, indexName)
         {
-            if (string.IsNullOrEmpty(userName))
+            if (userName.IsMissing())
             {
                 throw new ArgumentNullException(nameof(userName));
             }
 
-            if (string.IsNullOrEmpty(password))
+            if (password.IsMissing())
             {
                 throw new ArgumentNullException(nameof(password));
             }
 
-            this.AuthorizationSchema = ElasticSearchAuthorizationSchemas.Anonymous;
-            this.UserName = userName;
-            this.Password = password;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemas.Anonymous;
+            UserName = userName;
+            Password = password;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string bearerToken)
             : this(address, indexName)
         {
-            if (string.IsNullOrEmpty(bearerToken))
+            if (bearerToken.IsMissing())
             {
                 throw new ArgumentNullException(nameof(bearerToken));
             }
 
-            this.AuthorizationSchema = ElasticSearchAuthorizationSchemas.BearerToken;
-            this.BearerToken = bearerToken;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemas.BearerToken;
+            BearerToken = bearerToken;
         }
     }
 }

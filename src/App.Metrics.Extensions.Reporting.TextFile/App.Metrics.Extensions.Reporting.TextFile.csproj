@@ -50,8 +50,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.1.0-alpha-0431" />
-    <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0-alpha-0431" />
+    <PackageReference Include="App.Metrics" Version="1.1.0-alpha-0434" />
+    <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0-alpha-0434" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>

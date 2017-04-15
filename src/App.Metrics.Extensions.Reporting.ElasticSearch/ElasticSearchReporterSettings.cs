@@ -27,6 +27,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
             MetricNameFormatter = (metricContext, metricName) => metricContext.IsMissing()
                 ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
                 : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
+            MetricTagValueFormatter = tagValue => tagValue.Replace(' ', '_');
         }
 
         /// <summary>
@@ -53,6 +54,15 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         ///     The metric name formatter.
         /// </value>
         public Func<string, string, string> MetricNameFormatter { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the metric tag value formatter func which takes the metric name and returns a formatted string
+        ///     which will be used when reporting tag values to elasicsearch
+        /// </summary>
+        /// <value>
+        /// The metric tag value formatter.
+        /// </value>
+        public Func<string, string> MetricTagValueFormatter { get; set; }
 
         /// <inheritdoc />
         public MetricValueDataKeys DataKeys { get; set; }

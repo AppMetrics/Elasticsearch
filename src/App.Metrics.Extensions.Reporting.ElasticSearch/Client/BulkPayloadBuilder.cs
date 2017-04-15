@@ -11,19 +11,16 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
     public class BulkPayloadBuilder
     {
-        private ElasticSearchSettings _settings;
-        private JsonSerializer _serializer;
+        private readonly Func<string, string> _metricTagValueFormatter;
+        private readonly ElasticSearchSettings _settings;
+        private readonly JsonSerializer _serializer;
 
         public BulkPayload Payload { get; private set; }
 
-        public BulkPayloadBuilder(ElasticSearchSettings settings)
+        public BulkPayloadBuilder(ElasticSearchSettings settings, Func<string, string> metricTagValueFormatter)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _metricTagValueFormatter = metricTagValueFormatter;
             _serializer = JsonSerializer.Create();
         }
 
@@ -45,7 +42,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                 MeasurementType = type,
                 MeasurementName = name,
                 Fields = new Dictionary<string, object> { { "value", value } },
-                Tags = tags.ToDictionary()
+                Tags = tags.ToDictionary(_metricTagValueFormatter)
             });
 
             return this;
@@ -60,12 +57,13 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         {
             var fields = columns.Zip(values, (column, data) => new { column, data })
                                 .ToDictionary(pair => pair.column, pair => pair.data);
+
             Payload.Add(new MetricsDocument
             {
                 MeasurementType = type,
                 MeasurementName = name,
                 Fields = fields,
-                Tags = tags.ToDictionary()
+                Tags = tags.ToDictionary(_metricTagValueFormatter)
             });
 
             return this;
