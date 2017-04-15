@@ -29,7 +29,7 @@ var buildNumber                 = HasArgument("BuildNumber") ? Argument<int>("Bu
 //////////////////////////////////////////////////////////////////////
 // DEFINE FILES & DIRECTORIES
 //////////////////////////////////////////////////////////////////////
-var packDirs                    = new [] { Directory("./src/App.Metrics.Extensions.Reporting.Console"), Directory("./src/App.Metrics.Extensions.Reporting.TextFile"), Directory("./src/App.Metrics.Extensions.Reporting.ElasticSearch") };
+var packDirs                    = new [] { Directory("./src/App.Metrics.Extensions.Reporting.ElasticSearch") };
 var artifactsDir                = (DirectoryPath) Directory("./artifacts");
 var testResultsDir              = (DirectoryPath) artifactsDir.Combine("test-results");
 var coverageResultsDir          = (DirectoryPath) artifactsDir.Combine("coverage");
@@ -40,10 +40,10 @@ var htmlCoverageReport			= coverageResultsDir.FullPath + "/coverage.html";
 var mergedCoverageSnapshots		= coverageResultsDir.FullPath + "/coverage.dcvr";
 var xmlCoverageReport			= coverageResultsDir.FullPath + "/coverage.xml";
 var packagesDir                 = artifactsDir.Combine("packages");
-var resharperSettings			= "./AppMetrics.Reporters.sln.DotSettings";
+var resharperSettings			= "./AppMetrics.Extensions.Elasticsearch.sln.DotSettings";
 var inspectCodeXml				= string.Format("{0}/inspectCode.xml", reSharperReportsDir);
 var inspectCodeHtml				= string.Format("{0}/inspectCode.html", reSharperReportsDir);
-var solutionFile				= "./AppMetrics.Reporters.sln";
+var solutionFile				= "./AppMetrics.Extensions.Elasticsearch.sln";
 var solution					= ParseSolution(new FilePath(solutionFile));
 
 //////////////////////////////////////////////////////////////////////

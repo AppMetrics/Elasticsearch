@@ -1,27 +1,22 @@
-# App Metrics Reporters
+# App Metrics Elasticsearch Extensions
 
-[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg)](https://alhardy.github.io/app-metrics-docs/getting-started/intro.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Coverage Status](https://coveralls.io/repos/github/alhardy/AppMetrics.Reporters/badge.svg?branch=master)](https://coveralls.io/github/alhardy/AppMetrics.Reporters?branch=master)
+[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg)](https://alhardy.github.io/app-metrics-docs/getting-started/intro.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Coverage Status](https://coveralls.io/repos/github/alhardy/AppMetrics.Reporters/badge.svg?branch=master)](https://coveralls.io/github/alhardy/AppMetrics.Extension.Elasticsearch?branch=master)
 
 |AppVeyor|Travis|
 |:--------:|:--------:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/pomm2m6yfwm6twl7?svg=true)](https://ci.appveyor.com/project/alhardy/appmetrics-reporters/branch/master)|[![Build status](https://travis-ci.org/alhardy/AppMetrics.Reporters.svg?branch=master)](https://travis-ci.org/alhardy/AppMetrics.Reporters?branch=master)|
+|[![Build status](https://ci.appveyor.com/api/projects/status/cp8297646ddrj1r3?svg=true)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/master)|[![Build status](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch.svg?branch=master)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch?branch=master)|
 
 |Package|Dev Release|Latest Release|
 |------|:--------:|:--------:|
-|App.Metrics.Extensions.Reporting.Console|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Console.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Console)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Console.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Console/)
-|App.Metrics.Extensions.Reporting.TextFile|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.TextFile.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.TextFile)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.TextFile.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.TextFile/)|
+|App.Metrics.Extensions.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)
 
 ## What is it?
 
-The repo contains reporting extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
-
-## Other Reporters for App Metrics
-
-- [InfluxDB](https://github.com/alhardy/AppMetrics.Extensions.InfluxDB)
+The repo contains Elasticsearch extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
 
 ## How to build
 
-[AppVeyor](https://ci.appveyor.com/project/alhardy/appmetrics-reporters/branch/master) and [Travis CI](https://travis-ci.org/alhardy/AppMetrics.Reporters) builds are triggered on commits and PRs to `dev` and `master` branches.
+[AppVeyor](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/master) and [Travis CI](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch) builds are triggered on commits and PRs to `dev` and `master` branches.
 
 See the following for build arguments and running locally.
 
@@ -73,7 +68,7 @@ See the [contribution guidlines](https://github.com/alhardy/AppMetrics/blob/mast
 
 ## Acknowledgements
 
-* [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/)
+* [Elasticsearch](https://www.elastic.co/)
 * [DocFX](https://dotnet.github.io/docfx/)
 * [Fluent Assertions](http://www.fluentassertions.com/)
 * [XUnit](https://xunit.github.io/)
