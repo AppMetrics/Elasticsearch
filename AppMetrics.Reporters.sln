@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D805782-756E-4C98-B22E-F502BEE95318}"
 EndProject
@@ -36,10 +36,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Repo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Reporting.TextFile", "src\App.Metrics.Extensions.Reporting.TextFile\App.Metrics.Extensions.Reporting.TextFile.csproj", "{2B01FDF8-8E73-4904-9B2C-5BFA505BFF5F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Reporting.InfluxDB", "src\App.Metrics.Extensions.Reporting.InfluxDB\App.Metrics.Extensions.Reporting.InfluxDB.csproj", "{F07C2053-2AD0-4FA0-8265-761FCE289F59}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Reporting.InfluxDB.Facts", "test\App.Metrics.Extensions.Reporting.InfluxDB.Facts\App.Metrics.Extensions.Reporting.InfluxDB.Facts.csproj", "{84005F55-AF0E-40F4-A596-129E19C418CE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Reporting.ElasticSearch", "src\App.Metrics.Extensions.Reporting.ElasticSearch\App.Metrics.Extensions.Reporting.ElasticSearch.csproj", "{681A90A6-CE3B-41D0-93FE-5C57849A120D}"
 EndProject
 Global
@@ -56,14 +52,6 @@ Global
 		{2B01FDF8-8E73-4904-9B2C-5BFA505BFF5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B01FDF8-8E73-4904-9B2C-5BFA505BFF5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B01FDF8-8E73-4904-9B2C-5BFA505BFF5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F07C2053-2AD0-4FA0-8265-761FCE289F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F07C2053-2AD0-4FA0-8265-761FCE289F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F07C2053-2AD0-4FA0-8265-761FCE289F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F07C2053-2AD0-4FA0-8265-761FCE289F59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84005F55-AF0E-40F4-A596-129E19C418CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84005F55-AF0E-40F4-A596-129E19C418CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84005F55-AF0E-40F4-A596-129E19C418CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84005F55-AF0E-40F4-A596-129E19C418CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{681A90A6-CE3B-41D0-93FE-5C57849A120D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{681A90A6-CE3B-41D0-93FE-5C57849A120D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{681A90A6-CE3B-41D0-93FE-5C57849A120D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,8 +65,6 @@ Global
 		{4199989A-27B6-4A6A-99C2-1AF6B01DA5EB} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
 		{2017C0A4-7CBE-4834-A5EA-D8D9C7E37698} = {2D805782-756E-4C98-B22E-F502BEE95318}
 		{2B01FDF8-8E73-4904-9B2C-5BFA505BFF5F} = {2D805782-756E-4C98-B22E-F502BEE95318}
-		{F07C2053-2AD0-4FA0-8265-761FCE289F59} = {2D805782-756E-4C98-B22E-F502BEE95318}
-		{84005F55-AF0E-40F4-A596-129E19C418CE} = {DD2E4647-7125-4CE3-9BA5-B45A26113A31}
 		{681A90A6-CE3B-41D0-93FE-5C57849A120D} = {2D805782-756E-4C98-B22E-F502BEE95318}
 	EndGlobalSection
 EndGlobal
