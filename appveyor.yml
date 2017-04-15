@@ -6,8 +6,10 @@ environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   COVERALLS_REPO_TOKEN:
     secure: D248Kn+z16JEn6Y5aWARHp7R7TNObR3vHtIU3susaaXfwi8VcRLsyOO9eg9/9cOU
+  SkipCodeInspect: true
 build_script:
 - ps: .\build.ps1 -Target AppVeyor
+test: off
 artifacts:
 - path: artifacts/packages/*.nupkg
 - path: artifacts/coverage/*.xml
