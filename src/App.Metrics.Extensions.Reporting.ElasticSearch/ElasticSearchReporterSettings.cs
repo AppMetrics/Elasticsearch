@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 using App.Metrics.Reporting;
@@ -12,8 +13,10 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 {
     public class ElasticSearchReporterSettings : IReporterSettings
     {
+        private static readonly string[] SpecialChars = { @"\", @"/", " ", "-", "+", "=", "{", "}", "[", "]", ":", "&", "^", "~", "?", "!", "," };
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ElasticSearchReporterSettings" /> class.
+        ///     Initializes a new instance of the <see cref="ElasticSearchReporterSettings" /> class.
         /// </summary>
         public ElasticSearchReporterSettings()
         {
@@ -41,15 +44,29 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
                          };
             ReportInterval = TimeSpan.FromSeconds(5);
             MetricNameFormatter = (metricContext, metricName) => string.IsNullOrWhiteSpace(metricContext)
-                ? $"{metricName}".Replace(' ', '_').ToLowerInvariant()
-                : $"{metricContext}__{metricName}".Replace(' ', '_').ToLowerInvariant();
-            MetricTagValueFormatter = tagValue => tagValue
-                                                          .Replace(@"\", "_")
-                                                          .Replace(@"/", "_")
-                                                          .Replace(' ', '_')
-                                                          .Replace('-', '_')
-                                                          .Replace(',', '_');
+                ? SpecialChars.Aggregate(metricName, (current, @char) => current.Replace(@char, "_")).ToLowerInvariant()
+                : SpecialChars.Aggregate($"{metricContext}__{metricName}", (current, @char) => current.Replace(@char, "_")).ToLowerInvariant();
+
+            MetricTagValueFormatter = tagValue =>
+            {
+                return SpecialChars.Aggregate(tagValue, (current, @char) => current.Replace(@char, "_")).ToLowerInvariant();
+            };
         }
+
+        /// <inheritdoc />
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper disable MemberCanBePrivate.Global
+        public MetricValueDataKeys DataKeys { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
+
+        /// <summary>
+        ///     Gets or sets the ElasticSearch database settings.
+        /// </summary>
+        /// <value>
+        ///     The ElasticSearch database settings.
+        /// </value>
+        public ElasticSearchSettings ElasticSearchSettings { get; set; }
 
         /// <summary>
         ///     Gets or sets the HTTP policy settings which allows circuit breaker configuration to be adjusted
@@ -62,14 +79,6 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         public HttpPolicy HttpPolicy { get; set; }
         // ReSharper restore MemberCanBePrivate.Global
         // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
-
-        /// <summary>
-        ///     Gets or sets the ElasticSearch database settings.
-        /// </summary>
-        /// <value>
-        ///     The ElasticSearch database settings.
-        /// </value>
-        public ElasticSearchSettings ElasticSearchSettings { get; set; }
 
         /// <summary>
         ///     Gets or sets the metric name formatter func which takes the metric context and name and returns a formatted string
@@ -89,18 +98,11 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         ///     which will be used when reporting tag values to elasicsearch
         /// </summary>
         /// <value>
-        /// The metric tag value formatter.
+        ///     The metric tag value formatter.
         /// </value>
         // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
         // ReSharper disable MemberCanBePrivate.Global
         public Func<string, string> MetricTagValueFormatter { get; set; }
-        // ReSharper restore MemberCanBePrivate.Global
-        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
-
-        /// <inheritdoc />
-        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-        // ReSharper disable MemberCanBePrivate.Global
-        public MetricValueDataKeys DataKeys { get; set; }
         // ReSharper restore MemberCanBePrivate.Global
         // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
 
