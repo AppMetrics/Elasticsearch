@@ -15,6 +15,7 @@ artifacts:
 - path: artifacts/resharper-reports/*.xml
 - path: artifacts/resharper-reports/*.html
 - path: artifacts/coverage/coverage.dcvr
+- path: artifacts/test-results/*.trx
 deploy:
 - provider: NuGet
   server: https://www.myget.org/F/alhardy/api/v2/package
