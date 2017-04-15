@@ -34,6 +34,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{4199989A-27B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Reporting.ElasticSearch", "src\App.Metrics.Extensions.Reporting.ElasticSearch\App.Metrics.Extensions.Reporting.ElasticSearch.csproj", "{681A90A6-CE3B-41D0-93FE-5C57849A120D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visualization", "visualization", "{2427CA3A-1DF8-4755-9288-B9B4EC2DCF39}"
+	ProjectSection(SolutionItems) = preProject
+		visualization\App.Metrics.Sandbox-Elasticsearch-IndexAndMappingSetup.json = visualization\App.Metrics.Sandbox-Elasticsearch-IndexAndMappingSetup.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana-dashboards", "grafana-dashboards", "{0E4FD8C9-9113-43E6-A0DB-C8DB1E89DF3B}"
+	ProjectSection(SolutionItems) = preProject
+		visualization\grafana-dashboards\App.Metrics.Sandbox-Elasticsearch-GenericWeb.json = visualization\grafana-dashboards\App.Metrics.Sandbox-Elasticsearch-GenericWeb.json
+		visualization\grafana-dashboards\App.Metrics.Sandbox-Elasticsearch-GenericWebOAuth2.json = visualization\grafana-dashboards\App.Metrics.Sandbox-Elasticsearch-GenericWebOAuth2.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,5 +63,7 @@ Global
 		{E1A943F7-5493-4B64-A448-3E9EEA582E20} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
 		{4199989A-27B6-4A6A-99C2-1AF6B01DA5EB} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
 		{681A90A6-CE3B-41D0-93FE-5C57849A120D} = {2D805782-756E-4C98-B22E-F502BEE95318}
+		{2427CA3A-1DF8-4755-9288-B9B4EC2DCF39} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
+		{0E4FD8C9-9113-43E6-A0DB-C8DB1E89DF3B} = {2427CA3A-1DF8-4755-9288-B9B4EC2DCF39}
 	EndGlobalSection
 EndGlobal
