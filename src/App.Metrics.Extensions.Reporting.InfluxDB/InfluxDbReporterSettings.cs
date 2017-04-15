@@ -54,10 +54,16 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
         /// <value>
         ///     The metric name formatter.
         /// </value>
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper disable MemberCanBePrivate.Global
         public Func<string, string, string> MetricNameFormatter { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
 
         /// <inheritdoc />
+        // ReSharper disable UnusedAutoPropertyAccessor.Global
         public MetricValueDataKeys DataKeys { get; set; }
+        // ReSharper restore UnusedAutoPropertyAccessor.Global
 
         /// <summary>
         ///     Gets or sets the report interval for which to flush metrics to influxdb.
@@ -65,6 +71,10 @@ namespace App.Metrics.Extensions.Reporting.InfluxDB
         /// <value>
         ///     The report interval.
         /// </value>
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper disable MemberCanBePrivate.Global
         public TimeSpan ReportInterval { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
     }
 }

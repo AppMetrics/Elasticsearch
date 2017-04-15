@@ -55,7 +55,11 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         /// <value>
         ///     The HTTP policy.
         /// </value>
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper disable MemberCanBePrivate.Global
         public HttpPolicy HttpPolicy { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
 
         /// <summary>
         ///     Gets or sets the ElasticSearch database settings.
@@ -72,7 +76,11 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         /// <value>
         ///     The metric name formatter.
         /// </value>
+        // ReSharper disable MemberCanBePrivate.Global
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
         public Func<string, string, string> MetricNameFormatter { get; set; }
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper restore MemberCanBePrivate.Global
 
         /// <summary>
         ///     Gets or sets the metric tag value formatter func which takes the metric name and returns a formatted string
@@ -81,10 +89,18 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         /// <value>
         /// The metric tag value formatter.
         /// </value>
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper disable MemberCanBePrivate.Global
         public Func<string, string> MetricTagValueFormatter { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
 
         /// <inheritdoc />
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper disable MemberCanBePrivate.Global
         public MetricValueDataKeys DataKeys { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
 
         /// <summary>
         ///     Gets or sets the report interval for which to flush metrics to ElasticSearch.
@@ -92,6 +108,10 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         /// <value>
         ///     The report interval.
         /// </value>
+        // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+        // ReSharper disable MemberCanBePrivate.Global
         public TimeSpan ReportInterval { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
     }
 }
