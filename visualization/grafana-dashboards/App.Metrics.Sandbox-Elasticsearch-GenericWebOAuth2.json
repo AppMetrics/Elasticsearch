@@ -33,7 +33,7 @@
                         "rightSide": true,
                         "show": true,
                         "sort": "current",
-                        "sortDesc": true,
+                        "sortDesc": false,
                         "total": false,
                         "values": true
                     },
@@ -51,7 +51,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "alias": "{{tags.client_id}}",
+                            "alias": "[{{tags.client_id}}] {{tags.route}}",
                             "bucketAggs": [
                                 {
                                     "fake": true,
@@ -62,6 +62,18 @@
                                         "order": "desc",
                                         "orderBy": "_term",
                                         "size": "0"
+                                    },
+                                    "type": "terms"
+                                },
+                                {
+                                    "fake": true,
+                                    "field": "tags.route",
+                                    "id": "4",
+                                    "settings": {
+                                        "min_doc_count": 0,
+                                        "order": "asc",
+                                        "orderBy": "_term",
+                                        "size": "10"
                                     },
                                     "type": "terms"
                                 },
@@ -114,7 +126,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.oauth2__request_rate AND tags.env:$environment AND tags.app:$application AND tags.client_id:$client_id",
+                            "query": "name:application.oauth2__request_rate AND tags.env:$environment AND tags.app:$application AND tags.client_id:$client_id AND tags.route:$route",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -226,7 +238,7 @@
                         "rightSide": true,
                         "show": true,
                         "sort": "current",
-                        "sortDesc": true,
+                        "sortDesc": false,
                         "total": false,
                         "values": true
                     },
@@ -1202,5 +1214,5 @@
     },
     "timezone": "browser",
     "title": "App.Metrics.Sandbox - Elasticsearch- OAuth2 Generic Web",
-    "version": 7
+    "version": 8
 }
