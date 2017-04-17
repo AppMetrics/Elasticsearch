@@ -1,74 +1,75 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="BulkPayloadBuilder.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using App.Metrics.Reporting.Abstractions;
 using App.Metrics.Tagging;
 using Newtonsoft.Json;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
-    public class BulkPayloadBuilder
+    public class BulkPayloadBuilder : IMetricPayloadBuilder<BulkPayload>
     {
-        private ElasticSearchSettings _settings;
-        private JsonSerializer _serializer;
+        private readonly Func<string, string> _metricTagValueFormatter;
+        private readonly JsonSerializer _serializer;
+        private readonly ElasticSearchSettings _settings;
+        private BulkPayload _payload;
 
-        public BulkPayload Payload { get; private set; }
-
-        public BulkPayloadBuilder(ElasticSearchSettings settings)
+        public BulkPayloadBuilder(ElasticSearchSettings settings, Func<string, string> metricTagValueFormatter)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _metricTagValueFormatter = metricTagValueFormatter;
             _serializer = JsonSerializer.Create();
         }
 
-        public void Clear()
+        public void Clear() { _payload = null; }
+
+        public void Init() { _payload = new BulkPayload(_serializer, _settings.Index); }
+
+        public void Pack(string name, object value, MetricTags tags)
         {
-            Payload = null;
+            var tagKeyValues = tags.ToDictionary(_metricTagValueFormatter);
+
+            _payload.Add(
+                new MetricsDocument
+                {
+                    MeasurementType = tagKeyValues["mtype"],
+                    MeasurementName = name,
+                    Fields = new Dictionary<string, object> { { "value", value } },
+                    Tags = tagKeyValues
+                });
         }
 
-        public BulkPayloadBuilder Init()
-        {
-            Payload = new BulkPayload(_serializer, _settings.Index);
-            return this;
-        }
-
-        public BulkPayloadBuilder Pack(string type, string name, object value, MetricTags tags)
-        {
-            Payload.Add(new MetricsDocument
-            {
-                MeasurementType = type,
-                MeasurementName = name,
-                Fields = new Dictionary<string, object> { { "value", value } },
-                Tags = tags.ToDictionary()
-            });
-
-            return this;
-        }
-
-        public BulkPayloadBuilder Pack(
-            string type,
+        public void Pack(
             string name,
             IEnumerable<string> columns,
             IEnumerable<object> values,
             MetricTags tags)
         {
-            var fields = columns.Zip(values, (column, data) => new { column, data })
-                                .ToDictionary(pair => pair.column, pair => pair.data);
-            Payload.Add(new MetricsDocument
-            {
-                MeasurementType = type,
-                MeasurementName = name,
-                Fields = fields,
-                Tags = tags.ToDictionary()
-            });
+            var fields = columns.Zip(values, (column, data) => new { column, data }).ToDictionary(pair => pair.column, pair => pair.data);
+            var tagKeyValues = tags.ToDictionary(_metricTagValueFormatter);
 
-            return this;
+            _payload.Add(
+                new MetricsDocument
+                {
+                    MeasurementType = tagKeyValues["mtype"],
+                    MeasurementName = name,
+                    Fields = fields,
+                    Tags = tagKeyValues
+                });
+        }
+
+        public BulkPayload Payload() { return _payload; }
+
+        public string PayloadFormatted()
+        {
+            var result = new StringWriter();
+            _payload.Format(result);
+            return result.ToString();
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="ElasticSearchReporterProvider.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using App.Metrics.Abstractions.Filtering;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 using App.Metrics.Internal;
+using App.Metrics.Reporting;
 using Microsoft.Extensions.Logging;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch
@@ -16,23 +18,13 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 
         public ElasticSearchReporterProvider(ElasticSearchReporterSettings settings)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             Filter = new NoOpMetricsFilter();
         }
 
         public ElasticSearchReporterProvider(ElasticSearchReporterSettings settings, IFilterMetrics fitler)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             Filter = fitler ?? new NoOpMetricsFilter();
         }
 
@@ -44,15 +36,16 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
                 loggerFactory,
                 _settings.ElasticSearchSettings,
                 _settings.HttpPolicy);
-            var payloadBuilder = new BulkPayloadBuilder(_settings.ElasticSearchSettings);
+            var payloadBuilder = new BulkPayloadBuilder(_settings.ElasticSearchSettings, _settings.MetricTagValueFormatter);
 
-            return new ElasticSearchReporter(
-                lineProtocolClient,
+            return new ReportRunner<BulkPayload>(
+                async p => await lineProtocolClient.WriteAsync(p.Payload()),
                 payloadBuilder,
                 _settings.ReportInterval,
                 name,
                 loggerFactory,
-                _settings.MetricNameFormatter);
+                _settings.MetricNameFormatter,
+                _settings.DataKeys);
         }
     }
 }

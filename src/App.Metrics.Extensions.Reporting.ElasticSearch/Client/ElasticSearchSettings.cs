@@ -1,5 +1,6 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="ElasticSearchSettings.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 
@@ -7,63 +8,61 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
     public class ElasticSearchSettings
     {
-        public Uri Address { get; private set; }
-
-        public string Index { get; private set; }
-
-        public ElasticSearchAuthorizationSchemas AuthorizationSchema { get; private set; }
-
-        public string UserName { get; private set; }
-
-        public string Password { get; private set; }
-
-        public string BearerToken { get; private set; }
-
         public ElasticSearchSettings(Uri address, string indexName)
         {
-            if (address == null)
+            Address = address ?? throw new ArgumentNullException(nameof(address));
+            Index = indexName ?? throw new ArgumentNullException(nameof(indexName));
+
+            if (string.IsNullOrWhiteSpace(indexName))
             {
-                throw new ArgumentNullException(nameof(address));
+                throw new ArgumentException("Cannot be empty", nameof(indexName));
             }
 
-            if (string.IsNullOrEmpty(indexName))
-            {
-                throw new ArgumentNullException(nameof(indexName));
-            }
-
-            this.AuthorizationSchema = ElasticSearchAuthorizationSchemas.Basic;
-            this.Address = address;
-            this.Index = indexName;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Basic;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string userName, string password)
             : this(address, indexName)
         {
-            if (string.IsNullOrEmpty(userName))
+            UserName = userName ?? throw new ArgumentNullException(nameof(userName));
+            Password = password ?? throw new ArgumentNullException(nameof(password));
+
+            if (string.IsNullOrWhiteSpace(userName))
             {
-                throw new ArgumentNullException(nameof(userName));
+                throw new ArgumentException("Cannot be empty", nameof(userName));
             }
 
-            if (string.IsNullOrEmpty(password))
+            if (string.IsNullOrWhiteSpace(password))
             {
-                throw new ArgumentNullException(nameof(password));
+                throw new ArgumentException("Cannot be empty", nameof(password));
             }
 
-            this.AuthorizationSchema = ElasticSearchAuthorizationSchemas.Anonymous;
-            this.UserName = userName;
-            this.Password = password;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Anonymous;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string bearerToken)
             : this(address, indexName)
         {
-            if (string.IsNullOrEmpty(bearerToken))
+            BearerToken = bearerToken ?? throw new ArgumentNullException(nameof(bearerToken));
+
+            if (string.IsNullOrWhiteSpace(bearerToken))
             {
-                throw new ArgumentNullException(nameof(bearerToken));
+                throw new ArgumentException("Cannot be empty", nameof(bearerToken));
             }
 
-            this.AuthorizationSchema = ElasticSearchAuthorizationSchemas.BearerToken;
-            this.BearerToken = bearerToken;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.BearerToken;
         }
+
+        public Uri Address { get; }
+
+        public ElasticSearchAuthorizationSchemes AuthorizationSchema { get; }
+
+        public string BearerToken { get; }
+
+        public string Index { get; }
+
+        public string Password { get; }
+
+        public string UserName { get; }
     }
 }

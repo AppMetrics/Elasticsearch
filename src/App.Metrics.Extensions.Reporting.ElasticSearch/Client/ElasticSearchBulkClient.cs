@@ -1,5 +1,6 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="ElasticSearchBulkClient.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using System.IO;
@@ -14,10 +15,10 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
     public class ElasticSearchBulkClient
     {
+        private static TimeSpan _backOffPeriod;
         private static long _backOffTicks;
         private static long _failureAttempts;
         private static long _failuresBeforeBackoff;
-        private static TimeSpan _backOffPeriod;
 
         private readonly HttpClient _httpClient;
         private readonly ILogger<ElasticSearchBulkClient> _logger;
@@ -66,15 +67,16 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             }
 
             var writer = new StringWriter();
-            payload.Write(writer);
+            payload.Format(writer);
             var content = new StringContent(writer.ToString(), Encoding.UTF8, "application/json");
 
             try
             {
                 var response = await _httpClient.PostAsync(
-                    "/_bulk",
-                    content,
-                    cancellationToken).ConfigureAwait(false);
+                                                     "/_bulk",
+                                                     content,
+                                                     cancellationToken).
+                                                 ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -101,24 +103,24 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 
         private HttpClient CreateClient(ElasticSearchSettings settings, HttpPolicy httpPolicy)
         {
-            var httpClient = new HttpClient()
-            {
-                BaseAddress = settings.Address,
-                Timeout = httpPolicy.Timeout
-            };
+            var httpClient = new HttpClient
+                             {
+                                 BaseAddress = settings.Address,
+                                 Timeout = httpPolicy.Timeout
+                             };
 
             switch (settings.AuthorizationSchema)
             {
-                case ElasticSearchAuthorizationSchemas.Anonymous:
+                case ElasticSearchAuthorizationSchemes.Anonymous:
                     httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", settings.BearerToken);
                     break;
-                case ElasticSearchAuthorizationSchemas.Basic:
+                case ElasticSearchAuthorizationSchemes.Basic:
                     var byteArray = Encoding.ASCII.GetBytes($"{settings.UserName}:{settings.Password}");
                     httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                     break;
-                case ElasticSearchAuthorizationSchemas.BearerToken:
+                case ElasticSearchAuthorizationSchemes.BearerToken:
                     break;
                 default:
                     throw new NotImplementedException($"The specified schema {settings.AuthorizationSchema} is not implemented");

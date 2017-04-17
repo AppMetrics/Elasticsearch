@@ -1,5 +1,6 @@
-﻿// Copyright (c) Allan Hardy. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// <copyright file="BulkPayload.cs" company="Allan Hardy">
+// Copyright (c) Allan Hardy. All rights reserved.
+// </copyright>
 
 using System;
 using System.Collections.Generic;
@@ -10,24 +11,20 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 {
     public class BulkPayload
     {
-        private List<MetricsDocument> _documents;
-        private JsonSerializer _serializer;
-        private string _indexName;
+        private readonly List<MetricsDocument> _documents;
+        private readonly string _indexName;
+        private readonly JsonSerializer _serializer;
 
         public BulkPayload(JsonSerializer serializer, string indexName)
         {
-            if (serializer == null)
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _indexName = indexName ?? throw new ArgumentNullException(nameof(indexName));
+
+            if (string.IsNullOrWhiteSpace(indexName))
             {
-                throw new ArgumentNullException(nameof(serializer));
+                throw new ArgumentException("Cannot be empty", nameof(indexName));
             }
 
-            if (string.IsNullOrEmpty(indexName))
-            {
-                throw new ArgumentNullException(nameof(indexName));
-            }
-
-            _serializer = serializer;
-            _indexName = indexName;
             _documents = new List<MetricsDocument>();
         }
 
@@ -35,17 +32,17 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         {
             if (document == null)
             {
-                throw new ArgumentNullException(nameof(document));
+                return;
             }
 
             _documents.Add(document);
         }
 
-        public void Write(TextWriter textWriter)
+        public void Format(TextWriter textWriter)
         {
             if (textWriter == null)
             {
-                throw new ArgumentNullException(nameof(textWriter));
+                return;
             }
 
             foreach (var document in _documents)
