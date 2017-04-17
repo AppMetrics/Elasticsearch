@@ -16,7 +16,7 @@
     <PackageTags>Metrics;Monitoring;Instrumentation;Reporting;ElasticSearch</PackageTags>
     <PackageIconUrl>https://alhardy.github.io/app-metrics-docs/logo.png</PackageIconUrl>
     <PackageProjectUrl>https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#es-reporter</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Reporting/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/alhardy/AppMetrics.Reporting</RepositoryUrl>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -26,6 +26,9 @@
     <CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>
     <DebugType>full</DebugType>
     <VersionPrefix>1.1.0</VersionPrefix>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.6|AnyCPU'">
