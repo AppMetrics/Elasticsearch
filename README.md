@@ -18,19 +18,19 @@ The repo contains Elasticsearch extension packages to [App Metrics](https://gith
 
 ![Grafana/InfluxDB Generic Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/1.1.0-alpha/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWeb.json)
+> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWeb.json)
 
 #### Grafana/Elasticsearch OAuth2 Client Web Monitoring
 
 ![Grafana/InfluxDB Generic OAuth2 Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/1.1.0-alpha/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWebOAuth2.json)
+> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWebOAuth2.json)
 
 ### Grafana/Elasticsearch Web Application Setup
 
 - Download and run [Elasticsearch](https://www.elastic.co/downloads/elasticsearch).
-- Create a new [ES Index and metric field mappings](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/1.1.0-alpha/visualization/App.Metrics.Sandbox-Elasticsearch-IndexAndMappingSetup.json). *Keep note of this for configuring the Elasticsearch reporter in your web application and configuring the Elasticsearch Datasource in Grafana*
-- Download and install [Grafana](https://grafana.com/grafana/download), then create a new [Elasticsearch Datasource](http://docs.grafana.org/features/datasources/influxdb/)  pointing to the Index just created and import App.Metrics [web dashboard](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/1.1.0-alpha/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWeb.json)
+- Create a new [ES Index and metric field mappings](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/App.Metrics.Sandbox-Elasticsearch-IndexAndMappingSetup.json). *Keep note of this for configuring the Elasticsearch reporter in your web application and configuring the Elasticsearch Datasource in Grafana*
+- Download and install [Grafana](https://grafana.com/grafana/download), then create a new [Elasticsearch Datasource](http://docs.grafana.org/features/datasources/influxdb/)  pointing to the Index just created and import App.Metrics [web dashboard](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWeb.json)
 - Drop in the `App.Metrics.Extensions.Mvc` and `App.Metrics.Extensions.Reporting.Elasticsearch` nuget packages into your web application. 
 - Add [App.Metrics configuration](https://alhardy.github.io/app-metrics-docs/getting-started/fundamentals/middleware-configuration.html) to the `Startup.cs` of your web application, including the [InfluxDB reporter configuration](https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#influxdb-reporter). *You might want to check out the [Sandbox](https://github.com/alhardy/AppMetrics/tree/1.1.0-alpha/sandbox/App.Metrics.Sandbox) or [Sample](https://github.com/alhardy/AppMetrics.Samples) projects if you get stuck*
 - Run your app and Grafana at visit `http://localhost:3000`
