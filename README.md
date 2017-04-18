@@ -6,9 +6,9 @@
 |:--------:|:--------:|
 |[![Build status](https://ci.appveyor.com/api/projects/status/cp8297646ddrj1r3?svg=true)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/master)|[![Build status](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch.svg?branch=master)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch?branch=master)|
 
-|Package|Dev Release|Latest Release|
-|------|:--------:|:--------:|
-|App.Metrics.Extensions.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)
+|Package|Dev Release|PreRelease|Latest Release|
+|------|:--------:|:--------:|:--------:|
+|App.Metrics.Extensions.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)
 
 ## What is it?
 
