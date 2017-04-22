@@ -45,6 +45,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana-dashboards", "grafa
 		visualization\grafana-dashboards\App.Metrics.Sandbox-Elasticsearch-GenericWebOAuth2.json = visualization\grafana-dashboards\App.Metrics.Sandbox-Elasticsearch-GenericWebOAuth2.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sandbox", "sandbox", "{39DF701E-9AB2-47DE-96C4-DCCE641F8449}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Elasticsearch.Sandbox", "sandbox\App.Metrics.Elasticsearch.Sandbox\App.Metrics.Elasticsearch.Sandbox.csproj", "{2A91A603-9707-48E1-9BC9-9CDFC519ADD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,10 @@ Global
 		{681A90A6-CE3B-41D0-93FE-5C57849A120D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{681A90A6-CE3B-41D0-93FE-5C57849A120D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{681A90A6-CE3B-41D0-93FE-5C57849A120D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A91A603-9707-48E1-9BC9-9CDFC519ADD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A91A603-9707-48E1-9BC9-9CDFC519ADD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A91A603-9707-48E1-9BC9-9CDFC519ADD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A91A603-9707-48E1-9BC9-9CDFC519ADD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,5 +73,6 @@ Global
 		{681A90A6-CE3B-41D0-93FE-5C57849A120D} = {2D805782-756E-4C98-B22E-F502BEE95318}
 		{2427CA3A-1DF8-4755-9288-B9B4EC2DCF39} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
 		{0E4FD8C9-9113-43E6-A0DB-C8DB1E89DF3B} = {2427CA3A-1DF8-4755-9288-B9B4EC2DCF39}
+		{2A91A603-9707-48E1-9BC9-9CDFC519ADD6} = {39DF701E-9AB2-47DE-96C4-DCCE641F8449}
 	EndGlobalSection
 EndGlobal
