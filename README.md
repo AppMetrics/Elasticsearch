@@ -16,15 +16,15 @@ The repo contains Elasticsearch extension packages to [App Metrics](https://gith
 
 #### Grafana/Elasticsearch Web Monitoring
 
-![Grafana/InfluxDB Generic Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
+![Grafana/Elasticsearch Generic Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWeb.json)
+> Grab the dashboard [here](https://grafana.com/dashboards/2140)
 
 #### Grafana/Elasticsearch OAuth2 Client Web Monitoring
 
-![Grafana/InfluxDB Generic OAuth2 Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
+![Grafana/Elasticsearch Generic OAuth2 Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWebOAuth2.json)
+> Grab the dashboard [here](https://grafana.com/dashboards/2143)
 
 ### Grafana/Elasticsearch Web Application Setup
 
