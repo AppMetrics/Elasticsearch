@@ -1,18 +1,21 @@
-# App Metrics Elasticsearch Extensions
-
-[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg)](https://alhardy.github.io/app-metrics-docs/getting-started/intro.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Coverage Status](https://coveralls.io/repos/github/alhardy/AppMetrics.Extensions.Elasticsearch/badge.svg?branch=master)](https://coveralls.io/github/alhardy/AppMetrics.Extension.Elasticsearch?branch=master)
-
-|AppVeyor|Travis|
-|:--------:|:--------:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/cp8297646ddrj1r3?svg=true)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/master)|[![Build status](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch.svg?branch=master)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch?branch=master)|
-
-|Package|Dev Release|PreRelease|Latest Release|
-|------|:--------:|:--------:|:--------:|
-|App.Metrics.Extensions.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)
+# App Metrics Elasticsearch Extensions <img src="http://app-metrics.io/logo.png" alt="App Metrics" width="50px"/> 
+[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg?style=flat-square)](http://app-metrics.io/reporting/elasticsearch.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 ## What is it?
 
 The repo contains Elasticsearch extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
+
+## Latest Builds, Packages & Repo Stats
+
+|Branch|AppVeyor|Travis|Coverage|
+|------|:--------:|:--------:|:--------:|
+|dev|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/appmetrics-extensions-elasticsearch/dev.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/dev)|[![Travis](https://img.shields.io/travis/alhardy/AppMetrics.Extensions.Elasticsearch/dev.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch)|[![Coveralls](https://img.shields.io/coveralls/alhardy/AppMetrics.Extensions.Elasticsearch/dev.svg?style=flat-square)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.Elasticsearch?branch=dev)
+|master|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/appmetrics-extensions-elasticsearch/master.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/master)| [![Travis](https://img.shields.io/travis/alhardy/AppMetrics.Extensions.Elasticsearch/master.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch)| [![Coveralls](https://img.shields.io/coveralls/alhardy/AppMetrics.Extensions.Elasticsearch/master.svg?style=flat-square)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.Elasticsearch?branch=master)|
+
+|Package|Dev Release|PreRelease|Latest Release|
+|------|:--------:|:--------:|:--------:|
+|App.Metrics.Extensions.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg?style=flat-square)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)
+
 
 #### Grafana/Elasticsearch Web Monitoring
 
