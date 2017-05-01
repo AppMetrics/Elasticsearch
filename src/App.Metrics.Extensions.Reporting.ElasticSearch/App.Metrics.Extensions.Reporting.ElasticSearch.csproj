@@ -14,11 +14,11 @@
     <AssemblyName>App.Metrics.Extensions.Reporting.ElasticSearch</AssemblyName>
     <PackageId>App.Metrics.Extensions.Reporting.ElasticSearch</PackageId>
     <PackageTags>Metrics;Monitoring;Instrumentation;Reporting;ElasticSearch</PackageTags>
-    <PackageIconUrl>https://alhardy.github.io/app-metrics-docs/logo.png</PackageIconUrl>
-    <PackageProjectUrl>https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#es-reporter</PackageProjectUrl>
+    <PackageIconUrl>http://app-metrics.io/logo.png</PackageIconUrl>
+    <PackageProjectUrl>http://app-metrics.io/reporting/elasticsearch.html</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>git://github.com/alhardy/AppMetrics.Reporting</RepositoryUrl>
+    <RepositoryUrl>git@github.com:alhardy/AppMetrics.Extensions.Elasticsearch.git</RepositoryUrl>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>

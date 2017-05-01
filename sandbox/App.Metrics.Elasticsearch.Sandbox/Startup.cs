@@ -74,7 +74,12 @@ namespace App.Metrics.Elasticsearch.Sandbox
                          options =>
                          {
                              options.WithGlobalTags(
-                                 (globalTags, info) => { globalTags.Add("app", info.EntryAssemblyName); });
+                                 (globalTags, info) =>
+                                 {
+                                     globalTags.Add("app", info.EntryAssemblyName);
+                                     globalTags.Add("server", info.MachineName);
+                                     globalTags.Add("version", info.EntryAssemblyVersion);
+                                 });
                          }).
                      AddJsonSerialization().
                      AddReporting(
