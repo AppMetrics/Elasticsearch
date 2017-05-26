@@ -2,29 +2,17 @@
 <!--EXTERNAL_PROPERTIES: DefineConstants-->
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\..\build\common.props" />
+
   <PropertyGroup>
-    <Description>Provides ElasticSearch reporting capability to App Metrics</Description>
-    <Copyright>Allan Hardy 2016</Copyright>
-    <AssemblyTitle>App.Metrics.Extensions.Reporting.ElasticSearch</AssemblyTitle>
-    <Authors>Allan Hardy;Jenya Y.</Authors>
-    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <Description>Provides ElasticSearch reporting capability to App Metrics</Description>    
+    <AssemblyTitle>App.Metrics.Extensions.Reporting.ElasticSearch</AssemblyTitle>    
+    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>    
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>App.Metrics.Extensions.Reporting.ElasticSearch</AssemblyName>
     <PackageId>App.Metrics.Extensions.Reporting.ElasticSearch</PackageId>
-    <PackageTags>Metrics;Monitoring;Instrumentation;Reporting;ElasticSearch</PackageTags>
-    <PackageIconUrl>http://app-metrics.io/logo.png</PackageIconUrl>
-    <PackageProjectUrl>http://app-metrics.io/reporting/elasticsearch.html</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/LICENSE</PackageLicenseUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>git@github.com:alhardy/AppMetrics.Extensions.Elasticsearch.git</RepositoryUrl>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>
-    <DebugType>full</DebugType>
+    <PackageTags>Metrics;Monitoring;Instrumentation;Reporting;Elasticsearch</PackageTags>
     <VersionPrefix>1.1.0</VersionPrefix> 
   </PropertyGroup>
 
@@ -65,6 +53,10 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\App.Metrics.Formatting.ElasticSearch\App.Metrics.Formatting.ElasticSearch.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ using App.Metrics.Reporting.Abstractions;
 using App.Metrics.Tagging;
 using Newtonsoft.Json;
 
-namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
+namespace App.Metrics.Formatting.ElasticSearch
 {
     public class BulkPayloadBuilder : IMetricPayloadBuilder<BulkPayload>
     {
@@ -23,15 +23,21 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
 
         public BulkPayloadBuilder(
             string index,
-            Func<string, string, string> metricNameFormatter,
-            Func<string, string> metricTagValueFormatter,
-            MetricValueDataKeys dataKeys)
+            Func<string, string, string> metricNameFormatter = null,
+            Func<string, string> metricTagValueFormatter = null,
+            MetricValueDataKeys dataKeys = null)
         {
+            if (string.IsNullOrWhiteSpace(index))
+            {
+                throw new ArgumentNullException(nameof(index), "The elasticsearch index name cannot be null or whitespace");
+            }
+
             _index = index;
-            _metricTagValueFormatter = metricTagValueFormatter;
-            _metricNameFormatter = metricNameFormatter;
+            _metricNameFormatter = metricNameFormatter ?? Constants.ElasticsearchDefaults.MetricNameFormatter;
+            _metricTagValueFormatter = metricTagValueFormatter ?? Constants.ElasticsearchDefaults.MetricTagValueFormatter;
             _serializer = JsonSerializer.Create();
-            DataKeys = dataKeys;
+            _payload = new BulkPayload(_serializer, _index);
+            DataKeys = dataKeys ?? new MetricValueDataKeys();
         }
 
         /// <inheritdoc />

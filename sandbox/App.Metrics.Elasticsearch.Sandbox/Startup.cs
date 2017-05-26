@@ -80,8 +80,11 @@ namespace App.Metrics.Elasticsearch.Sandbox
                                      globalTags.Add("server", info.MachineName);
                                      globalTags.Add("version", info.EntryAssemblyVersion);
                                  });
-                         }).
-                     AddJsonSerialization().
+                         }).                     
+                     AddJsonHealthSerialization().
+                     // AddJsonMetricsTextSerialization().
+                     AddElasticsearchMetricsTextSerialization(ElasticSearchIndex).
+                     AddElasticsearchMetricsSerialization(ElasticSearchIndex).
                      AddReporting(
                          factory =>
                          {

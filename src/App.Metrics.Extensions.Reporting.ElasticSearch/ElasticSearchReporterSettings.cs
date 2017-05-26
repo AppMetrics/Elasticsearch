@@ -3,11 +3,10 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 using App.Metrics.Reporting;
+using EsConstants = App.Metrics.Formatting.ElasticSearch.Constants;
 
 namespace App.Metrics.Extensions.Reporting.ElasticSearch
 {
@@ -20,20 +19,9 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
         /// </summary>
         public ElasticSearchReporterSettings()
         {
-            var customHistogramDataKeys = new Dictionary<HistogramValueDataKeys, string>
-                                          {
-                                              { HistogramValueDataKeys.Count, "countHist" },
-                                              { HistogramValueDataKeys.UserLastValue, "userLast" },
-                                              { HistogramValueDataKeys.UserMinValue, "userMin" },
-                                              { HistogramValueDataKeys.UserMaxValue, "userMax" }
-                                          };
-
-            var customMeterDataKeys = new Dictionary<MeterValueDataKeys, string>
-                                      {
-                                          { MeterValueDataKeys.Count, "countMeter" },
-                                          { MeterValueDataKeys.RateMean, "rateMean" }
-                                      };
-            DataKeys = new MetricValueDataKeys(histogram: customHistogramDataKeys, meter: customMeterDataKeys);
+            DataKeys = new MetricValueDataKeys(
+                EsConstants.ElasticsearchDefaults.CustomHistogramDataKeys,
+                EsConstants.ElasticsearchDefaults.CustomMeterDataKeys);
 
             ElasticSearchSettings = new ElasticSearchSettings(new Uri("http://localhost:9200"), "metrics");
             HttpPolicy = new HttpPolicy
@@ -43,14 +31,8 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
                              Timeout = Constants.DefaultTimeout
                          };
             ReportInterval = TimeSpan.FromSeconds(5);
-            MetricNameFormatter = (metricContext, metricName) => string.IsNullOrWhiteSpace(metricContext)
-                ? SpecialChars.Aggregate(metricName, (current, @char) => current.Replace(@char, "_")).ToLowerInvariant()
-                : SpecialChars.Aggregate($"{metricContext}__{metricName}", (current, @char) => current.Replace(@char, "_")).ToLowerInvariant();
-
-            MetricTagValueFormatter = tagValue =>
-            {
-                return SpecialChars.Aggregate(tagValue, (current, @char) => current.Replace(@char, "_")).ToLowerInvariant();
-            };
+            MetricNameFormatter = EsConstants.ElasticsearchDefaults.MetricNameFormatter;
+            MetricTagValueFormatter = EsConstants.ElasticsearchDefaults.MetricTagValueFormatter;
         }
 
         /// <inheritdoc />
@@ -95,7 +77,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 
         /// <summary>
         ///     Gets or sets the metric tag value formatter func which takes the metric name and returns a formatted string
-        ///     which will be used when reporting tag values to elasicsearch
+        ///     which will be used when reporting tag values to elasticsearch
         /// </summary>
         /// <value>
         ///     The metric tag value formatter.

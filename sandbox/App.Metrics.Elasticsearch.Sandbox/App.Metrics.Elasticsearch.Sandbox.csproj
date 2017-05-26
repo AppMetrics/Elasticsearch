@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\App.Metrics.Extensions.Reporting.ElasticSearch\App.Metrics.Extensions.Reporting.ElasticSearch.csproj" />
+    <ProjectReference Include="..\..\src\App.Metrics.Formatters.ElasticSearch\App.Metrics.Formatters.ElasticSearch.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.json">

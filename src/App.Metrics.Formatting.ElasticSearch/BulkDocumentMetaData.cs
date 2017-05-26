@@ -5,7 +5,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
+namespace App.Metrics.Formatting.ElasticSearch
 {
     public class BulkDocumentMetaData
     {

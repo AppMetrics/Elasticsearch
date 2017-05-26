@@ -6,6 +6,7 @@ using System;
 using App.Metrics.Abstractions.Filtering;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
+using App.Metrics.Formatting.ElasticSearch;
 using App.Metrics.Internal;
 using App.Metrics.Reporting;
 using Microsoft.Extensions.Logging;

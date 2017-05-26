@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.12
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D805782-756E-4C98-B22E-F502BEE95318}"
 EndProject
@@ -49,6 +49,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sandbox", "sandbox", "{39DF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Elasticsearch.Sandbox", "sandbox\App.Metrics.Elasticsearch.Sandbox\App.Metrics.Elasticsearch.Sandbox.csproj", "{2A91A603-9707-48E1-9BC9-9CDFC519ADD6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{6A8C1BAE-B40B-4F12-8C04-8CE911330532}"
+	ProjectSection(SolutionItems) = preProject
+		build\common.props = build\common.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatters.ElasticSearch", "src\App.Metrics.Formatters.ElasticSearch\App.Metrics.Formatters.ElasticSearch.csproj", "{79110628-27BA-476B-B4DE-93B09EC815A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatting.ElasticSearch", "src\App.Metrics.Formatting.ElasticSearch\App.Metrics.Formatting.ElasticSearch.csproj", "{3A02E3DC-B24A-4260-9F58-F30F3E239411}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +72,14 @@ Global
 		{2A91A603-9707-48E1-9BC9-9CDFC519ADD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A91A603-9707-48E1-9BC9-9CDFC519ADD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A91A603-9707-48E1-9BC9-9CDFC519ADD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79110628-27BA-476B-B4DE-93B09EC815A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79110628-27BA-476B-B4DE-93B09EC815A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79110628-27BA-476B-B4DE-93B09EC815A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79110628-27BA-476B-B4DE-93B09EC815A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A02E3DC-B24A-4260-9F58-F30F3E239411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A02E3DC-B24A-4260-9F58-F30F3E239411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A02E3DC-B24A-4260-9F58-F30F3E239411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A02E3DC-B24A-4260-9F58-F30F3E239411}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,5 +91,8 @@ Global
 		{2427CA3A-1DF8-4755-9288-B9B4EC2DCF39} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
 		{0E4FD8C9-9113-43E6-A0DB-C8DB1E89DF3B} = {2427CA3A-1DF8-4755-9288-B9B4EC2DCF39}
 		{2A91A603-9707-48E1-9BC9-9CDFC519ADD6} = {39DF701E-9AB2-47DE-96C4-DCCE641F8449}
+		{6A8C1BAE-B40B-4F12-8C04-8CE911330532} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
+		{79110628-27BA-476B-B4DE-93B09EC815A0} = {2D805782-756E-4C98-B22E-F502BEE95318}
+		{3A02E3DC-B24A-4260-9F58-F30F3E239411} = {2D805782-756E-4C98-B22E-F502BEE95318}
 	EndGlobalSection
 EndGlobal
