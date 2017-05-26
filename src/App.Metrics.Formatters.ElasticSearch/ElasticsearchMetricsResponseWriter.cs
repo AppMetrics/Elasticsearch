@@ -20,7 +20,7 @@ namespace App.Metrics.Formatters.ElasticSearch
         public ElasticsearchMetricsResponseWriter(string index) { _index = index; }
 
         /// <inheritdoc />
-        public string ContentType => "text/plain; app.metrics=vnd.app.metrics.v1.metrics.elasticsarch; elasticsearch=5.4.x;";
+        public string ContentType => "application/vnd.app.metrics.v1.metrics.elasticsarch; elasticsearch=5.4.x";
 
         public Task WriteAsync(HttpContext context, MetricsDataValueSource metricsData, CancellationToken token = default(CancellationToken))
         {
