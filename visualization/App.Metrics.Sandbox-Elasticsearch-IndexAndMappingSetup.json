@@ -1,14 +1,14 @@
 DELETE /appmetricssandbox
 
-PUT appmetricssandbox
-{
+    PUT appmetricssandbox
+    {
     "settings" : {
         "index" : {
             "number_of_shards" : 3,
             "number_of_replicas" : 2
         }
     }
-}
+    }
 
 PUT appmetricssandbox/_mapping/timer?update_all_types
 {
@@ -17,11 +17,19 @@ PUT appmetricssandbox/_mapping/timer?update_all_types
       "type":     "text",
       "fielddata": true
     },
+    "tags.exception": { 
+      "type":     "text",
+      "fielddata": true
+    },
     "tags.app": { 
       "type":     "text",
       "fielddata": true
     },
     "tags.route": { 
+      "type":     "text",
+      "fielddata": true
+    },
+    "tags.server": { 
       "type":     "text",
       "fielddata": true
     },
@@ -51,11 +59,19 @@ PUT appmetricssandbox/_mapping/counter?update_all_types
       "type":     "text",
       "fielddata": true
     },
+    "tags.exception": { 
+      "type":     "text",
+      "fielddata": true
+    },
     "tags.app": { 
       "type":     "text",
       "fielddata": true
     },
     "tags.route": { 
+      "type":     "text",
+      "fielddata": true
+    },
+    "tags.server": { 
       "type":     "text",
       "fielddata": true
     },
@@ -85,11 +101,19 @@ PUT appmetricssandbox/_mapping/apdex?update_all_types
       "type":     "text",
       "fielddata": true
     },
+    "tags.exception": { 
+      "type":     "text",
+      "fielddata": true
+    },
     "tags.app": { 
       "type":     "text",
       "fielddata": true
     },
     "tags.route": { 
+      "type":     "text",
+      "fielddata": true
+    },
+    "tags.server": { 
       "type":     "text",
       "fielddata": true
     },
@@ -119,11 +143,19 @@ PUT appmetricssandbox/_mapping/gauge?update_all_types
       "type":     "text",
       "fielddata": true
     },
+    "tags.exception": { 
+      "type":     "text",
+      "fielddata": true
+    },
     "tags.app": { 
       "type":     "text",
       "fielddata": true
     },
     "tags.route": { 
+      "type":     "text",
+      "fielddata": true
+    },
+    "tags.server": { 
       "type":     "text",
       "fielddata": true
     },
@@ -153,11 +185,19 @@ PUT appmetricssandbox/_mapping/histogram?update_all_types
       "type":     "text",
       "fielddata": true
     },
+    "tags.exception": { 
+      "type":     "text",
+      "fielddata": true
+    },
     "tags.app": { 
       "type":     "text",
       "fielddata": true
     },
     "tags.route": { 
+      "type":     "text",
+      "fielddata": true
+    },
+    "tags.server": { 
       "type":     "text",
       "fielddata": true
     },
@@ -187,6 +227,10 @@ PUT appmetricssandbox/_mapping/meter?update_all_types
       "type":     "text",
       "fielddata": true
     },
+    "tags.exception": { 
+      "type":     "text",
+      "fielddata": true
+    },
     "tags.app": { 
       "type":     "text",
       "fielddata": true
@@ -194,6 +238,10 @@ PUT appmetricssandbox/_mapping/meter?update_all_types
     "tags.route": { 
       "type":     "text",
       "fielddata": true
+    },
+    "tags.server": {
+        "type": "text",
+        "fielddata": true
     },
     "tags.item": { 
       "type":     "text",
@@ -213,6 +261,3 @@ PUT appmetricssandbox/_mapping/meter?update_all_types
     }
   }
 }
-
-
-

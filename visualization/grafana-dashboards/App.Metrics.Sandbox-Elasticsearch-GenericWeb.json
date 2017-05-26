@@ -109,7 +109,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__transactions AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__transactions AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -238,7 +238,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__one_minute_error_percentage_rate",
+                            "query": "name:application.httprequests__one_minute_error_percentage_rate AND tags.server:$server",
                             "rawQuery": false,
                             "refId": "A",
                             "resultFormat": "time_series",
@@ -352,7 +352,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__active AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__active AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -494,7 +494,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__apdex AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__apdex AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -671,7 +671,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__transactions AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__transactions AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -870,7 +870,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__transactions AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__transactions AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -1011,7 +1011,7 @@
                     "points": false,
                     "renderer": "flot",
                     "seriesOverrides": [],
-                    "span": 4,
+                    "span": 6,
                     "stack": false,
                     "steppedLine": false,
                     "targets": [
@@ -1055,7 +1055,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__one_minute_error_percentage_rate AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__one_minute_error_percentage_rate AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -1126,119 +1126,6 @@
                 },
                 {
                     "aliasColors": {},
-                    "cacheTimeout": null,
-                    "combine": {
-                        "label": "Others",
-                        "threshold": 0
-                    },
-                    "datasource": "$datasource",
-                    "editable": true,
-                    "error": false,
-                    "fontSize": "80%",
-                    "format": "percent",
-                    "height": "250px",
-                    "id": 4,
-                    "interval": "",
-                    "legend": {
-                        "percentage": true,
-                        "show": true,
-                        "sort": null,
-                        "sortDesc": null,
-                        "values": true
-                    },
-                    "legendType": "Right side",
-                    "links": [],
-                    "maxDataPoints": 3,
-                    "nullPointMode": "connected",
-                    "pieType": "pie",
-                    "span": 3,
-                    "strokeWidth": 1,
-                    "targets": [
-                        {
-                            "alias": "",
-                            "bucketAggs": [
-                                {
-                                    "fake": true,
-                                    "field": "tags.http_status_code",
-                                    "id": "3",
-                                    "settings": {
-                                        "min_doc_count": 0,
-                                        "order": "desc",
-                                        "orderBy": "_term",
-                                        "size": "0"
-                                    },
-                                    "type": "terms"
-                                },
-                                {
-                                    "field": "@timestamp",
-                                    "id": "2",
-                                    "settings": {
-                                        "interval": "auto",
-                                        "min_doc_count": 0,
-                                        "trimEdges": 0
-                                    },
-                                    "type": "date_histogram"
-                                }
-                            ],
-                            "dsType": "elasticsearch",
-                            "groupBy": [
-                                {
-                                    "params": [
-                                        "http_status_code"
-                                    ],
-                                    "type": "tag"
-                                }
-                            ],
-                            "measurement": "application.httprequests__errors",
-                            "metrics": [
-                                {
-                                    "field": "fields.value",
-                                    "id": "1",
-                                    "meta": {},
-                                    "settings": {},
-                                    "type": "sum"
-                                }
-                            ],
-                            "policy": "default",
-                            "query": "name:application.httprequests__errors AND tags.env:$environment AND tags.app:$application",
-                            "refId": "A",
-                            "resultFormat": "time_series",
-                            "select": [
-                                [
-                                    {
-                                        "params": [
-                                            "value"
-                                        ],
-                                        "type": "field"
-                                    },
-                                    {
-                                        "params": [],
-                                        "type": "sum"
-                                    }
-                                ]
-                            ],
-                            "tags": [
-                                {
-                                    "key": "app",
-                                    "operator": "=~",
-                                    "value": "/^$application$/"
-                                },
-                                {
-                                    "condition": "AND",
-                                    "key": "env",
-                                    "operator": "=~",
-                                    "value": "/^$environment$/"
-                                }
-                            ],
-                            "timeField": "@timestamp"
-                        }
-                    ],
-                    "title": "Errors",
-                    "type": "grafana-piechart-panel",
-                    "valueName": "current"
-                },
-                {
-                    "aliasColors": {},
                     "bars": false,
                     "datasource": "$datasource",
                     "decimals": 2,
@@ -1268,7 +1155,7 @@
                     "points": false,
                     "renderer": "flot",
                     "seriesOverrides": [],
-                    "span": 5,
+                    "span": 6,
                     "stack": false,
                     "steppedLine": false,
                     "targets": [
@@ -1326,7 +1213,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__error_rateAND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__error_rateAND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -1436,6 +1323,258 @@
                             "show": true
                         }
                     ]
+                },
+                {
+                    "aliasColors": {},
+                    "cacheTimeout": null,
+                    "combine": {
+                        "label": "Others",
+                        "threshold": 0
+                    },
+                    "datasource": "$datasource",
+                    "editable": true,
+                    "error": false,
+                    "fontSize": "80%",
+                    "format": "percent",
+                    "height": "250px",
+                    "id": 4,
+                    "interval": "",
+                    "legend": {
+                        "percentage": true,
+                        "show": true,
+                        "sort": null,
+                        "sortDesc": null,
+                        "values": true
+                    },
+                    "legendType": "Right side",
+                    "links": [],
+                    "maxDataPoints": 3,
+                    "nullPointMode": "connected",
+                    "pieType": "pie",
+                    "span": 5,
+                    "strokeWidth": 1,
+                    "targets": [
+                        {
+                            "alias": "",
+                            "bucketAggs": [
+                                {
+                                    "fake": true,
+                                    "field": "tags.http_status_code",
+                                    "id": "3",
+                                    "settings": {
+                                        "min_doc_count": 0,
+                                        "order": "desc",
+                                        "orderBy": "_term",
+                                        "size": "0"
+                                    },
+                                    "type": "terms"
+                                },
+                                {
+                                    "field": "@timestamp",
+                                    "id": "2",
+                                    "settings": {
+                                        "interval": "auto",
+                                        "min_doc_count": 0,
+                                        "trimEdges": 0
+                                    },
+                                    "type": "date_histogram"
+                                }
+                            ],
+                            "dsType": "elasticsearch",
+                            "groupBy": [
+                                {
+                                    "params": [
+                                        "http_status_code"
+                                    ],
+                                    "type": "tag"
+                                }
+                            ],
+                            "measurement": "application.httprequests__errors",
+                            "metrics": [
+                                {
+                                    "field": "fields.value",
+                                    "id": "1",
+                                    "meta": {},
+                                    "settings": {},
+                                    "type": "sum"
+                                }
+                            ],
+                            "policy": "default",
+                            "query": "name:application.httprequests__errors AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
+                            "refId": "A",
+                            "resultFormat": "time_series",
+                            "select": [
+                                [
+                                    {
+                                        "params": [
+                                            "value"
+                                        ],
+                                        "type": "field"
+                                    },
+                                    {
+                                        "params": [],
+                                        "type": "sum"
+                                    }
+                                ]
+                            ],
+                            "tags": [
+                                {
+                                    "key": "app",
+                                    "operator": "=~",
+                                    "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "env",
+                                    "operator": "=~",
+                                    "value": "/^$environment$/"
+                                }
+                            ],
+                            "timeField": "@timestamp"
+                        }
+                    ],
+                    "title": "Errors",
+                    "type": "grafana-piechart-panel",
+                    "valueName": "current"
+                },
+                {
+                    "columns": [
+                        {
+                            "text": "Total",
+                            "value": "total"
+                        }
+                    ],
+                    "datasource": "$datasource",
+                    "editable": true,
+                    "error": false,
+                    "filterNull": true,
+                    "fontSize": "100%",
+                    "id": 23,
+                    "interval": "",
+                    "links": [],
+                    "pageSize": 20,
+                    "scroll": true,
+                    "showHeader": true,
+                    "sort": {
+                        "col": 1,
+                        "desc": true
+                    },
+                    "span": 7,
+                    "styles": [
+                        {
+                            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                            "pattern": "Time",
+                            "type": "date"
+                        },
+                        {
+                            "colorMode": null,
+                            "colors": [
+                                "rgba(245, 54, 54, 0.9)",
+                                "rgba(237, 129, 40, 0.89)",
+                                "rgba(50, 172, 45, 0.97)"
+                            ],
+                            "decimals": null,
+                            "pattern": "/.*/",
+                            "thresholds": [],
+                            "type": "number",
+                            "unit": "none"
+                        }
+                    ],
+                    "targets": [
+                        {
+                            "alias": "",
+                            "bucketAggs": [
+                                {
+                                    "fake": true,
+                                    "field": "tags.exception",
+                                    "id": "3",
+                                    "settings": {
+                                        "min_doc_count": 0,
+                                        "order": "desc",
+                                        "orderBy": "_term",
+                                        "size": "0"
+                                    },
+                                    "type": "terms"
+                                },
+                                {
+                                    "field": "@timestamp",
+                                    "id": "2",
+                                    "settings": {
+                                        "interval": "auto",
+                                        "min_doc_count": 0,
+                                        "trimEdges": 0
+                                    },
+                                    "type": "date_histogram"
+                                }
+                            ],
+                            "dsType": "elasticsearch",
+                            "groupBy": [
+                                {
+                                    "params": [
+                                        "$interval"
+                                    ],
+                                    "type": "time"
+                                },
+                                {
+                                    "params": [
+                                        "route"
+                                    ],
+                                    "type": "tag"
+                                },
+                                {
+                                    "params": [
+                                        "null"
+                                    ],
+                                    "type": "fill"
+                                }
+                            ],
+                            "measurement": "application.httprequests__transactions_per_endpoint",
+                            "metrics": [
+                                {
+                                    "field": "fields.value",
+                                    "id": "1",
+                                    "meta": {},
+                                    "settings": {},
+                                    "type": "max"
+                                }
+                            ],
+                            "policy": "default",
+                            "query": "name:application.httprequests__exceptions AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
+                            "refId": "A",
+                            "resultFormat": "time_series",
+                            "select": [
+                                [
+                                    {
+                                        "params": [
+                                            "rate1m"
+                                        ],
+                                        "type": "field"
+                                    },
+                                    {
+                                        "params": [],
+                                        "type": "last"
+                                    }
+                                ]
+                            ],
+                            "tags": [
+                                {
+                                    "key": "env",
+                                    "operator": "=~",
+                                    "value": "/^$environment$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "app",
+                                    "operator": "=~",
+                                    "value": "/^$application$/"
+                                }
+                            ],
+                            "timeField": "@timestamp"
+                        }
+                    ],
+                    "title": "Uncaught Exceptions Thrown",
+                    "transform": "timeseries_aggregations",
+                    "type": "table"
                 }
             ],
             "repeat": null,
@@ -1543,7 +1682,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__transactions_per_endpointAND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__transactions_per_endpointAND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -1705,7 +1844,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__transactions_per_endpoint AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__transactions_per_endpoint AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -1802,7 +1941,7 @@
                         "col": 1,
                         "desc": true
                     },
-                    "span": 4,
+                    "span": 6,
                     "styles": [
                         {
                             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -1882,7 +2021,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__transactions_per_endpoint AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__transactions_per_endpoint AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -1931,145 +2070,6 @@
                     "error": false,
                     "filterNull": false,
                     "fontSize": "100%",
-                    "id": 11,
-                    "interval": "",
-                    "links": [],
-                    "pageSize": null,
-                    "scroll": true,
-                    "showHeader": true,
-                    "sort": {
-                        "col": null,
-                        "desc": false
-                    },
-                    "span": 4,
-                    "styles": [
-                        {
-                            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                            "pattern": "Time",
-                            "type": "date"
-                        },
-                        {
-                            "colorMode": null,
-                            "colors": [
-                                "rgba(245, 54, 54, 0.9)",
-                                "rgba(237, 129, 40, 0.89)",
-                                "rgba(50, 172, 45, 0.97)"
-                            ],
-                            "decimals": 0,
-                            "pattern": "/.*/",
-                            "thresholds": [],
-                            "type": "number",
-                            "unit": "percent"
-                        }
-                    ],
-                    "targets": [
-                        {
-                            "alias": "",
-                            "bucketAggs": [
-                                {
-                                    "fake": true,
-                                    "field": "tags.route",
-                                    "id": "3",
-                                    "settings": {
-                                        "min_doc_count": 0,
-                                        "order": "desc",
-                                        "orderBy": "1",
-                                        "size": "0"
-                                    },
-                                    "type": "terms"
-                                },
-                                {
-                                    "field": "@timestamp",
-                                    "id": "2",
-                                    "settings": {
-                                        "interval": "auto",
-                                        "min_doc_count": 0,
-                                        "trimEdges": 0
-                                    },
-                                    "type": "date_histogram"
-                                }
-                            ],
-                            "dsType": "elasticsearch",
-                            "groupBy": [
-                                {
-                                    "params": [
-                                        "$interval"
-                                    ],
-                                    "type": "time"
-                                },
-                                {
-                                    "params": [
-                                        "route"
-                                    ],
-                                    "type": "tag"
-                                },
-                                {
-                                    "params": [
-                                        "null"
-                                    ],
-                                    "type": "fill"
-                                }
-                            ],
-                            "measurement": "application.httprequests__one_minute_error_percentage_rate_per_endpoint",
-                            "metrics": [
-                                {
-                                    "field": "fields.value",
-                                    "id": "1",
-                                    "meta": {},
-                                    "settings": {},
-                                    "type": "max"
-                                }
-                            ],
-                            "policy": "default",
-                            "query": "name:application.httprequests__one_minute_error_percentage_rate_per_endpoint AND tags.env:$environment AND tags.app:$application",
-                            "refId": "A",
-                            "resultFormat": "time_series",
-                            "select": [
-                                [
-                                    {
-                                        "params": [
-                                            "value"
-                                        ],
-                                        "type": "field"
-                                    },
-                                    {
-                                        "params": [],
-                                        "type": "last"
-                                    }
-                                ]
-                            ],
-                            "tags": [
-                                {
-                                    "key": "app",
-                                    "operator": "=~",
-                                    "value": "/^$application$/"
-                                },
-                                {
-                                    "condition": "AND",
-                                    "key": "env",
-                                    "operator": "=~",
-                                    "value": "/^$environment$/"
-                                }
-                            ],
-                            "timeField": "@timestamp"
-                        }
-                    ],
-                    "title": "Error Request Percentage / Endpoint",
-                    "transform": "timeseries_aggregations",
-                    "type": "table"
-                },
-                {
-                    "columns": [
-                        {
-                            "text": "Current",
-                            "value": "current"
-                        }
-                    ],
-                    "datasource": "$datasource",
-                    "editable": true,
-                    "error": false,
-                    "filterNull": false,
-                    "fontSize": "100%",
                     "id": 12,
                     "interval": "",
                     "links": [],
@@ -2080,7 +2080,7 @@
                         "col": 1,
                         "desc": true
                     },
-                    "span": 4,
+                    "span": 6,
                     "styles": [
                         {
                             "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -2160,7 +2160,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__transactions_per_endpoint AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__transactions_per_endpoint AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -2194,6 +2194,296 @@
                         }
                     ],
                     "title": "Throughput / Endpoint",
+                    "transform": "timeseries_aggregations",
+                    "type": "table"
+                },
+                {
+                    "columns": [
+                        {
+                            "text": "Current",
+                            "value": "current"
+                        }
+                    ],
+                    "datasource": "$datasource",
+                    "editable": true,
+                    "error": false,
+                    "filterNull": false,
+                    "fontSize": "100%",
+                    "id": 11,
+                    "interval": "",
+                    "links": [],
+                    "pageSize": null,
+                    "scroll": true,
+                    "showHeader": true,
+                    "sort": {
+                        "col": null,
+                        "desc": false
+                    },
+                    "span": 6,
+                    "styles": [
+                        {
+                            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                            "pattern": "Time",
+                            "type": "date"
+                        },
+                        {
+                            "colorMode": null,
+                            "colors": [
+                                "rgba(245, 54, 54, 0.9)",
+                                "rgba(237, 129, 40, 0.89)",
+                                "rgba(50, 172, 45, 0.97)"
+                            ],
+                            "decimals": 0,
+                            "pattern": "/.*/",
+                            "thresholds": [],
+                            "type": "number",
+                            "unit": "percent"
+                        }
+                    ],
+                    "targets": [
+                        {
+                            "alias": "",
+                            "bucketAggs": [
+                                {
+                                    "fake": true,
+                                    "field": "tags.route",
+                                    "id": "3",
+                                    "settings": {
+                                        "min_doc_count": 0,
+                                        "order": "desc",
+                                        "orderBy": "1",
+                                        "size": "0"
+                                    },
+                                    "type": "terms"
+                                },
+                                {
+                                    "field": "@timestamp",
+                                    "id": "2",
+                                    "settings": {
+                                        "interval": "auto",
+                                        "min_doc_count": 0,
+                                        "trimEdges": 0
+                                    },
+                                    "type": "date_histogram"
+                                }
+                            ],
+                            "dsType": "elasticsearch",
+                            "groupBy": [
+                                {
+                                    "params": [
+                                        "$interval"
+                                    ],
+                                    "type": "time"
+                                },
+                                {
+                                    "params": [
+                                        "route"
+                                    ],
+                                    "type": "tag"
+                                },
+                                {
+                                    "params": [
+                                        "null"
+                                    ],
+                                    "type": "fill"
+                                }
+                            ],
+                            "measurement": "application.httprequests__one_minute_error_percentage_rate_per_endpoint",
+                            "metrics": [
+                                {
+                                    "field": "fields.value",
+                                    "id": "1",
+                                    "meta": {},
+                                    "settings": {},
+                                    "type": "max"
+                                }
+                            ],
+                            "policy": "default",
+                            "query": "name:application.httprequests__one_minute_error_percentage_rate_per_endpoint AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
+                            "refId": "A",
+                            "resultFormat": "time_series",
+                            "select": [
+                                [
+                                    {
+                                        "params": [
+                                            "value"
+                                        ],
+                                        "type": "field"
+                                    },
+                                    {
+                                        "params": [],
+                                        "type": "last"
+                                    }
+                                ]
+                            ],
+                            "tags": [
+                                {
+                                    "key": "app",
+                                    "operator": "=~",
+                                    "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "env",
+                                    "operator": "=~",
+                                    "value": "/^$environment$/"
+                                }
+                            ],
+                            "timeField": "@timestamp"
+                        }
+                    ],
+                    "title": "Error Request Percentage / Endpoint",
+                    "transform": "timeseries_aggregations",
+                    "type": "table"
+                },
+                {
+                    "columns": [
+                        {
+                            "text": "Total",
+                            "value": "total"
+                        }
+                    ],
+                    "datasource": "$datasource",
+                    "editable": true,
+                    "error": false,
+                    "filterNull": false,
+                    "fontSize": "100%",
+                    "id": 24,
+                    "interval": "",
+                    "links": [],
+                    "pageSize": null,
+                    "scroll": true,
+                    "showHeader": true,
+                    "sort": {
+                        "col": null,
+                        "desc": false
+                    },
+                    "span": 6,
+                    "styles": [
+                        {
+                            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                            "pattern": "Time",
+                            "type": "date"
+                        },
+                        {
+                            "colorMode": null,
+                            "colors": [
+                                "rgba(245, 54, 54, 0.9)",
+                                "rgba(237, 129, 40, 0.89)",
+                                "rgba(50, 172, 45, 0.97)"
+                            ],
+                            "decimals": 0,
+                            "pattern": "/.*/",
+                            "thresholds": [],
+                            "type": "number",
+                            "unit": "none"
+                        }
+                    ],
+                    "targets": [
+                        {
+                            "alias": "",
+                            "bucketAggs": [
+                                {
+                                    "fake": true,
+                                    "field": "tags.route",
+                                    "id": "3",
+                                    "settings": {
+                                        "min_doc_count": 0,
+                                        "order": "desc",
+                                        "orderBy": "1",
+                                        "size": "0"
+                                    },
+                                    "type": "terms"
+                                },
+                                {
+                                    "fake": true,
+                                    "field": "tags.exception",
+                                    "id": "4",
+                                    "settings": {
+                                        "min_doc_count": 0,
+                                        "order": "asc",
+                                        "orderBy": "1",
+                                        "size": "0"
+                                    },
+                                    "type": "terms"
+                                },
+                                {
+                                    "field": "@timestamp",
+                                    "id": "2",
+                                    "settings": {
+                                        "interval": "auto",
+                                        "min_doc_count": 0,
+                                        "trimEdges": 0
+                                    },
+                                    "type": "date_histogram"
+                                }
+                            ],
+                            "dsType": "elasticsearch",
+                            "groupBy": [
+                                {
+                                    "params": [
+                                        "$interval"
+                                    ],
+                                    "type": "time"
+                                },
+                                {
+                                    "params": [
+                                        "route"
+                                    ],
+                                    "type": "tag"
+                                },
+                                {
+                                    "params": [
+                                        "null"
+                                    ],
+                                    "type": "fill"
+                                }
+                            ],
+                            "measurement": "application.httprequests__one_minute_error_percentage_rate_per_endpoint",
+                            "metrics": [
+                                {
+                                    "field": "fields.value",
+                                    "id": "1",
+                                    "meta": {},
+                                    "settings": {},
+                                    "type": "max"
+                                }
+                            ],
+                            "policy": "default",
+                            "query": "name:application.httprequests__exceptions AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
+                            "refId": "A",
+                            "resultFormat": "time_series",
+                            "select": [
+                                [
+                                    {
+                                        "params": [
+                                            "value"
+                                        ],
+                                        "type": "field"
+                                    },
+                                    {
+                                        "params": [],
+                                        "type": "last"
+                                    }
+                                ]
+                            ],
+                            "tags": [
+                                {
+                                    "key": "app",
+                                    "operator": "=~",
+                                    "value": "/^$application$/"
+                                },
+                                {
+                                    "condition": "AND",
+                                    "key": "env",
+                                    "operator": "=~",
+                                    "value": "/^$environment$/"
+                                }
+                            ],
+                            "timeField": "@timestamp"
+                        }
+                    ],
+                    "title": "Uncaught Exceptions Thrown / Endpoint",
                     "transform": "timeseries_aggregations",
                     "type": "table"
                 }
@@ -2315,7 +2605,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.health__results AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.health__results AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -2464,7 +2754,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.health__score AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.health__score AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -2629,7 +2919,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__post_size AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__post_size AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -2852,7 +3142,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__put_size AND tags.env:$environment AND tags.app:$application",
+                            "query": "name:application.httprequests__put_size AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
@@ -2993,7 +3283,7 @@
     "schemaVersion": 14,
     "style": "dark",
     "tags": [
-        "influxdb"
+        "elasticsearch"
     ],
     "templating": {
         "list": [
@@ -3023,8 +3313,8 @@
             {
                 "allValue": null,
                 "current": {
-                    "text": "app.metrics.sandbox",
-                    "value": "app.metrics.sandbox"
+                    "text": "app.metrics.elasticsearch.sandbox",
+                    "value": "app.metrics.elasticsearch.sandbox"
                 },
                 "datasource": "$datasource",
                 "hide": 0,
@@ -3045,6 +3335,7 @@
             },
             {
                 "current": {
+                    "tags": [],
                     "text": "AppMetricsSandboxES",
                     "value": "AppMetricsSandboxES"
                 },
@@ -3138,6 +3429,31 @@
                 "query": "5s,10s,30s,1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
                 "refresh": 2,
                 "type": "interval"
+            },
+            {
+                "allValue": null,
+                "current": {
+                    "text": "desktop_s95e939",
+                    "value": [
+                        "desktop_s95e939"
+                    ]
+                },
+                "datasource": "$datasource",
+                "hide": 0,
+                "includeAll": true,
+                "label": null,
+                "multi": true,
+                "name": "server",
+                "options": [],
+                "query": "{\"find\": \"terms\", \"field\": \"tags.server\"}",
+                "refresh": 2,
+                "regex": "",
+                "sort": 0,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
             }
         ]
     },
@@ -3171,6 +3487,6 @@
         ]
     },
     "timezone": "browser",
-    "title": "App.Metrics.Sandbox - Elasticsearch- Generic Web",
-    "version": 16
+    "title": "App Metrics - Web Monitoring - Elasticsearch",
+    "version": 26
 }
