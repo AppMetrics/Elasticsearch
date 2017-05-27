@@ -36,8 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.2.0-alpha-0521" />
-    <PackageReference Include="App.Metrics.Extensions.Middleware" Version="1.2.0-alpha-0521" />
+    <PackageReference Include="App.Metrics" Version="1.2.0-alpha-0524" />
+    <PackageReference Include="App.Metrics.Extensions.Middleware" Version="1.2.0-alpha-0524" />
   </ItemGroup>
 
   <ItemGroup>
