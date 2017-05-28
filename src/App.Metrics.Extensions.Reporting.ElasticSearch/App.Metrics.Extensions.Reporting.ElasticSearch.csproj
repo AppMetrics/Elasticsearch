@@ -13,7 +13,7 @@
     <AssemblyName>App.Metrics.Extensions.Reporting.ElasticSearch</AssemblyName>
     <PackageId>App.Metrics.Extensions.Reporting.ElasticSearch</PackageId>
     <PackageTags>Metrics;Monitoring;Instrumentation;Reporting;Elasticsearch</PackageTags>
-    <VersionPrefix>1.1.0</VersionPrefix> 
+    <VersionPrefix>1.1.0-alpha</VersionPrefix> 
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.6|AnyCPU'">
@@ -37,7 +37,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.2.0-alpha-0524" />
+    <PackageReference Include="App.Metrics" Version="1.2.0-*" />
     <PackageReference Include="App.Metrics.Concurrency" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />

@@ -11,7 +11,7 @@
     <AssemblyName>App.Metrics.Formatters.ElasticSearch</AssemblyName>
     <PackageId>App.Metrics.Formatters.ElasticSearch</PackageId>
     <PackageTags>Metrics;Monitoring;Instrumentation;Elasticsearch</PackageTags>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>1.0.0-alpha</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.6|AnyCPU'">
@@ -36,8 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.2.0-alpha-0524" />
-    <PackageReference Include="App.Metrics.Extensions.Middleware" Version="1.2.0-alpha-0524" />
+    <PackageReference Include="App.Metrics" Version="1.2.0-*" />
+    <PackageReference Include="App.Metrics.Extensions.Middleware" Version="1.2.0-*" />
   </ItemGroup>
 
   <ItemGroup>
