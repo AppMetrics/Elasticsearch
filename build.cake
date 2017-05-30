@@ -29,6 +29,7 @@ var buildNumber                 = HasArgument("BuildNumber") ? Argument<int>("Bu
                                   EnvironmentVariable("BuildNumber") != null ? int.Parse(EnvironmentVariable("BuildNumber")) : 0;
 var gitUser						= HasArgument("GitUser") ? Argument<string>("GitUser") : EnvironmentVariable("GitUser");
 var gitPassword					= HasArgument("GitPassword") ? Argument<string>("GitPassword") : EnvironmentVariable("GitPassword");
+var skipHtmlCoverageReport		= Argument("SkipHtmlCoverageReport", true) || !IsRunningOnWindows();
 
 //////////////////////////////////////////////////////////////////////
 // DEFINE FILES & DIRECTORIES
@@ -58,6 +59,7 @@ var openCoverExcludeFile        = "*/*Designer.cs;*/*.g.cs;*/*.g.i.cs";
 var coverIncludeFilter			= "+:App.Metrics*";
 var coverExcludeFilter			= "-:*.Facts";
 var excludeFromCoverage			= "*.AppMetricsExcludeFromCodeCoverage*";
+var versionSuffix				= !string.IsNullOrEmpty(preReleaseSuffix) ? preReleaseSuffix + "-" + buildNumber.ToString("D4") : !AppVeyor.Environment.Repository.Tag.IsTag ? buildNumber.ToString("D4") : null;
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -115,7 +117,13 @@ Task("Build")
     .IsDependentOn("Restore")
     .Does(() =>
 {	
-	var settings = new DotNetCoreBuildSettings  { Configuration = configuration };
+	var settings = new DotNetCoreBuildSettings  { Configuration = configuration, VersionSuffix = versionSuffix };
+
+	Context.Information("Building using preReleaseSuffix: " + preReleaseSuffix);
+	Context.Information("Building using versionSuffix: " + versionSuffix);
+
+	// Workaround to fixing pre-release version package references - https://github.com/NuGet/Home/issues/4337
+	settings.ArgumentCustomization = args=>args.Append("/t:Restore /p:RestoreSources=" + @"""C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\""" + ";https://api.nuget.org/v3/index.json;https://www.myget.org/F/alhardy/api/v3/index.json;");
 
 	if (IsRunningOnWindows())
 	{
@@ -164,17 +172,6 @@ Task("Pack")
 	}
 
 	Context.Information("Packing using preReleaseSuffix: " + preReleaseSuffix);
-
-    string versionSuffix = null;
-    if (!string.IsNullOrEmpty(preReleaseSuffix))
-    {
-        versionSuffix = preReleaseSuffix + "-" + buildNumber.ToString("D4");
-    }
-	else if  (!AppVeyor.Environment.Repository.Tag.IsTag)
-	{
-        versionSuffix = buildNumber.ToString("D4");
-	}
-
 	Context.Information("Packing using versionSuffix: " + versionSuffix);
 
     var settings = new DotNetCorePackSettings
@@ -235,7 +232,7 @@ Task("RunTests")
 });
 
 Task("HtmlCoverageReport")    
-    .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows())    
+    .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows() && !skipHtmlCoverageReport)    
     .IsDependentOn("RunTests")
     .Does(() => 
 {
