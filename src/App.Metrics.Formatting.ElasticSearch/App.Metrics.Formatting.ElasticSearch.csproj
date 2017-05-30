@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics" Version="1.2.0-*" />    
+    <PackageReference Include="App.Metrics" Version="1.2.0-alpha-0540" />    
   </ItemGroup>
 
 </Project>
