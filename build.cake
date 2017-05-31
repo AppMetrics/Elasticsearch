@@ -29,7 +29,7 @@ var buildNumber                 = HasArgument("BuildNumber") ? Argument<int>("Bu
                                   EnvironmentVariable("BuildNumber") != null ? int.Parse(EnvironmentVariable("BuildNumber")) : 0;
 var gitUser						= HasArgument("GitUser") ? Argument<string>("GitUser") : EnvironmentVariable("GitUser");
 var gitPassword					= HasArgument("GitPassword") ? Argument<string>("GitPassword") : EnvironmentVariable("GitPassword");
-var skipHtmlCoverageReport		= Argument<bool>("SkipHtmlCoverageReport", true) || !IsRunningOnWindows();
+// var skipHtmlCoverageReport		= Argument<bool>("SkipHtmlCoverageReport", true) || !IsRunningOnWindows();
 
 //////////////////////////////////////////////////////////////////////
 // DEFINE FILES & DIRECTORIES
@@ -398,16 +398,16 @@ Task("Default")
     .IsDependentOn("Build")
 	.IsDependentOn("PublishTestResults")	
     .IsDependentOn("Pack")
-	.IsDependentOn("HtmlCoverageReport")
+	 // .IsDependentOn("HtmlCoverageReport")
 	.IsDependentOn("RunInspectCode");	
 
 Task("AppVeyor")
     .IsDependentOn("Build")
 	.IsDependentOn("PublishTestResults")	
     .IsDependentOn("Pack")
-	.IsDependentOn("HtmlCoverageReport")
+	// .IsDependentOn("HtmlCoverageReport")
 	.IsDependentOn("RunInspectCode")	
-    	.IsDependentOn("PublishCoverage")
+    .IsDependentOn("PublishCoverage")
 	.IsDependentOn("ReleaseNotes");
 
 //////////////////////////////////////////////////////////////////////
