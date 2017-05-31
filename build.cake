@@ -9,7 +9,7 @@
 #tool "nuget:?package=JetBrains.ReSharper.CommandLineTools"
 #tool "nuget:?package=coveralls.io"
 #tool "nuget:?package=gitreleasemanager"
-#tool "nuget:?package=ReportGenerator"
+// #tool "nuget:?package=ReportGenerator"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -231,25 +231,25 @@ Task("RunTests")
     }
 });
 
-Task("HtmlCoverageReport")    
-    .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows() && !skipHtmlCoverageReport)    
-    .IsDependentOn("RunTests")
-    .Does(() => 
-{
-    if (coverWith == "DotCover")
-	{
-		DotCoverReport(
-				mergedCoverageSnapshots,
-				htmlCoverageReport,
-				new DotCoverReportSettings {
-					ReportType = DotCoverReportType.HTML
-			});
-	}
-	else if (coverWith == "OpenCover")
-	{
-		ReportGenerator(testOCoverageOutputFilePath, coverageResultsDir);
-	}
-});
+// Task("HtmlCoverageReport")    
+//     .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows() && !// skipHtmlCoverageReport)    
+//     .IsDependentOn("RunTests")
+//     .Does(() => 
+// {
+//     if (coverWith == "DotCover")
+// 	{
+// 		DotCoverReport(
+// 				mergedCoverageSnapshots,
+// 				htmlCoverageReport,
+// 				new DotCoverReportSettings {
+// 					ReportType = DotCoverReportType.HTML
+// 			});
+// 	}
+// 	else if (coverWith == "OpenCover")
+// 	{
+// 		ReportGenerator(testOCoverageOutputFilePath, coverageResultsDir);
+// 	}
+// });
 
 Task("RunTestsWithOpenCover")
 	.WithCriteria(() => coverWith == "OpenCover" && IsRunningOnWindows())
