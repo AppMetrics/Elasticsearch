@@ -9,7 +9,7 @@
 #tool "nuget:?package=JetBrains.ReSharper.CommandLineTools"
 #tool "nuget:?package=coveralls.io"
 #tool "nuget:?package=gitreleasemanager"
-// #tool "nuget:?package=ReportGenerator"
+#tool "nuget:?package=ReportGenerator"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -29,7 +29,7 @@ var buildNumber                 = HasArgument("BuildNumber") ? Argument<int>("Bu
                                   EnvironmentVariable("BuildNumber") != null ? int.Parse(EnvironmentVariable("BuildNumber")) : 0;
 var gitUser						= HasArgument("GitUser") ? Argument<string>("GitUser") : EnvironmentVariable("GitUser");
 var gitPassword					= HasArgument("GitPassword") ? Argument<string>("GitPassword") : EnvironmentVariable("GitPassword");
-// var skipHtmlCoverageReport		= Argument<bool>("SkipHtmlCoverageReport", true) || !IsRunningOnWindows();
+var skipHtmlCoverageReport		= Argument<bool>("SkipHtmlCoverageReport", true) || !IsRunningOnWindows();
 
 //////////////////////////////////////////////////////////////////////
 // DEFINE FILES & DIRECTORIES
@@ -59,7 +59,7 @@ var openCoverExcludeFile        = "*/*Designer.cs;*/*.g.cs;*/*.g.i.cs";
 var coverIncludeFilter			= "+:App.Metrics*";
 var coverExcludeFilter			= "-:*.Facts";
 var excludeFromCoverage			= "*.AppMetricsExcludeFromCodeCoverage*";
-var versionSuffix				= !string.IsNullOrEmpty(preReleaseSuffix) ? preReleaseSuffix + "-" + buildNumber.ToString("D4") : !AppVeyor.Environment.Repository.Tag.IsTag ? buildNumber.ToString("D4") : null;
+var versionSuffix				= !string.IsNullOrEmpty(preReleaseSuffix) ? preReleaseSuffix + "-" + buildNumber.ToString("D4") : AppVeyor.IsRunningOnAppVeyor && AppVeyor.Environment.Repository.Tag.IsTag ? buildNumber.ToString("D4") : null;
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -231,25 +231,25 @@ Task("RunTests")
     }
 });
 
-// Task("HtmlCoverageReport")    
-//     .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows() && !// skipHtmlCoverageReport)    
-//     .IsDependentOn("RunTests")
-//     .Does(() => 
-// {
-//     if (coverWith == "DotCover")
-// 	{
-// 		DotCoverReport(
-// 				mergedCoverageSnapshots,
-// 				htmlCoverageReport,
-// 				new DotCoverReportSettings {
-// 					ReportType = DotCoverReportType.HTML
-// 			});
-// 	}
-// 	else if (coverWith == "OpenCover")
-// 	{
-// 		ReportGenerator(testOCoverageOutputFilePath, coverageResultsDir);
-// 	}
-// });
+Task("HtmlCoverageReport")    
+    .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows() && !// skipHtmlCoverageReport)    
+    .IsDependentOn("RunTests")
+    .Does(() => 
+{
+    if (coverWith == "DotCover")
+	{
+		DotCoverReport(
+				mergedCoverageSnapshots,
+				htmlCoverageReport,
+				new DotCoverReportSettings {
+					ReportType = DotCoverReportType.HTML
+			});
+	}
+	else if (coverWith == "OpenCover")
+	{
+		ReportGenerator(testOCoverageOutputFilePath, coverageResultsDir);
+	}
+});
 
 Task("RunTestsWithOpenCover")
 	.WithCriteria(() => coverWith == "OpenCover" && IsRunningOnWindows())
@@ -398,14 +398,14 @@ Task("Default")
     .IsDependentOn("Build")
 	.IsDependentOn("PublishTestResults")	
     .IsDependentOn("Pack")
-	 // .IsDependentOn("HtmlCoverageReport")
+	.IsDependentOn("HtmlCoverageReport")
 	.IsDependentOn("RunInspectCode");	
 
 Task("AppVeyor")
     .IsDependentOn("Build")
 	.IsDependentOn("PublishTestResults")	
     .IsDependentOn("Pack")
-	// .IsDependentOn("HtmlCoverageReport")
+	.IsDependentOn("HtmlCoverageReport")
 	.IsDependentOn("RunInspectCode")	
     .IsDependentOn("PublishCoverage")
 	.IsDependentOn("ReleaseNotes");
