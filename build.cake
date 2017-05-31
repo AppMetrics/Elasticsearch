@@ -232,7 +232,7 @@ Task("RunTests")
 });
 
 Task("HtmlCoverageReport")    
-    .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows() && !// skipHtmlCoverageReport)    
+    .WithCriteria(() => FileExists(testOCoverageOutputFilePath) && coverWith != "None" && IsRunningOnWindows() && !skipHtmlCoverageReport)    
     .IsDependentOn("RunTests")
     .Does(() => 
 {
