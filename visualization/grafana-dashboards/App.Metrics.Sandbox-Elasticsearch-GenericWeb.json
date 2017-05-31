@@ -2,6 +2,7 @@
     "annotations": {
         "list": []
     },
+    "description": "Dashboard to visualize metrics captured by App Metrics ASP.NET Core Middleware 1.2.0, tested with App.Metrics.Extensions.Reporting.ElasticSearch 1.1.0  - http://app-metrics.io/",
     "editable": true,
     "gnetId": null,
     "graphTooltip": 1,
@@ -1585,7 +1586,7 @@
             "titleSize": "h6"
         },
         {
-            "collapse": true,
+            "collapse": false,
             "height": "300",
             "panels": [
                 {
@@ -2496,7 +2497,7 @@
             "titleSize": "h6"
         },
         {
-            "collapse": true,
+            "collapse": false,
             "height": "250",
             "panels": [
                 {
@@ -2821,7 +2822,7 @@
             "titleSize": "h6"
         },
         {
-            "collapse": true,
+            "collapse": false,
             "height": "300",
             "panels": [
                 {
@@ -3290,8 +3291,8 @@
             {
                 "allValue": null,
                 "current": {
-                    "text": "stage",
-                    "value": "stage"
+                    "text": "debug",
+                    "value": "debug"
                 },
                 "datasource": "$datasource",
                 "hide": 0,
@@ -3313,8 +3314,8 @@
             {
                 "allValue": null,
                 "current": {
-                    "text": "app.metrics.elasticsearch.sandbox",
-                    "value": "app.metrics.elasticsearch.sandbox"
+                    "text": "app.metrics.sandbox",
+                    "value": "app.metrics.sandbox"
                 },
                 "datasource": "$datasource",
                 "hide": 0,
@@ -3335,7 +3336,6 @@
             },
             {
                 "current": {
-                    "tags": [],
                     "text": "AppMetricsSandboxES",
                     "value": "AppMetricsSandboxES"
                 },
@@ -3433,10 +3433,8 @@
             {
                 "allValue": null,
                 "current": {
-                    "text": "desktop_s95e939",
-                    "value": [
-                        "desktop_s95e939"
-                    ]
+                    "text": "All",
+                    "value": "$__all"
                 },
                 "datasource": "$datasource",
                 "hide": 0,
@@ -3488,5 +3486,5 @@
     },
     "timezone": "browser",
     "title": "App Metrics - Web Monitoring - Elasticsearch",
-    "version": 26
+    "version": 27
 }

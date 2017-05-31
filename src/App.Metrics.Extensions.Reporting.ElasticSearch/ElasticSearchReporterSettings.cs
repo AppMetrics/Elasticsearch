@@ -12,8 +12,6 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 {
     public class ElasticSearchReporterSettings : IReporterSettings
     {
-        private static readonly string[] SpecialChars = { @"\", @"/", " ", "-", "+", "=", "{", "}", "[", "]", ":", "&", "^", "~", "?", "!", "," };
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="ElasticSearchReporterSettings" /> class.
         /// </summary>
