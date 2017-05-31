@@ -59,7 +59,17 @@ var openCoverExcludeFile        = "*/*Designer.cs;*/*.g.cs;*/*.g.i.cs";
 var coverIncludeFilter			= "+:App.Metrics*";
 var coverExcludeFilter			= "-:*.Facts";
 var excludeFromCoverage			= "*.AppMetricsExcludeFromCodeCoverage*";
-var versionSuffix				= !string.IsNullOrEmpty(preReleaseSuffix) ? preReleaseSuffix + "-" + buildNumber.ToString("D4") : AppVeyor.IsRunningOnAppVeyor && AppVeyor.Environment.Repository.Tag.IsTag ? buildNumber.ToString("D4") : null;
+string versionSuffix			= null;
+
+if (!string.IsNullOrEmpty(preReleaseSuffix))
+{
+	versionSuffix = preReleaseSuffix + "-" + buildNumber.ToString("D4");
+}
+else if (AppVeyor.IsRunningOnAppVeyor && !AppVeyor.Environment.Repository.Tag.IsTag)
+{
+	versionSuffix = buildNumber.ToString("D4");
+}
+
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
