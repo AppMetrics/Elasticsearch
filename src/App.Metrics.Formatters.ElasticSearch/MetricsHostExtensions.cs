@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="host">The metrics host builder.</param>
         /// <param name="index">The elasticsearch index.</param>
         /// <returns>The metrics host builder</returns>
-        public static IMetricsHostBuilder AddDefaultElasticsearchSerialization(this IMetricsHostBuilder host, string index)
+        public static IMetricsHostBuilder AddElasticsearchSerialization(this IMetricsHostBuilder host, string index)
         {
             host.AddElasticsearchMetricsSerialization(index);
             host.AddElasticsearchMetricsTextSerialization(index);
