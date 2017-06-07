@@ -69,28 +69,18 @@ namespace App.Metrics.Elasticsearch.Sandbox
             var reportFilter = new DefaultMetricsFilter();
             reportFilter.WithHealthChecks(false);
 
-            services.AddMetrics(
-                         Configuration.GetSection("AppMetrics"),
-                         options =>
-                         {
-                             options.WithGlobalTags(
-                                 (globalTags, info) => { globalTags.Add("app", info.EntryAssemblyName); });
-                         }).
-                     AddJsonSerialization().
+            services.AddMetrics(Configuration.GetSection("AppMetrics")).                 
+                     AddJsonHealthSerialization().
+                     // AddJsonMetricsTextSerialization().
+                     AddElasticsearchMetricsTextSerialization(ElasticSearchIndex).
+                     AddElasticsearchMetricsSerialization(ElasticSearchIndex).
                      AddReporting(
                          factory =>
                          {
                              factory.AddElasticSearch(
                                  new ElasticSearchReporterSettings
-                                 {
-                                     HttpPolicy = new HttpPolicy
-                                                  {
-                                                      FailuresBeforeBackoff = 3,
-                                                      BackoffPeriod = TimeSpan.FromSeconds(30),
-                                                      Timeout = TimeSpan.FromSeconds(10)
-                                                  },
-                                     ElasticSearchSettings = new ElasticSearchSettings(ElasticSearchUri, ElasticSearchIndex),
-                                     ReportInterval = TimeSpan.FromSeconds(5)
+                                 {                                    
+                                     ElasticSearchSettings = new ElasticSearchSettings(ElasticSearchUri, ElasticSearchIndex)                                     
                                  },
                                  reportFilter);
                          }).

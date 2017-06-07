@@ -1,38 +1,43 @@
-# App Metrics Elasticsearch Extensions
-
-[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg)](https://alhardy.github.io/app-metrics-docs/getting-started/intro.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Coverage Status](https://coveralls.io/repos/github/alhardy/AppMetrics.Extensions.Elasticsearch/badge.svg?branch=master)](https://coveralls.io/github/alhardy/AppMetrics.Extension.Elasticsearch?branch=master)
-
-|AppVeyor|Travis|
-|:--------:|:--------:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/cp8297646ddrj1r3?svg=true)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/master)|[![Build status](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch.svg?branch=master)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch?branch=master)|
-
-|Package|Dev Release|PreRelease|Latest Release|
-|------|:--------:|:--------:|:--------:|
-|App.Metrics.Extensions.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)
+# App Metrics Elasticsearch Extensions <img src="http://app-metrics.io/logo.png" alt="App Metrics" width="50px"/> 
+[![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg?style=flat-square)](http://app-metrics.io/reporting/elasticsearch.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 ## What is it?
 
 The repo contains Elasticsearch extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
 
+## Latest Builds, Packages & Repo Stats
+
+|Branch|AppVeyor|Travis|Coverage|
+|------|:--------:|:--------:|:--------:|
+|dev|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/appmetrics-extensions-elasticsearch/dev.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/dev)|[![Travis](https://img.shields.io/travis/alhardy/AppMetrics.Extensions.Elasticsearch/dev.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch)|[![Coveralls](https://img.shields.io/coveralls/alhardy/AppMetrics.Extensions.Elasticsearch/dev.svg?style=flat-square)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.Elasticsearch?branch=dev)
+|master|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/appmetrics-extensions-elasticsearch/master.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/master)| [![Travis](https://img.shields.io/travis/alhardy/AppMetrics.Extensions.Elasticsearch/master.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch)| [![Coveralls](https://img.shields.io/coveralls/alhardy/AppMetrics.Extensions.Elasticsearch/master.svg?style=flat-square)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.Elasticsearch?branch=master)|
+
+|Package|Dev Release|PreRelease|Latest Release|
+|------|:--------:|:--------:|:--------:|
+|App.Metrics.Extensions.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg?style=flat-square)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)
+|App.Metrics.Formatters.ElasticSearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Formatters.ElasticSearch.svg?style=flat-square)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Formatters.ElasticSearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Formatters.ElasticSearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.ElasticSearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Formatters.ElasticSearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.ElasticSearch/)
+|App.Metrics.Formatting.ElasticSearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Formatting.ElasticSearch.svg?style=flat-square)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Formatting.ElasticSearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Formatting.ElasticSearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatting.ElasticSearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Formatting.ElasticSearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatting.ElasticSearch/)
+
+
 #### Grafana/Elasticsearch Web Monitoring
 
-![Grafana/InfluxDB Generic Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
+![Grafana/Elasticsearch Generic Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWeb.json)
+> Grab the dashboard [here](https://grafana.com/dashboards/2140)
 
 #### Grafana/Elasticsearch OAuth2 Client Web Monitoring
 
-![Grafana/InfluxDB Generic OAuth2 Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
+![Grafana/Elasticsearch Generic OAuth2 Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
 
-> Grab the dashboard [here](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWebOAuth2.json)
+> Grab the dashboard [here](https://grafana.com/dashboards/2143)
 
 ### Grafana/Elasticsearch Web Application Setup
 
 - Download and run [Elasticsearch](https://www.elastic.co/downloads/elasticsearch).
 - Create a new [ES Index and metric field mappings](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/App.Metrics.Sandbox-Elasticsearch-IndexAndMappingSetup.json). *Keep note of this for configuring the Elasticsearch reporter in your web application and configuring the Elasticsearch Datasource in Grafana*
-- Download and install [Grafana](https://grafana.com/grafana/download), then create a new [Elasticsearch Datasource](http://docs.grafana.org/features/datasources/influxdb/)  pointing to the Index just created and import App.Metrics [web dashboard](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWeb.json)
+- Download and install [Grafana](https://grafana.com/grafana/download), then create a new [Elasticsearch Datasource](http://docs.grafana.org/features/datasources/elasticsearch/)  pointing to the Index just created and [import](http://docs.grafana.org/reference/export_import/#importing-a-dashboard) App.Metrics [web dashboard](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWeb.json)
 - Drop in the `App.Metrics.Extensions.Mvc` and `App.Metrics.Extensions.Reporting.Elasticsearch` nuget packages into your web application. 
-- Add [App.Metrics configuration](https://alhardy.github.io/app-metrics-docs/getting-started/fundamentals/middleware-configuration.html) to the `Startup.cs` of your web application, including the [InfluxDB reporter configuration](https://alhardy.github.io/app-metrics-docs/getting-started/reporting/index.html#influxdb-reporter). *You might want to check out the [Sandbox](https://github.com/alhardy/AppMetrics/tree/1.1.0-alpha/sandbox/App.Metrics.Sandbox) or [Sample](https://github.com/alhardy/AppMetrics.Samples) projects if you get stuck*
+- Add [App.Metrics configuration](https://alhardy.github.io/app-metrics-docs/getting-started/fundamentals/middleware-configuration.html) to the `Startup.cs` of your web application, including the [Elasticsearch reporter configuration](http://app-metrics.io/reporting/elasticsearch.html). *You might want to check out the [Sandbox](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/tree/dev/sandbox/App.Metrics.Elasticsearch.Sandbox) or [Sample](https://github.com/alhardy/AppMetrics.Samples) projects if you get stuck*
 - Run your app and Grafana at visit `http://localhost:3000`
 
 ## How to build

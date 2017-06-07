@@ -6,45 +6,68 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using App.Metrics.Reporting;
 using App.Metrics.Reporting.Abstractions;
 using App.Metrics.Tagging;
 using Newtonsoft.Json;
 
-namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
+namespace App.Metrics.Formatting.ElasticSearch
 {
     public class BulkPayloadBuilder : IMetricPayloadBuilder<BulkPayload>
     {
+        private readonly string _index;
         private readonly Func<string, string> _metricTagValueFormatter;
+        private readonly Func<string, string, string> _metricNameFormatter;
         private readonly JsonSerializer _serializer;
-        private readonly ElasticSearchSettings _settings;
         private BulkPayload _payload;
 
-        public BulkPayloadBuilder(ElasticSearchSettings settings, Func<string, string> metricTagValueFormatter)
+        public BulkPayloadBuilder(
+            string index,
+            Func<string, string, string> metricNameFormatter = null,
+            Func<string, string> metricTagValueFormatter = null,
+            MetricValueDataKeys dataKeys = null)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-            _metricTagValueFormatter = metricTagValueFormatter;
+            if (string.IsNullOrWhiteSpace(index))
+            {
+                throw new ArgumentNullException(nameof(index), "The elasticsearch index name cannot be null or whitespace");
+            }
+
+            _index = index;
+            _metricNameFormatter = metricNameFormatter ?? Constants.ElasticsearchDefaults.MetricNameFormatter;
+            _metricTagValueFormatter = metricTagValueFormatter ?? Constants.ElasticsearchDefaults.MetricTagValueFormatter;
             _serializer = JsonSerializer.Create();
+            _payload = new BulkPayload(_serializer, _index);
+            DataKeys = dataKeys ?? new MetricValueDataKeys();
         }
 
+        /// <inheritdoc />
+        public MetricValueDataKeys DataKeys { get; }
+
+        /// <inheritdoc />
         public void Clear() { _payload = null; }
 
-        public void Init() { _payload = new BulkPayload(_serializer, _settings.Index); }
+        /// <inheritdoc />
+        public void Init() { _payload = new BulkPayload(_serializer, _index); }
 
-        public void Pack(string name, object value, MetricTags tags)
+        /// <inheritdoc />
+        public void Pack(string context, string name, object value, MetricTags tags)
         {
             var tagKeyValues = tags.ToDictionary(_metricTagValueFormatter);
+            var measurement = _metricNameFormatter(context, name);
 
             _payload.Add(
                 new MetricsDocument
                 {
                     MeasurementType = tagKeyValues["mtype"],
-                    MeasurementName = name,
+                    MeasurementName = measurement,
                     Fields = new Dictionary<string, object> { { "value", value } },
                     Tags = tagKeyValues
                 });
         }
 
+        /// <inheritdoc />
         public void Pack(
+            string context,
             string name,
             IEnumerable<string> columns,
             IEnumerable<object> values,
@@ -52,19 +75,22 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
         {
             var fields = columns.Zip(values, (column, data) => new { column, data }).ToDictionary(pair => pair.column, pair => pair.data);
             var tagKeyValues = tags.ToDictionary(_metricTagValueFormatter);
+            var measurement = _metricNameFormatter(context, name);
 
             _payload.Add(
                 new MetricsDocument
                 {
                     MeasurementType = tagKeyValues["mtype"],
-                    MeasurementName = name,
+                    MeasurementName = measurement,
                     Fields = fields,
                     Tags = tagKeyValues
                 });
         }
 
+        /// <inheritdoc />
         public BulkPayload Payload() { return _payload; }
 
+        /// <inheritdoc />
         public string PayloadFormatted()
         {
             var result = new StringWriter();

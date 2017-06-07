@@ -6,6 +6,7 @@ using System;
 using App.Metrics.Abstractions.Filtering;
 using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
+using App.Metrics.Formatting.ElasticSearch;
 using App.Metrics.Internal;
 using App.Metrics.Reporting;
 using Microsoft.Extensions.Logging;
@@ -32,20 +33,27 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch
 
         public IMetricReporter CreateMetricReporter(string name, ILoggerFactory loggerFactory)
         {
-            var lineProtocolClient = new ElasticSearchBulkClient(
+            var elasticSearchBulkClient = new ElasticSearchBulkClient(
                 loggerFactory,
                 _settings.ElasticSearchSettings,
                 _settings.HttpPolicy);
-            var payloadBuilder = new BulkPayloadBuilder(_settings.ElasticSearchSettings, _settings.MetricTagValueFormatter);
+
+            var payloadBuilder = new BulkPayloadBuilder(
+                _settings.ElasticSearchSettings.Index,
+                _settings.MetricNameFormatter,
+                _settings.MetricTagValueFormatter,
+                _settings.DataKeys);
 
             return new ReportRunner<BulkPayload>(
-                async p => await lineProtocolClient.WriteAsync(p.Payload()),
+                async p =>
+                {
+                    var result = await elasticSearchBulkClient.WriteAsync(p.Payload());
+                    return result;
+                },
                 payloadBuilder,
                 _settings.ReportInterval,
                 name,
-                loggerFactory,
-                _settings.MetricNameFormatter,
-                _settings.DataKeys);
+                loggerFactory);
         }
     }
 }
