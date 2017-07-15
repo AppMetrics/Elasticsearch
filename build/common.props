@@ -1,5 +1,9 @@
 <Project>
+  <Import Project="dependencies.props" />
+  <Import Project="..\version.props" />
+  
 	<PropertyGroup>
+    <Product>App Metrics</Product>
 		<Copyright>Allan Hardy 2016</Copyright>
 		<Authors>Allan Hardy;Jenya Y.</Authors>
 		<NoWarn>$(NoWarn);1701;1702;1705;CS1591;CS1570</NoWarn>
@@ -7,16 +11,21 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<PackageIconUrl>http://app-metrics.io/logo.png</PackageIconUrl>
 		<PackageProjectUrl>http://app-metrics.io/reporting/elasticsearch.html</PackageProjectUrl>
-		<PackageLicenseUrl>https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageLicenseUrl>https://github.com/AppMetrics/Elasticsearch/blob/master/LICENSE</PackageLicenseUrl>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryUrl>git@github.com:alhardy/AppMetrics.Extensions.Elasticsearch.git</RepositoryUrl>
+		<RepositoryUrl>git://github.com/AppMetrics/Elasticsearch</RepositoryUrl>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
 		<GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-		<CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>		
-		<DebugType>full</DebugType>
+		<CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>
+    <!--Required for OpenCover-->
+    <DebugType>full</DebugType>
 	</PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)'=='.NETFramework'">
+    <PackageReference Include="NETStandard.Library.NETFramework" Version="$(NETStandardLibraryNETFrameworkVersion)" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json" />		

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\build\common.props" />
+
+  <PropertyGroup>
+    <Description>Provides Elasticsearch reporting capability to App Metrics.</Description>        
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>           
+    <PackageTags>appmetrics;reporting;elasticsearch</PackageTags>    
+  </PropertyGroup>
+
+ <ItemGroup>
+    <ProjectReference Include="..\App.Metrics.Formatters.Elasticsearch\App.Metrics.Formatters.Elasticsearch.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.Reporting" Version="$(AppMetricsReportingVersion)" />
+  </ItemGroup>
+
+</Project>

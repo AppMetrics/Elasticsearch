@@ -4,11 +4,8 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using App.Metrics.Core;
-using App.Metrics.Extensions.Middleware.Abstractions;
-using App.Metrics.Formatting;
 using App.Metrics.Formatting.ElasticSearch;
-using App.Metrics.Reporting;
+using App.Metrics.Middleware;
 using Microsoft.AspNetCore.Http;
 
 namespace App.Metrics.Formatters.ElasticSearch

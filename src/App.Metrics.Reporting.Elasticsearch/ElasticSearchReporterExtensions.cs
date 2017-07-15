@@ -3,10 +3,9 @@
 // </copyright>
 
 using System;
-using App.Metrics.Abstractions.Filtering;
 using App.Metrics.Extensions.Reporting.ElasticSearch;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
-using App.Metrics.Reporting.Abstractions;
+using App.Metrics.Filters;
 
 // ReSharper disable CheckNamespace
 namespace App.Metrics.Reporting.Interfaces

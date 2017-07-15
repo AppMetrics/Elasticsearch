@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26621.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D805782-756E-4C98-B22E-F502BEE95318}"
 EndProject
@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		AppMetrics.ruleset = AppMetrics.ruleset
 		appveyor.yml = appveyor.yml
 		stylecop.json = stylecop.json
+		version.props = version.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DD2E4647-7125-4CE3-9BA5-B45A26113A31}"
@@ -32,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{4199989A-27B
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Extensions.Reporting.ElasticSearch", "src\App.Metrics.Extensions.Reporting.ElasticSearch\App.Metrics.Extensions.Reporting.ElasticSearch.csproj", "{681A90A6-CE3B-41D0-93FE-5C57849A120D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Reporting.Elasticsearch", "src\App.Metrics.Reporting.Elasticsearch\App.Metrics.Reporting.Elasticsearch.csproj", "{681A90A6-CE3B-41D0-93FE-5C57849A120D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visualization", "visualization", "{2427CA3A-1DF8-4755-9288-B9B4EC2DCF39}"
 	ProjectSection(SolutionItems) = preProject
@@ -52,11 +53,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{6A8C1BAE-B40B-4F12-8C04-8CE911330532}"
 	ProjectSection(SolutionItems) = preProject
 		build\common.props = build\common.props
+		build\dependencies.props = build\dependencies.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatters.ElasticSearch", "src\App.Metrics.Formatters.ElasticSearch\App.Metrics.Formatters.ElasticSearch.csproj", "{79110628-27BA-476B-B4DE-93B09EC815A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.AspNetCore.Formatters.Elasticsearch", "src\App.Metrics.AspNetCore.Formatters.Elasticsearch\App.Metrics.AspNetCore.Formatters.Elasticsearch.csproj", "{79110628-27BA-476B-B4DE-93B09EC815A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatting.ElasticSearch", "src\App.Metrics.Formatting.ElasticSearch\App.Metrics.Formatting.ElasticSearch.csproj", "{3A02E3DC-B24A-4260-9F58-F30F3E239411}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatters.Elasticsearch", "src\App.Metrics.Formatters.Elasticsearch\App.Metrics.Formatters.Elasticsearch.csproj", "{3A02E3DC-B24A-4260-9F58-F30F3E239411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,5 +96,8 @@ Global
 		{6A8C1BAE-B40B-4F12-8C04-8CE911330532} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
 		{79110628-27BA-476B-B4DE-93B09EC815A0} = {2D805782-756E-4C98-B22E-F502BEE95318}
 		{3A02E3DC-B24A-4260-9F58-F30F3E239411} = {2D805782-756E-4C98-B22E-F502BEE95318}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FEF43CF5-EE49-4675-8B6F-6F19E2F86D69}
 	EndGlobalSection
 EndGlobal

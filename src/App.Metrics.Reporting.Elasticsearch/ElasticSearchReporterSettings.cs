@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using App.Metrics.Abstractions.Reporting;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 using App.Metrics.Reporting;
 using EsConstants = App.Metrics.Formatting.ElasticSearch.Constants;

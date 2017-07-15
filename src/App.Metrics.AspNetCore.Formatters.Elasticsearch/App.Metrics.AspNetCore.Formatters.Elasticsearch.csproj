@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\build\common.props" />
+
+  <PropertyGroup>    
+	<Description>App Metrics ASP.NET Core Elasticsearch allows metrics data to be formatted in Elasticsearch formats on metric endpoints.</Description>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageTags>appmetrics;elasticsearch</PackageTags>    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\App.Metrics.Formatters.Elasticsearch\App.Metrics.Formatters.Elasticsearch.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.AspNetCore.Abstractions" Version="$(AppMetricsAspNetCoreVersion)" />
+  </ItemGroup>
+
+</Project>
