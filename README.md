@@ -1,22 +1,22 @@
-# App Metrics Elasticsearch Extensions <img src="http://app-metrics.io/logo.png" alt="App Metrics" width="50px"/> 
+# App Metrics Elasticsearch <img src="http://app-metrics.io/logo.png" alt="App Metrics" width="50px"/> 
 [![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg?style=flat-square)](http://app-metrics.io/reporting/elasticsearch.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 ## What is it?
 
-The repo contains Elasticsearch extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
+This repo contains Elasticsearch extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
 
 ## Latest Builds, Packages & Repo Stats
 
 |Branch|AppVeyor|Travis|Coverage|
 |------|:--------:|:--------:|:--------:|
-|dev|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/appmetrics-extensions-elasticsearch/dev.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/dev)|[![Travis](https://img.shields.io/travis/alhardy/AppMetrics.Extensions.Elasticsearch/dev.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch)|[![Coveralls](https://img.shields.io/coveralls/alhardy/AppMetrics.Extensions.Elasticsearch/dev.svg?style=flat-square)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.Elasticsearch?branch=dev)
-|master|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/appmetrics-extensions-elasticsearch/master.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/appmetrics-extensions-elasticsearch/branch/master)| [![Travis](https://img.shields.io/travis/alhardy/AppMetrics.Extensions.Elasticsearch/master.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/AppMetrics.Extensions.Elasticsearch)| [![Coveralls](https://img.shields.io/coveralls/alhardy/AppMetrics.Extensions.Elasticsearch/master.svg?style=flat-square)](https://coveralls.io/github/alhardy/AppMetrics.Extensions.Elasticsearch?branch=master)|
+|dev|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/elasticsearch/dev.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/elasticsearch/branch/dev)|[![Travis](https://img.shields.io/travis/alhardy/Elasticsearch/dev.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/Elasticsearch)|[![Coveralls](https://img.shields.io/coveralls/AppMetrics/Elasticsearch/dev.svg?style=flat-square)](https://coveralls.io/github/AppMetrics/Elasticsearch?branch=dev)
+|master|[![AppVeyor](https://img.shields.io/appveyor/ci/alhardy/elasticsearch/master.svg?style=flat-square&label=appveyor%20build)](https://ci.appveyor.com/project/alhardy/elasticsearch/branch/master)| [![Travis](https://img.shields.io/travis/alhardy/Elasticsearch/master.svg?style=flat-square&label=travis%20build)](https://travis-ci.org/alhardy/Elasticsearch)| [![Coveralls](https://img.shields.io/coveralls/AppMetrics/Elasticsearch/master.svg?style=flat-square)](https://coveralls.io/github/Elasticsearch/Elasticsearch?branch=master)|
 
 |Package|Dev Release|PreRelease|Latest Release|
 |------|:--------:|:--------:|:--------:|
-|App.Metrics.Extensions.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg?style=flat-square)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Extensions.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Extensions.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Extensions.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Extensions.Reporting.Elasticsearch/)
-|App.Metrics.Formatters.ElasticSearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Formatters.ElasticSearch.svg?style=flat-square)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Formatters.ElasticSearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Formatters.ElasticSearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.ElasticSearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Formatters.ElasticSearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.ElasticSearch/)
-|App.Metrics.Formatting.ElasticSearch|[![MyGet Status](https://img.shields.io/myget/alhardy/v/App.Metrics.Formatting.ElasticSearch.svg?style=flat-square)](https://www.myget.org/feed/alhardy/package/nuget/App.Metrics.Formatting.ElasticSearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Formatting.ElasticSearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatting.ElasticSearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Formatting.ElasticSearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatting.ElasticSearch/)
+|App.Metrics.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.Reporting.Elasticsearch.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Reporting.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Reporting.Elasticsearch/)
+|App.Metrics.AspNetCore.Formatters.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.AspNetCore.Formatters.Elasticsearch.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.AspNetCore.Formatters.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.AspNetCore.Formatters.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.AspNetCore.Formatters.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.AspNetCore.Formatters.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.AspNetCore.Formatters.Elasticsearch/)
+|App.Metrics.Formatters.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.Formatters.Elasticsearch.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.Formatters.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Formatters.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Formatters.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.Elasticsearch/)
 
 
 #### Grafana/Elasticsearch Web Monitoring
@@ -82,11 +82,6 @@ Run `build.sh` from the repositories root directory. Code Coverage reports are n
 ```
 	.\build.sh --ScriptArgs '-BuildConfiguration=Release -PreReleaseSuffix=beta -BuildNumber=1'
 ```
-
-> #### Nuget Packages
-> Nuget packages won't be generated on non-windows environments by default.
-> 
-> Unfortunately there is [currently no way out-of-the-box to conditionally build & pack a project by framework](https://github.com/dotnet/roslyn-project-system/issues/1586#issuecomment-280978851). Because `App.Metrics` packages target `.NET 4.5.2` as well as `dotnet standard` there is a work around in the build script to force `dotnet standard` on build but no work around for packaging on non-windows environments. 
 
 ## Contributing
 
