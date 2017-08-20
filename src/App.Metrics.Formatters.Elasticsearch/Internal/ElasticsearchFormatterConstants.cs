@@ -1,15 +1,14 @@
-﻿// <copyright file="Constants.cs" company="Allan Hardy">
+﻿// <copyright file="ElasticsearchFormatterConstants.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using App.Metrics.Reporting;
 
-namespace App.Metrics.Formatting.ElasticSearch
+namespace App.Metrics.Formatters.Elasticsearch.Internal
 {
-    public static class Constants
+    public static class ElasticsearchFormatterConstants
     {
         public class ElasticsearchDefaults
         {

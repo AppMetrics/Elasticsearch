@@ -37,8 +37,7 @@ var skipHtmlCoverageReport		= HasArgument("SkipHtmlCoverageReport") ? Argument<b
 var packDirs                    = new [] 
 										{ 
 											Directory("./src/App.Metrics.Reporting.Elasticsearch"), 
-											Directory("./src/App.Metrics.Formatters.Elasticsearch"), 
-											Directory("./src/App.Metrics.AspNetCore.Formatters.Elasticsearch") 
+											Directory("./src/App.Metrics.Formatters.Elasticsearch")											
 										};
 var artifactsDir                = (DirectoryPath) Directory("./artifacts");
 var testResultsDir              = (DirectoryPath) artifactsDir.Combine("test-results");

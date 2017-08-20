@@ -1,16 +1,22 @@
-﻿// <copyright file="ElasticSearchSettings.cs" company="Allan Hardy">
+﻿// <copyright file="ElasticsearchOptions.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
 using System;
+using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 
-namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
+namespace App.Metrics.Reporting.Elasticsearch
 {
-    public class ElasticSearchSettings
+    public class ElasticsearchOptions
     {
-        public ElasticSearchSettings(Uri address, string indexName)
+        public ElasticsearchOptions()
         {
-            Address = address ?? throw new ArgumentNullException(nameof(address));
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Anonymous;
+        }
+
+        public ElasticsearchOptions(Uri address, string indexName)
+        {
+            BaseUri = address ?? throw new ArgumentNullException(nameof(address));
             Index = indexName ?? throw new ArgumentNullException(nameof(indexName));
 
             if (string.IsNullOrWhiteSpace(indexName))
@@ -21,7 +27,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             AuthorizationSchema = ElasticSearchAuthorizationSchemes.Basic;
         }
 
-        public ElasticSearchSettings(Uri address, string indexName, string userName, string password)
+        public ElasticsearchOptions(Uri address, string indexName, string userName, string password)
             : this(address, indexName)
         {
             UserName = userName ?? throw new ArgumentNullException(nameof(userName));
@@ -40,7 +46,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             AuthorizationSchema = ElasticSearchAuthorizationSchemes.Anonymous;
         }
 
-        public ElasticSearchSettings(Uri address, string indexName, string bearerToken)
+        public ElasticsearchOptions(Uri address, string indexName, string bearerToken)
             : this(address, indexName)
         {
             BearerToken = bearerToken ?? throw new ArgumentNullException(nameof(bearerToken));
@@ -53,16 +59,16 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
             AuthorizationSchema = ElasticSearchAuthorizationSchemes.BearerToken;
         }
 
-        public Uri Address { get; }
+        public Uri BaseUri { get; set; }
 
-        public ElasticSearchAuthorizationSchemes AuthorizationSchema { get; }
+        public ElasticSearchAuthorizationSchemes AuthorizationSchema { get; set; }
 
-        public string BearerToken { get; }
+        public string BearerToken { get; set; }
 
-        public string Index { get; }
+        public string Index { get; set; }
 
-        public string Password { get; }
+        public string Password { get; set; }
 
-        public string UserName { get; }
+        public string UserName { get; set; }
     }
 }

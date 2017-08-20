@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace App.Metrics.Formatting.ElasticSearch
+namespace App.Metrics.Formatters.Elasticsearch.Internal
 {
     public class BulkPayload
     {
@@ -22,7 +22,7 @@ namespace App.Metrics.Formatting.ElasticSearch
 
             if (string.IsNullOrWhiteSpace(indexName))
             {
-                throw new ArgumentException("Cannot be empty", nameof(indexName));
+                throw new ArgumentNullException(nameof(indexName), "The elasticsearch index name cannot be null or whitespace");
             }
 
             _documents = new List<MetricsDocument>();
@@ -38,7 +38,7 @@ namespace App.Metrics.Formatting.ElasticSearch
             _documents.Add(document);
         }
 
-        public void Format(TextWriter textWriter)
+        public void Write(TextWriter textWriter)
         {
             if (textWriter == null)
             {
@@ -50,6 +50,7 @@ namespace App.Metrics.Formatting.ElasticSearch
                 _serializer.Serialize(
                     textWriter,
                     new BulkDocumentMetaData(_indexName, document.MeasurementType));
+
                 textWriter.Write('\n');
                 _serializer.Serialize(textWriter, document);
                 textWriter.Write('\n');

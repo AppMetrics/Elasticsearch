@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace App.Metrics.Formatting.ElasticSearch
+namespace App.Metrics.Formatters.Elasticsearch.Internal
 {
     public class MetricsDocument
     {

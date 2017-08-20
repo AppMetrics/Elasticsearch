@@ -1,58 +1,51 @@
-﻿// <copyright file="ElasticSearchReporterProvider.cs" company="Allan Hardy">
+﻿// <copyright file="ElasticsearchReporterProvider.cs" company="Allan Hardy">
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
 using System;
-using App.Metrics.Core.Filtering;
-using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using App.Metrics.Filters;
-using App.Metrics.Formatting.ElasticSearch;
-using App.Metrics.Reporting;
-using Microsoft.Extensions.Logging;
+using App.Metrics.Reporting.Elasticsearch.Client;
+using Microsoft.Extensions.Options;
 
-namespace App.Metrics.Extensions.Reporting.ElasticSearch
+namespace App.Metrics.Reporting.Elasticsearch
 {
-    public class ElasticSearchReporterProvider : IReporterProvider
+    public class ElasticsearchReporterProvider : IReporterProvider
     {
-        private readonly ElasticSearchReporterSettings _settings;
+        private readonly IOptions<MetricsReportingElasticsearchOptions> _elasticsearchOptionsAccessor;
+        private readonly IElasticsearchClient _elasticsearchClient;
 
-        public ElasticSearchReporterProvider(ElasticSearchReporterSettings settings)
+        public ElasticsearchReporterProvider(
+            IOptions<MetricsReportingOptions> optionsAccessor,
+            IOptions<MetricsReportingElasticsearchOptions> elasticsearchReportingOptionsAccessor,
+            IElasticsearchClient elasticsearchClient)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-            Filter = new NoOpMetricsFilter();
+            _elasticsearchOptionsAccessor = elasticsearchReportingOptionsAccessor ?? throw new ArgumentNullException(nameof(elasticsearchReportingOptionsAccessor));
+            _elasticsearchClient = elasticsearchClient ?? throw new ArgumentNullException(nameof(elasticsearchClient));
+            Filter = elasticsearchReportingOptionsAccessor.Value.Filter ?? optionsAccessor.Value.Filter;
+            ReportInterval = elasticsearchReportingOptionsAccessor.Value.ReportInterval;
         }
 
-        public ElasticSearchReporterProvider(ElasticSearchReporterSettings settings, IFilterMetrics fitler)
-        {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-            Filter = fitler ?? new NoOpMetricsFilter();
-        }
-
+        /// <inheritdoc />
         public IFilterMetrics Filter { get; }
 
-        public IMetricReporter CreateMetricReporter(string name, ILoggerFactory loggerFactory)
+        /// <inheritdoc />
+        public TimeSpan ReportInterval { get; }
+
+        /// <inheritdoc />
+        public async Task<bool> FlushAsync(MetricsDataValueSource metricsData, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var elasticSearchBulkClient = new ElasticSearchBulkClient(
-                loggerFactory,
-                _settings.ElasticSearchSettings,
-                _settings.HttpPolicy);
+            using (var stream = new MemoryStream())
+            {
+                await _elasticsearchOptionsAccessor.Value.MetricsOutputFormatter.WriteAsync(stream, metricsData, cancellationToken);
 
-            var payloadBuilder = new BulkPayloadBuilder(
-                _settings.ElasticSearchSettings.Index,
-                _settings.MetricNameFormatter,
-                _settings.MetricTagValueFormatter,
-                _settings.DataKeys);
+                await _elasticsearchClient.WriteAsync(Encoding.UTF8.GetString(stream.ToArray()), cancellationToken);
+            }
 
-            return new ReportRunner<BulkPayload>(
-                async p =>
-                {
-                    var result = await elasticSearchBulkClient.WriteAsync(p.Payload());
-                    return result;
-                },
-                payloadBuilder,
-                _settings.ReportInterval,
-                name,
-                loggerFactory);
+            return true;
         }
     }
 }

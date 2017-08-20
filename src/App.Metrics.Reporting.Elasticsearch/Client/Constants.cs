@@ -4,7 +4,7 @@
 
 using System;
 
-namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
+namespace App.Metrics.Reporting.Elasticsearch.Client
 {
     internal static class Constants
     {
