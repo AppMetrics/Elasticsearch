@@ -18,15 +18,16 @@ namespace Microsoft.Extensions.DependencyInjection
         ///     Adds Elasticsearch formatters to the specified <see cref="IMetricsCoreBuilder"/>.
         /// </summary>
         /// <param name="builder">The <see cref="IMetricsCoreBuilder" /> to add services to.</param>
+        /// <param name="elasticsearchIndex">The Elasticsearch Index name</param>
         /// <returns>An <see cref="IMetricsCoreBuilder"/> that can be used to further configure App Metrics services.</returns>
-        public static IMetricsCoreBuilder AddElasticsearchFormattersCore(this IMetricsCoreBuilder builder)
+        public static IMetricsCoreBuilder AddElasticsearchFormattersCore(this IMetricsCoreBuilder builder, string elasticsearchIndex)
         {
             if (builder == null)
             {
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            builder.Services.AddElasticsearchFormatterServices();
+            builder.Services.AddElasticsearchFormatterServices(elasticsearchIndex);
             builder.Services.AddDefaultFormatterOptions();
 
             return builder;

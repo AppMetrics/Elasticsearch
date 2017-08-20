@@ -29,7 +29,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Uri elasticsearchBaseUri,
             string elasticsearchIndex)
         {
-            builder.Services.AddElasticsearchFormatterServices();
+            builder.Services.AddElasticsearchFormatterServices(elasticsearchIndex);
 
             builder.Services.AddElasticsearchCore(elasticsearchBaseUri, elasticsearchIndex);
 
@@ -48,7 +48,10 @@ namespace Microsoft.Extensions.DependencyInjection
             this IMetricsReportingBuilder builder,
             IConfiguration configuration)
         {
-            builder.Services.AddElasticsearchFormatterServices();
+            var reportingElasticsearchOptions = new MetricsReportingElasticsearchOptions();
+            configuration.Bind(nameof(MetricsReportingElasticsearchOptions), reportingElasticsearchOptions);
+
+            builder.Services.AddElasticsearchFormatterServices(reportingElasticsearchOptions.Elasticsearch.Index);
 
             builder.Services.AddElasticsearchCore(configuration);
 

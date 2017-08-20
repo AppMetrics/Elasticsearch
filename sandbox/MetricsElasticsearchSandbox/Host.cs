@@ -136,7 +136,7 @@ namespace MetricsElasticsearchSandbox
             services.AddMetricsReportingCore().AddElasticsearch(ElasticsearchUri, ElasticsearchIndex);
             services.AddMetricsCore()
                 .AddClockType<StopwatchClock>()
-                .AddElasticsearchFormattersCore();
+                .AddElasticsearchFormattersCore(ElasticsearchIndex);
         }
 
         private static void Init()

@@ -12,12 +12,30 @@ namespace App.Metrics.Formatters.Elasticsearch
 {
     public class MetricsElasticsearchOutputFormatter : IMetricsOutputFormatter
     {
+        private readonly string _elasticsearchIndex;
         private readonly MetricsElasticsearchDocumentFormattingOptions _documentFormattingOptions;
 
-        public MetricsElasticsearchOutputFormatter() { _documentFormattingOptions = new MetricsElasticsearchDocumentFormattingOptions(); }
-
-        public MetricsElasticsearchOutputFormatter(MetricsElasticsearchDocumentFormattingOptions documentFormattingOptions)
+        public MetricsElasticsearchOutputFormatter(string elasticsearchIndex)
         {
+            if (string.IsNullOrEmpty(elasticsearchIndex))
+            {
+                throw new ArgumentNullException(nameof(elasticsearchIndex));
+            }
+
+            _elasticsearchIndex = elasticsearchIndex;
+            _documentFormattingOptions = new MetricsElasticsearchDocumentFormattingOptions();
+        }
+
+        public MetricsElasticsearchOutputFormatter(
+            string elasticsearchIndex,
+            MetricsElasticsearchDocumentFormattingOptions documentFormattingOptions)
+        {
+            if (string.IsNullOrEmpty(elasticsearchIndex))
+            {
+                throw new ArgumentNullException(nameof(elasticsearchIndex));
+            }
+
+            _elasticsearchIndex = elasticsearchIndex;
             _documentFormattingOptions = documentFormattingOptions ?? throw new ArgumentNullException(nameof(documentFormattingOptions));
         }
 
@@ -41,7 +59,7 @@ namespace App.Metrics.Formatters.Elasticsearch
             {
                 using (var textWriter = new MetricSnapshotElasticsearchWriter(
                     streamWriter,
-                    _documentFormattingOptions.Index,
+                    _elasticsearchIndex,
                     _documentFormattingOptions.MetricNameFormatter,
                     _documentFormattingOptions.MetricTagFormatter,
                     _documentFormattingOptions.MetricNameMapping))

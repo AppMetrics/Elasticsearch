@@ -14,15 +14,12 @@ namespace App.Metrics.Formatters.Elasticsearch
     {
         public MetricsElasticsearchDocumentFormattingOptions()
         {
-            Index = "metrics";
             MetricNameMapping = new GeneratedMetricNameMapping(
                 histogram: ElasticsearchFormatterConstants.ElasticsearchDefaults.CustomHistogramDataKeys,
                 meter: ElasticsearchFormatterConstants.ElasticsearchDefaults.CustomMeterDataKeys);
             MetricTagFormatter = ElasticsearchFormatterConstants.ElasticsearchDefaults.MetricTagValueFormatter;
             MetricNameFormatter = ElasticsearchFormatterConstants.ElasticsearchDefaults.MetricNameFormatter;
         }
-
-        public string Index { get; set; }
 
         public Func<string, string, string> MetricNameFormatter { get; set; }
 

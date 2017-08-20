@@ -17,10 +17,11 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class MetricsElasticsearchFormattingServiceCollectionExtensions
     {
-        internal static void AddElasticsearchFormatterServices(this IServiceCollection services)
+        internal static void AddElasticsearchFormatterServices(this IServiceCollection services, string elasticsearchIndex)
         {
             var elasticsearchSetupOptionsDescriptor =
-                ServiceDescriptor.Transient<IConfigureOptions<MetricsOptions>, MetricsElasticsearchOptionsSetup>();
+                ServiceDescriptor.Transient<IConfigureOptions<MetricsOptions>, MetricsElasticsearchDocumentFormattingOptionsSetup>(
+                    provider => new MetricsElasticsearchDocumentFormattingOptionsSetup(elasticsearchIndex, provider.GetRequiredService<IOptions<MetricsElasticsearchDocumentFormattingOptions>>()));
             services.TryAddEnumerable(elasticsearchSetupOptionsDescriptor);
         }
 

@@ -9,6 +9,7 @@ using System.Text;
 using App.Metrics;
 using App.Metrics.Extensions.Reporting.ElasticSearch;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
+using App.Metrics.Formatters.Elasticsearch;
 using App.Metrics.Reporting;
 using App.Metrics.Reporting.Elasticsearch;
 using App.Metrics.Reporting.Elasticsearch.Client;
