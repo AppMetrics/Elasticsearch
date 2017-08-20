@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
-namespace App.Metrics.Elasticsearch.Sandbox
+namespace MetricsElasticsearchSandboxMvc
 {
     public static class Host
     {

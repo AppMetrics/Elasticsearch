@@ -3,10 +3,11 @@
 // </copyright>
 
 using System;
-using App.Metrics.Elasticsearch.Sandbox.JustForTesting;
+using App.Metrics;
+using MetricsElasticsearchSandboxMvc.JustForTesting;
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Metrics.Elasticsearch.Sandbox.Controllers
+namespace MetricsElasticsearchSandboxMvc.Controllers
 {
     [Route("api/[controller]")]
     public class RandomStatusCodeController : Controller

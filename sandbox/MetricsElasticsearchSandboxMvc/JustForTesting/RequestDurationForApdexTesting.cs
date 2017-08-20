@@ -4,7 +4,7 @@
 
 using System;
 
-namespace App.Metrics.Elasticsearch.Sandbox.JustForTesting
+namespace MetricsElasticsearchSandboxMvc.JustForTesting
 {
     public class RequestDurationForApdexTesting
     {

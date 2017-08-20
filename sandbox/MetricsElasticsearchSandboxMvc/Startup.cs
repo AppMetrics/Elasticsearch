@@ -2,14 +2,14 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
-using App.Metrics.Elasticsearch.Sandbox.JustForTesting;
+using MetricsElasticsearchSandboxMvc.JustForTesting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace App.Metrics.Elasticsearch.Sandbox
+namespace MetricsElasticsearchSandboxMvc
 {
     public class Startup
     {

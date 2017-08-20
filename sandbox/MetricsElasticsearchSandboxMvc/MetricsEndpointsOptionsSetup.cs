@@ -2,11 +2,12 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
+using App.Metrics;
 using App.Metrics.AspNetCore.Endpoints;
 using App.Metrics.Formatters.Elasticsearch;
 using Microsoft.Extensions.Options;
 
-namespace App.Metrics.Elasticsearch.Sandbox
+namespace MetricsElasticsearchSandboxMvc
 {
     /// <summary>
     ///     Sets up the metrics web hosting options for this application

@@ -4,7 +4,7 @@
 
 using System;
 using App.Metrics.AspNetCore.TrackingMiddleware;
-using App.Metrics.Elasticsearch.Sandbox.JustForTesting;
+using MetricsElasticsearchSandboxMvc.JustForTesting;
 using Microsoft.Extensions.Options;
 
 // ReSharper disable CheckNamespace
