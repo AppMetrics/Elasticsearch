@@ -9,14 +9,12 @@ using System.Text;
 using App.Metrics;
 using App.Metrics.Extensions.Reporting.ElasticSearch;
 using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
-using App.Metrics.Formatters.Elasticsearch;
 using App.Metrics.Reporting;
 using App.Metrics.Reporting.Elasticsearch;
 using App.Metrics.Reporting.Elasticsearch.Client;
 using App.Metrics.Reporting.Elasticsearch.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 // ReSharper disable CheckNamespace
@@ -111,14 +109,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IElasticsearchClient>(
                 provider =>
                 {
-                    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
                     var optionsAccessor = provider.GetRequiredService<IOptions<MetricsReportingElasticsearchOptions>>();
                     var httpClient = CreateHttpClient(optionsAccessor.Value.Elasticsearch, optionsAccessor.Value.HttpPolicy);
 
-                    return new DefaultElasticSearchClient(
-                        loggerFactory.CreateLogger<DefaultElasticSearchClient>(),
-                        optionsAccessor.Value.HttpPolicy,
-                        httpClient);
+                    return new DefaultElasticSearchClient(optionsAccessor.Value.HttpPolicy, httpClient);
                 });
         }
 
