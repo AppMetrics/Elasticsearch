@@ -18,7 +18,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                 throw new ArgumentException("Cannot be empty", nameof(indexName));
             }
 
-            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Basic;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Anonymous;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string userName, string password)
@@ -37,7 +37,7 @@ namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
                 throw new ArgumentException("Cannot be empty", nameof(password));
             }
 
-            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Anonymous;
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Basic;
         }
 
         public ElasticSearchSettings(Uri address, string indexName, string bearerToken)
