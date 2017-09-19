@@ -6,6 +6,9 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+#if !NETSTANDARD1_6
+using App.Metrics.Internal;
+#endif
 using App.Metrics.Serialization;
 
 namespace App.Metrics.Formatters.Elasticsearch
@@ -13,7 +16,7 @@ namespace App.Metrics.Formatters.Elasticsearch
     public class MetricsElasticsearchOutputFormatter : IMetricsOutputFormatter
     {
         private readonly string _elasticsearchIndex;
-        private readonly MetricsElasticsearchDocumentFormattingOptions _documentFormattingOptions;
+        private readonly MetricsElasticsearchDocumentFormattingOptions _options;
 
         public MetricsElasticsearchOutputFormatter(string elasticsearchIndex)
         {
@@ -23,12 +26,12 @@ namespace App.Metrics.Formatters.Elasticsearch
             }
 
             _elasticsearchIndex = elasticsearchIndex;
-            _documentFormattingOptions = new MetricsElasticsearchDocumentFormattingOptions();
+            _options = new MetricsElasticsearchDocumentFormattingOptions();
         }
 
         public MetricsElasticsearchOutputFormatter(
             string elasticsearchIndex,
-            MetricsElasticsearchDocumentFormattingOptions documentFormattingOptions)
+            MetricsElasticsearchDocumentFormattingOptions options)
         {
             if (string.IsNullOrEmpty(elasticsearchIndex))
             {
@@ -36,7 +39,7 @@ namespace App.Metrics.Formatters.Elasticsearch
             }
 
             _elasticsearchIndex = elasticsearchIndex;
-            _documentFormattingOptions = documentFormattingOptions ?? throw new ArgumentNullException(nameof(documentFormattingOptions));
+            _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <inheritdoc />
@@ -46,7 +49,7 @@ namespace App.Metrics.Formatters.Elasticsearch
         public Task WriteAsync(
             Stream output,
             MetricsDataValueSource metricsData,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             if (output == null)
             {
@@ -60,15 +63,19 @@ namespace App.Metrics.Formatters.Elasticsearch
                 using (var textWriter = new MetricSnapshotElasticsearchWriter(
                     streamWriter,
                     _elasticsearchIndex,
-                    _documentFormattingOptions.MetricNameFormatter,
-                    _documentFormattingOptions.MetricTagFormatter,
-                    _documentFormattingOptions.MetricNameMapping))
+                    _options.MetricNameFormatter,
+                    _options.MetricTagFormatter,
+                    _options.MetricNameMapping))
                 {
                     serializer.Serialize(textWriter, metricsData);
                 }
             }
 
+#if !NETSTANDARD1_6
+            return AppMetricsTaskHelper.CompletedTask();
+#else
             return Task.CompletedTask;
+#endif
         }
     }
 }

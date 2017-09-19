@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using App.Metrics.Extensions.Reporting.ElasticSearch;
 using App.Metrics.Filters;
 using App.Metrics.Formatters;
 using App.Metrics.Reporting.Elasticsearch.Client;
@@ -17,7 +16,7 @@ namespace App.Metrics.Reporting.Elasticsearch
     {
         public MetricsReportingElasticsearchOptions()
         {
-            ReportInterval = TimeSpan.FromSeconds(10);
+            FlushInterval = TimeSpan.FromSeconds(10);
             HttpPolicy = new HttpPolicy
             {
                 FailuresBeforeBackoff = Constants.DefaultFailuresBeforeBackoff,
@@ -69,6 +68,6 @@ namespace App.Metrics.Reporting.Elasticsearch
         /// <value>
         ///     The <see cref="TimeSpan" /> to wait between reporting metrics
         /// </value>
-        public TimeSpan ReportInterval { get; set; }
+        public TimeSpan FlushInterval { get; set; }
     }
 }

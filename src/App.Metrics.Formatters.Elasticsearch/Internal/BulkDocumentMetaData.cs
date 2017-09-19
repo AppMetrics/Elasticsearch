@@ -12,7 +12,7 @@ namespace App.Metrics.Formatters.Elasticsearch.Internal
         [JsonProperty("index")]
         public DocumentMetaData MetaData { get; set; }
 
-        public BulkDocumentMetaData(string indexName, string typeName)
+        public BulkDocumentMetaData(string indexName, string typeName, Guid? documentId)
         {
             if (string.IsNullOrEmpty(indexName))
             {
@@ -28,7 +28,7 @@ namespace App.Metrics.Formatters.Elasticsearch.Internal
             {
                 IndexName = indexName,
                 TypeName = typeName,
-                DocumentId = Guid.NewGuid().ToString("D")
+                DocumentId = documentId?.ToString("D") ?? Guid.NewGuid().ToString("D")
             };
         }
 

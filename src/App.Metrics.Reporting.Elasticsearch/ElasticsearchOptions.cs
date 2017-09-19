@@ -3,17 +3,12 @@
 // </copyright>
 
 using System;
-using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
+using App.Metrics.Reporting.Elasticsearch.Client;
 
 namespace App.Metrics.Reporting.Elasticsearch
 {
     public class ElasticsearchOptions
     {
-        public ElasticsearchOptions()
-        {
-            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Anonymous;
-        }
-
         public ElasticsearchOptions(Uri address, string indexName)
         {
             BaseUri = address ?? throw new ArgumentNullException(nameof(address));
@@ -57,6 +52,11 @@ namespace App.Metrics.Reporting.Elasticsearch
             }
 
             AuthorizationSchema = ElasticSearchAuthorizationSchemes.BearerToken;
+        }
+
+        internal ElasticsearchOptions()
+        {
+            AuthorizationSchema = ElasticSearchAuthorizationSchemes.Anonymous;
         }
 
         public Uri BaseUri { get; set; }

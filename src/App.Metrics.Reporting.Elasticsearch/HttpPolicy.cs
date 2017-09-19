@@ -3,10 +3,9 @@
 // </copyright>
 
 using System;
-using App.Metrics.Extensions.Reporting.ElasticSearch.Client;
 using App.Metrics.Reporting.Elasticsearch.Client;
 
-namespace App.Metrics.Extensions.Reporting.ElasticSearch
+namespace App.Metrics.Reporting.Elasticsearch
 {
     public class HttpPolicy
     {

@@ -2,7 +2,7 @@
 // Copyright (c) Allan Hardy. All rights reserved.
 // </copyright>
 
-namespace App.Metrics.Extensions.Reporting.ElasticSearch.Client
+namespace App.Metrics.Reporting.Elasticsearch.Client
 {
     public enum ElasticSearchAuthorizationSchemes
     {

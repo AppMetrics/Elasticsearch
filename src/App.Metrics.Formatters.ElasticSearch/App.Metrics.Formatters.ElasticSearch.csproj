@@ -4,12 +4,12 @@
 
   <PropertyGroup>
     <Description>App Metrics Formatting, formatting metrics data to Elasticsearch formats.</Description>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>    
+    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks> 
     <PackageTags>appmetrics;elasticsearch</PackageTags>    
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics.Core" Version="$(AppMetricsCoreVersion)" />
+    <PackageReference Include="App.Metrics.Core" Version="2.0.0-alpha-0675" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using App.Metrics.Formatters.Elasticsearch.Internal;
 using App.Metrics.Serialization;
-using App.Metrics.Tagging;
 using Newtonsoft.Json;
 
 namespace App.Metrics.Formatters.Elasticsearch
@@ -98,7 +97,9 @@ namespace App.Metrics.Formatters.Elasticsearch
             if (disposing)
             {
                 _bulkPayload.Write(_textWriter);
+#if !NETSTANDARD1_6
                 _textWriter?.Close();
+#endif
                 _textWriter?.Dispose();
             }
         }

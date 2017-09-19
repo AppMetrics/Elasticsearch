@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using App.Metrics.Extensions.Reporting.ElasticSearch;
 using App.Metrics.Logging;
 
 namespace App.Metrics.Reporting.Elasticsearch.Client
@@ -27,7 +26,7 @@ namespace App.Metrics.Reporting.Elasticsearch.Client
             HttpPolicy httpPolicy,
             HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _backOffPeriod = httpPolicy?.BackoffPeriod ?? throw new ArgumentNullException(nameof(httpPolicy));
             _failuresBeforeBackoff = httpPolicy.FailuresBeforeBackoff;
             _failureAttempts = 0;
@@ -35,7 +34,7 @@ namespace App.Metrics.Reporting.Elasticsearch.Client
 
         public async Task<ElasticsearchWriteResult> WriteAsync(
             string payload,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(payload))
             {

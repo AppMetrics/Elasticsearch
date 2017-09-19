@@ -38,7 +38,7 @@ namespace App.Metrics.Formatters.Elasticsearch.Internal
             _documents.Add(document);
         }
 
-        public void Write(TextWriter textWriter)
+        public void Write(TextWriter textWriter, Guid? documentId = null)
         {
             if (textWriter == null)
             {
@@ -49,7 +49,7 @@ namespace App.Metrics.Formatters.Elasticsearch.Internal
             {
                 _serializer.Serialize(
                     textWriter,
-                    new BulkDocumentMetaData(_indexName, document.MeasurementType));
+                    new BulkDocumentMetaData(_indexName, document.MeasurementType, documentId));
 
                 textWriter.Write('\n');
                 _serializer.Serialize(textWriter, document);

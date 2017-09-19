@@ -18,7 +18,8 @@
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
 		<GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-		<CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>
+	  <LangVersion>latest</LangVersion>
+    <CodeAnalysisRuleSet>..\..\AppMetrics.ruleset</CodeAnalysisRuleSet>
 	  <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Key.snk</AssemblyOriginatorKeyFile>
 	  <SignAssembly>true</SignAssembly>
 	  <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
