@@ -1,9 +1,9 @@
-# App Metrics Elasticsearch <img src="http://app-metrics.io/logo.png" alt="App Metrics" width="50px"/> 
+# App Metrics Elasticsearch <img src="https://avatars0.githubusercontent.com/u/29864085?v=4&s=200" alt="App Metrics" width="50px"/> 
 [![Official Site](https://img.shields.io/badge/site-appmetrics-blue.svg?style=flat-square)](http://app-metrics.io/reporting/elasticsearch.html) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
 ## What is it?
 
-This repo contains Elasticsearch extension packages to [App Metrics](https://github.com/alhardy/AppMetrics).
+This repo contains Elasticsearch extension packages to [App Metrics](https://github.com/AppMetrics/AppMetrics).
 
 ## Latest Builds, Packages & Repo Stats
 
@@ -15,29 +15,27 @@ This repo contains Elasticsearch extension packages to [App Metrics](https://git
 |Package|Dev Release|PreRelease|Latest Release|
 |------|:--------:|:--------:|:--------:|
 |App.Metrics.Reporting.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.Reporting.Elasticsearch.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.Reporting.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Reporting.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Reporting.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Reporting.Elasticsearch/)
-|App.Metrics.AspNetCore.Formatters.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.AspNetCore.Formatters.Elasticsearch.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.AspNetCore.Formatters.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.AspNetCore.Formatters.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.AspNetCore.Formatters.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.AspNetCore.Formatters.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.AspNetCore.Formatters.Elasticsearch/)
 |App.Metrics.Formatters.Elasticsearch|[![MyGet Status](https://img.shields.io/myget/appmetrics/v/App.Metrics.Formatters.Elasticsearch.svg?style=flat-square)](https://www.myget.org/feed/appmetrics/package/nuget/App.Metrics.Formatters.Elasticsearch)|[![NuGet Status](https://img.shields.io/nuget/vpre/App.Metrics.Formatters.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.Elasticsearch/)|[![NuGet Status](https://img.shields.io/nuget/v/App.Metrics.Formatters.Elasticsearch.svg?style=flat-square)](https://www.nuget.org/packages/App.Metrics.Formatters.Elasticsearch/)
 
 
 #### Grafana/Elasticsearch Web Monitoring
 
-![Grafana/Elasticsearch Generic Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
+![Grafana/Elasticsearch Generic Web Dashboard Demo](https://github.com/AppMetrics/AppMetrics.DocFx/blob/master/images/generic_grafana_dashboard_demo.gif)
 
 > Grab the dashboard [here](https://grafana.com/dashboards/2140)
 
 #### Grafana/Elasticsearch OAuth2 Client Web Monitoring
 
-![Grafana/Elasticsearch Generic OAuth2 Web Dashboard Demo](https://github.com/alhardy/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
+![Grafana/Elasticsearch Generic OAuth2 Web Dashboard Demo](https://github.com/AppMetrics/AppMetrics.DocFx/blob/master/images/generic_grafana_oauth2_dashboard_demo.gif)
 
 > Grab the dashboard [here](https://grafana.com/dashboards/2143)
 
 ### Grafana/Elasticsearch Web Application Setup
 
 - Download and run [Elasticsearch](https://www.elastic.co/downloads/elasticsearch).
-- Create a new [ES Index and metric field mappings](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/App.Metrics.Sandbox-Elasticsearch-IndexAndMappingSetup.json). *Keep note of this for configuring the Elasticsearch reporter in your web application and configuring the Elasticsearch Datasource in Grafana*
-- Download and install [Grafana](https://grafana.com/grafana/download), then create a new [Elasticsearch Datasource](http://docs.grafana.org/features/datasources/elasticsearch/)  pointing to the Index just created and [import](http://docs.grafana.org/reference/export_import/#importing-a-dashboard) App.Metrics [web dashboard](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/blob/master/visualization/grafana-dashboards/App.Metrics.Sandbox-Elasticsearch-GenericWeb.json)
-- Drop in the `App.Metrics.Extensions.Mvc` and `App.Metrics.Extensions.Reporting.Elasticsearch` nuget packages into your web application. 
-- Add [App.Metrics configuration](https://alhardy.github.io/app-metrics-docs/getting-started/fundamentals/middleware-configuration.html) to the `Startup.cs` of your web application, including the [Elasticsearch reporter configuration](http://app-metrics.io/reporting/elasticsearch.html). *You might want to check out the [Sandbox](https://github.com/alhardy/AppMetrics.Extensions.Elasticsearch/tree/dev/sandbox/App.Metrics.Elasticsearch.Sandbox) or [Sample](https://github.com/alhardy/AppMetrics.Samples) projects if you get stuck*
+- Create a new [ES Index and metric field mappings](https://github.com/AppMetrics/Elasticsearch/blob/dev/visualization/App.Metrics.Sandbox-Elasticsearch-IndexAndMappingSetup.json). *Keep note of this for configuring the Elasticsearch reporter in your web application and configuring the Elasticsearch Datasource in Grafana*
+- Download and install [Grafana](https://grafana.com/grafana/download), then create a new [Elasticsearch Datasource](http://docs.grafana.org/features/datasources/elasticsearch/)  pointing to the Index just created and [import](http://docs.grafana.org/reference/export_import/#importing-a-dashboard) App.Metrics [web dashboard](https://grafana.com/dashboards/2140)
+- See the [docs](https://www.app-metrics.io/reporting/reporters/elasticsearch/) on how to configure Elasticsearch reporting.
 - Run your app and Grafana at visit `http://localhost:3000`
 
 ## How to build
