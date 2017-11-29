@@ -1214,7 +1214,7 @@
                                 }
                             ],
                             "policy": "default",
-                            "query": "name:application.httprequests__error_rateAND tags.env:$environment AND tags.app:$application AND tags.server:$server",
+                            "query": "name:application.httprequests__error_rate AND tags.env:$environment AND tags.app:$application AND tags.server:$server",
                             "refId": "A",
                             "resultFormat": "time_series",
                             "select": [
