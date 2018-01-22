@@ -36,7 +36,7 @@ namespace App.Metrics.Reporting.Elasticsearch.Facts
             bulkPayload.Write(textWriter, documentId);
 
             // Assert
-            textWriter.ToString().Should().Be("{\"index\":{\"_index\":\"index\",\"_type\":\"counter\",\"_id\":\"" + documentId.ToString("D") + "\"}}\n{\"name\":\"measurement\",\"fields\":{\"key\":\"value\"},\"tags\":null,\"@timestamp\":\"2017-01-01T01:01:01Z\"}\n");
+            textWriter.ToString().Should().Be("{\"index\":{\"_index\":\"index.counter\",\"_type\":\"counter\",\"_id\":\"" + documentId.ToString("D") + "\"}}\n{\"name\":\"measurement\",\"fields\":{\"key\":\"value\"},\"tags\":null,\"@timestamp\":\"2017-01-01T01:01:01Z\"}\n");
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace App.Metrics.Reporting.Elasticsearch.Facts
             bulkPayload.Write(textWriter, documentId);
 
             // Assert
-            textWriter.ToString().Should().Be("{\"index\":{\"_index\":\"index\",\"_type\":\"counter\",\"_id\":\"" + documentId.ToString("D") + "\"}}\n{\"name\":\"measurement\",\"fields\":{\"field1key\":\"field1value\",\"field2key\":2,\"field3key\":false},\"tags\":null,\"@timestamp\":\"2017-01-01T01:01:01Z\"}\n");
+            textWriter.ToString().Should().Be("{\"index\":{\"_index\":\"index.counter\",\"_type\":\"counter\",\"_id\":\"" + documentId.ToString("D") + "\"}}\n{\"name\":\"measurement\",\"fields\":{\"field1key\":\"field1value\",\"field2key\":2,\"field3key\":false},\"tags\":null,\"@timestamp\":\"2017-01-01T01:01:01Z\"}\n");
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace App.Metrics.Reporting.Elasticsearch.Facts
             bulkPayload.Write(textWriter, documentId);
 
             // Assert
-            textWriter.ToString().Should().Be("{\"index\":{\"_index\":\"index\",\"_type\":\"counter\",\"_id\":\"" + documentId.ToString("D") + "\"}}\n{\"name\":\"measurement\",\"fields\":{\"key\":\"value\"},\"tags\":{\"tagkey\":\"tagvalue\"},\"@timestamp\":\"2017-01-01T01:01:01Z\"}\n");
+            textWriter.ToString().Should().Be("{\"index\":{\"_index\":\"index.counter\",\"_type\":\"counter\",\"_id\":\"" + documentId.ToString("D") + "\"}}\n{\"name\":\"measurement\",\"fields\":{\"key\":\"value\"},\"tags\":{\"tagkey\":\"tagvalue\"},\"@timestamp\":\"2017-01-01T01:01:01Z\"}\n");
         }
 
         [Fact]
