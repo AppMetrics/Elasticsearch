@@ -49,7 +49,7 @@ namespace App.Metrics.Formatters.Elasticsearch.Internal
             {
                 _serializer.Serialize(
                     textWriter,
-                    new BulkDocumentMetaData(_indexName, document.MeasurementType, documentId));
+                    new BulkDocumentMetaData($"{_indexName}.{document.MeasurementType}", document.MeasurementType, documentId));
 
                 textWriter.Write('\n');
                 _serializer.Serialize(textWriter, document);
