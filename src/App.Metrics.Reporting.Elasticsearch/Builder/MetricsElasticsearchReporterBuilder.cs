@@ -26,6 +26,31 @@ namespace App.Metrics
         /// <param name="metricReporterProviderBuilder">
         ///     The <see cref="IMetricsReportingBuilder" /> used to configure metrics reporters.
         /// </param>
+        /// <param name="options">The Elasticsearch reporting options to use.</param>
+        /// <returns>
+        ///     An <see cref="IMetricsBuilder" /> that can be used to further configure App Metrics.
+        /// </returns>
+        public static IMetricsBuilder ToElasticsearch(
+            this IMetricsReportingBuilder metricReporterProviderBuilder,
+            MetricsReportingElasticsearchOptions options)
+        {
+            if (metricReporterProviderBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(metricReporterProviderBuilder));
+            }
+
+            var httpClient = CreateClient(options.Elasticsearch, options.HttpPolicy);
+            var reporter = new ElasticsearchReporter(options, httpClient);
+
+            return metricReporterProviderBuilder.Using(reporter);
+        }
+
+        /// <summary>
+        ///     Add the <see cref="ElasticsearchReporter" /> allowing metrics to be reported to Elasticsearch.
+        /// </summary>
+        /// <param name="metricReporterProviderBuilder">
+        ///     The <see cref="IMetricsReportingBuilder" /> used to configure metrics reporters.
+        /// </param>
         /// <param name="setupAction">The Elasticsearch reporting options to use.</param>
         /// <returns>
         ///     An <see cref="IMetricsBuilder" /> that can be used to further configure App Metrics.
