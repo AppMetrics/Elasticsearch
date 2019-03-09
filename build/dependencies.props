@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <AppMetricsAbstractionsVersion>3.0.0-*</AppMetricsAbstractionsVersion>
     <AppMetricsCoreVersion>3.0.0-*</AppMetricsCoreVersion>
     <AppMetricsAspNetCoreVersion>3.0.0-*</AppMetricsAspNetCoreVersion>
     <AspNetCoreVersion>2.0.0-*</AspNetCoreVersion>    
@@ -10,7 +11,7 @@
     <NewtonsoftVersion>10.0.2</NewtonsoftVersion>
     <NETStandardLibraryNETFrameworkVersion>2.0.0-*</NETStandardLibraryNETFrameworkVersion>
     <RuntimeFrameworkVersion Condition="'$(TargetFramework)'=='netcoreapp2.0'">2.0.0-*</RuntimeFrameworkVersion>
-    <TestSdkVersion>15.3.0-*</TestSdkVersion>
+    <TestSdkVersion>15.9.0-*</TestSdkVersion>
     <XunitVersion>2.4.1</XunitVersion>
     <FluentAssertionsVersion>4.19.2</FluentAssertionsVersion>
     <FluentAssertionsJsonVersion>4.19.0</FluentAssertionsJsonVersion>

@@ -4,15 +4,13 @@
 
   <PropertyGroup>
     <Description>Provides Elasticsearch reporting capability to App Metrics.</Description>
-    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>   
-    <PackageTags>appmetrics;reporting;elasticsearch</PackageTags>    
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>appmetrics;reporting;elasticsearch</PackageTags>
   </PropertyGroup>
 
  <ItemGroup>
     <ProjectReference Include="..\App.Metrics.Formatters.Elasticsearch\App.Metrics.Formatters.Elasticsearch.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="App.Metrics.Abstractions" Version="$(AppMetricsCoreVersion)" />
   </ItemGroup>
 
