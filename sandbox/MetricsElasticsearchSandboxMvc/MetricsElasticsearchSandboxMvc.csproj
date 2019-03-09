@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="$(AspNetCoreVersion)" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="JustForTesting\" />
   </ItemGroup>
