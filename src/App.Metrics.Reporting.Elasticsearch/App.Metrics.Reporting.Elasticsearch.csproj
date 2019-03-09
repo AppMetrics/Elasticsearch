@@ -10,7 +10,7 @@
 
  <ItemGroup>
     <ProjectReference Include="..\App.Metrics.Formatters.Elasticsearch\App.Metrics.Formatters.Elasticsearch.csproj" />
-    <PackageReference Include="App.Metrics.Abstractions" Version="$(AppMetricsCoreVersion)" />
+    <PackageReference Include="App.Metrics.Core" Version="$(AppMetricsCoreVersion)" />
   </ItemGroup>
 
 </Project>
