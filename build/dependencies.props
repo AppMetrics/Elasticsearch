@@ -3,9 +3,11 @@
     <AppMetricsAbstractionsVersion>3.0.0-*</AppMetricsAbstractionsVersion>
     <AppMetricsCoreVersion>3.0.0-*</AppMetricsCoreVersion>
     <AppMetricsAspNetCoreVersion>3.0.0-*</AppMetricsAspNetCoreVersion>
-    <AspNetCoreVersion>2.1.6</AspNetCoreVersion>    
+    <AspNetCoreVersion>2.1.6</AspNetCoreVersion>
+    <AspNetCoreMvcVersion>2.2.0</AspNetCoreMvcVersion>
+    <MicrosoftExtensionsVersion>2.2.0</MicrosoftExtensionsVersion>
     <BenchmarkDotNetVersion>0.10.8</BenchmarkDotNetVersion>
-    <CoreFxVersion>4.4.0-*</CoreFxVersion>
+    <CoreFxVersion>4.4.0</CoreFxVersion>
     <DependencyModelVersion>2.1.1</DependencyModelVersion>
     <MoqVersion>4.10.0</MoqVersion>
     <NewtonsoftVersion>11.0.2</NewtonsoftVersion>

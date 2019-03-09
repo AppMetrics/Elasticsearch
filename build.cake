@@ -175,7 +175,7 @@ Task("Build")
 		// 	}
 		// 	else
 		// 	{
-		// 		settings.Framework = "netcoreapp2.0";
+		// 		settings.Framework = "netcoreapp2.2";
 		// 	}
 		// 
 		// 	Context.Information("Building as " + settings.Framework + ": " +  project.Path.ToString());
@@ -247,7 +247,7 @@ Task("RunTests")
 
 		if (!IsRunningOnWindows())
         {
-			settings.Framework = "netcoreapp2.0";
+			settings.Framework = "netcoreapp2.2";
         }	 
 
 		DotNetCoreTest(project.FullPath, settings);

@@ -12,30 +12,30 @@ namespace App.Metrics.Formatters.Elasticsearch.Internal
     {
         public class ElasticsearchDefaults
         {
-            public static readonly Dictionary<HistogramValueDataKeys, string> CustomHistogramDataKeys = new Dictionary<HistogramValueDataKeys, string>
+            public static readonly Dictionary<HistogramFields, string> CustomHistogramDataKeys = new Dictionary<HistogramFields, string>
                                                                                                         {
                                                                                                             {
-                                                                                                                HistogramValueDataKeys.Count,
+                                                                                                                HistogramFields.Count,
                                                                                                                 "countHist"
                                                                                                             },
                                                                                                             {
-                                                                                                                HistogramValueDataKeys.UserLastValue,
+                                                                                                                HistogramFields.UserLastValue,
                                                                                                                 "userLast"
                                                                                                             },
                                                                                                             {
-                                                                                                                HistogramValueDataKeys.UserMinValue,
+                                                                                                                HistogramFields.UserMinValue,
                                                                                                                 "userMin"
                                                                                                             },
                                                                                                             {
-                                                                                                                HistogramValueDataKeys.UserMaxValue,
+                                                                                                                HistogramFields.UserMaxValue,
                                                                                                                 "userMax"
                                                                                                             }
                                                                                                         };
 
-            public static readonly Dictionary<MeterValueDataKeys, string> CustomMeterDataKeys = new Dictionary<MeterValueDataKeys, string>
+            public static readonly Dictionary<MeterFields, string> CustomMeterDataKeys = new Dictionary<MeterFields, string>
                                                                                                 {
-                                                                                                    { MeterValueDataKeys.Count, "countMeter" },
-                                                                                                    { MeterValueDataKeys.RateMean, "rateMean" }
+                                                                                                    { MeterFields.Count, "countMeter" },
+                                                                                                    { MeterFields.RateMean, "rateMean" }
                                                                                                 };
 
             public static readonly string[] SpecialChars = { @"\", @"/", " ", "-", "+", "=", "{", "}", "[", "]", ":", "&", "^", "~", "?", "!", "," };

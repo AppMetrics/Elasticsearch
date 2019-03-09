@@ -14,9 +14,6 @@ namespace App.Metrics.Formatters.Elasticsearch
     {
         public MetricsElasticsearchDocumentFormattingOptions()
         {
-            MetricNameMapping = new GeneratedMetricNameMapping(
-                histogram: ElasticsearchFormatterConstants.ElasticsearchDefaults.CustomHistogramDataKeys,
-                meter: ElasticsearchFormatterConstants.ElasticsearchDefaults.CustomMeterDataKeys);
             MetricTagFormatter = ElasticsearchFormatterConstants.ElasticsearchDefaults.MetricTagValueFormatter;
             MetricNameFormatter = ElasticsearchFormatterConstants.ElasticsearchDefaults.MetricNameFormatter;
         }
@@ -24,7 +21,5 @@ namespace App.Metrics.Formatters.Elasticsearch
         public Func<string, string, string> MetricNameFormatter { get; set; }
 
         public Func<string, string> MetricTagFormatter { get; set; }
-
-        public GeneratedMetricNameMapping MetricNameMapping { get; set; }
     }
 }
