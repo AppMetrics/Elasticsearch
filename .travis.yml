@@ -4,7 +4,7 @@ notifications:
       - al_hardy@live.com.au
 
 language: csharp
-dotnet: 2.2.101
+dotnet: 2.0.0
 os:
 #  - osx
   - linux
