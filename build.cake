@@ -22,8 +22,8 @@ var coverWith					= HasArgument("CoverWith") ? Argument<string>("CoverWith") :
                                   EnvironmentVariable("CoverWith") != null ? EnvironmentVariable("CoverWith") : "DotCover"; // None, DotCover, OpenCover
 var skipReSharperCodeInspect    = HasArgument("SkipCodeInspect") ? Argument<bool>("SkipCodeInspect", false) || !IsRunningOnWindows(): true;
 var preReleaseSuffix            = HasArgument("PreReleaseSuffix") ? Argument<string>("PreReleaseSuffix") :
-	                              (AppVeyor.IsRunningOnAppVeyor && EnvironmentVariable("PreReleaseSuffix") == null) || (AppVeyor.IsRunningOnAppVeyor && AppVeyor.Environment.Repository.Tag.IsTag) ? null :
-                                  EnvironmentVariable("PreReleaseSuffix") != null ? EnvironmentVariable("PreReleaseSuffix") : "ci";
+	                              (AppVeyor.IsRunningOnAppVeyor && EnvironmentVariable("PreReleaseSuffix") == null) || (AppVeyor.IsRunningOnAppVeyor && AppVeyor.Environment.Repository.Tag.IsTag && !packageRelease) 
+								  ? null : EnvironmentVariable("PreReleaseSuffix") != null ? EnvironmentVariable("PreReleaseSuffix") : "ci";
 var buildNumber                 = HasArgument("BuildNumber") ? Argument<int>("BuildNumber") :
                                   AppVeyor.IsRunningOnAppVeyor ? AppVeyor.Environment.Build.Number :
                                   TravisCI.IsRunningOnTravisCI ? TravisCI.Environment.Build.BuildNumber :
@@ -68,22 +68,35 @@ var coverExcludeFilter			= "-:*.Facts";
 var excludeFromCoverage			= "*.ExcludeFromCodeCoverage*";
 string versionSuffix			= null;
 
-if (!string.IsNullOrEmpty(preReleaseSuffix))
+if (AppVeyor.IsRunningOnAppVeyor)
 {
-	if (packageRelease)
+	if (AppVeyor.Environment.Repository.Tag.IsTag)
 	{
-		versionSuffix = preReleaseSuffix;
+		// Stable release package, pushed to nuget
+	}
+	else if (string.IsNullOrEmpty(preReleaseSuffix))
+	{
+		// Next stable release development package, not pushed to nuget
+		versionSuffix = buildNumber.ToString("D4");
 	}
 	else
 	{
-		versionSuffix = preReleaseSuffix + "-" + buildNumber.ToString("D4");
+		if (packageRelease)
+		{
+			// Pre-release package, set version suffix without build number, not tagged until stable release but pushed to nuget
+			versionSuffix = preReleaseSuffix;
+		}
+		else
+		{
+			// Pre-release development package, set version suffix with build number, not pushed to nuget
+			versionSuffix = preReleaseSuffix + "-" + buildNumber.ToString("D4");
+		}
 	}
 }
-else if (AppVeyor.IsRunningOnAppVeyor && !AppVeyor.Environment.Repository.Tag.IsTag && !packageRelease)
+else
 {
-	versionSuffix = buildNumber.ToString("D4");
+	versionSuffix = preReleaseSuffix + "-" + buildNumber.ToString("D4");
 }
-
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
