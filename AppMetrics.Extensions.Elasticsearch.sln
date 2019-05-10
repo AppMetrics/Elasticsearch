@@ -58,6 +58,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatters.Elas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Metrics.Formatting.ElasticSearch", "src\App.Metrics.Formatting.ElasticSearch\App.Metrics.Formatting.ElasticSearch.csproj", "{3A02E3DC-B24A-4260-9F58-F30F3E239411}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Metrics.Health.Reporting.Elastic", "src\App.Metrics.Health.Reporting.Elastic\App.Metrics.Health.Reporting.Elastic.csproj", "{CB246554-6B4D-4255-9C7A-46CAD9008E39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{3A02E3DC-B24A-4260-9F58-F30F3E239411}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A02E3DC-B24A-4260-9F58-F30F3E239411}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A02E3DC-B24A-4260-9F58-F30F3E239411}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB246554-6B4D-4255-9C7A-46CAD9008E39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB246554-6B4D-4255-9C7A-46CAD9008E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB246554-6B4D-4255-9C7A-46CAD9008E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB246554-6B4D-4255-9C7A-46CAD9008E39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,5 +100,6 @@ Global
 		{6A8C1BAE-B40B-4F12-8C04-8CE911330532} = {31A4DDB1-952E-4EED-96EF-29C669279A86}
 		{79110628-27BA-476B-B4DE-93B09EC815A0} = {2D805782-756E-4C98-B22E-F502BEE95318}
 		{3A02E3DC-B24A-4260-9F58-F30F3E239411} = {2D805782-756E-4C98-B22E-F502BEE95318}
+		{CB246554-6B4D-4255-9C7A-46CAD9008E39} = {2D805782-756E-4C98-B22E-F502BEE95318}
 	EndGlobalSection
 EndGlobal
