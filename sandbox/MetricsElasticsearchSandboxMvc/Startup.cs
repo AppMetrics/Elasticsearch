@@ -29,7 +29,7 @@ namespace MetricsElasticsearchSandboxMvc
         {
             services.AddTestStuff();
 
-            services.AddMvc(options => options.AddMetricsResourceFilter());
+            services.AddMvcCore().AddMetricsCore();
         }
     }
 }

@@ -121,7 +121,7 @@ namespace App.Metrics.Reporting.Elasticsearch.Facts
             };
 
             // Assert
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
     }
 }

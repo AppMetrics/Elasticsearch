@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-#if !NETSTANDARD1_6
+#if !NETSTANDARD2_0
 using App.Metrics.Internal;
 #endif
 using App.Metrics.Serialization;
@@ -45,6 +45,8 @@ namespace App.Metrics.Formatters.Elasticsearch
         /// <inheritdoc />
         public MetricsMediaTypeValue MediaType => new MetricsMediaTypeValue("text", "vnd.appmetrics.metrics.elasticsearch", "v1", "plain");
 
+        public MetricFields MetricFields { get; set; }
+
         /// <inheritdoc />
         public Task WriteAsync(
             Stream output,
@@ -64,14 +66,13 @@ namespace App.Metrics.Formatters.Elasticsearch
                     streamWriter,
                     _elasticsearchIndex,
                     _options.MetricNameFormatter,
-                    _options.MetricTagFormatter,
-                    _options.MetricNameMapping))
+                    _options.MetricTagFormatter))
                 {
-                    serializer.Serialize(textWriter, metricsData);
+                    serializer.Serialize(textWriter, metricsData, MetricFields);
                 }
             }
 
-#if !NETSTANDARD1_6
+#if !NETSTANDARD2_0
             return AppMetricsTaskHelper.CompletedTask();
 #else
             return Task.CompletedTask;

@@ -27,7 +27,7 @@ namespace App.Metrics.Reporting.Elasticsearch.Facts
             };
 
             // Assert
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
 
         [Theory]
@@ -44,7 +44,7 @@ namespace App.Metrics.Reporting.Elasticsearch.Facts
             };
 
             // Assert
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
 
         [Theory]
@@ -61,7 +61,7 @@ namespace App.Metrics.Reporting.Elasticsearch.Facts
             };
 
             // Assert
-            action.ShouldThrow<ArgumentException>();
+            action.Should().Throw<ArgumentException>();
         }
 
         [Fact]
