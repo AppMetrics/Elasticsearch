@@ -35,7 +35,7 @@ namespace App.Metrics.Reporting.Elasticsearch
         public IFilterMetrics Filter { get; set; }
 
         /// <summary>
-        ///     Gets or sets the HTTP policy settings which allows circuit breaker configuration to be adjusted
+        ///     Gets or sets the HTTP policy settings which allows circuit breaker configuration to be adjusted.
         /// </summary>
         /// <value>
         ///     The HTTP policy.
@@ -59,14 +59,14 @@ namespace App.Metrics.Reporting.Elasticsearch
         public IMetricsOutputFormatter MetricsOutputFormatter { get; set; }
 
         /// <summary>
-        ///     Gets or sets the flush metrics interval
+        ///     Gets or sets the flush metrics interval.
         /// </summary>
         /// <remarks>
         ///     This <see cref="TimeSpan" /> will apply to all configured reporters unless overriden by a specific reporters
         ///     options.
         /// </remarks>
         /// <value>
-        ///     The <see cref="TimeSpan" /> to wait between reporting metrics
+        ///     The <see cref="TimeSpan" /> to wait between reporting metrics.
         /// </value>
         public TimeSpan FlushInterval { get; set; }
     }

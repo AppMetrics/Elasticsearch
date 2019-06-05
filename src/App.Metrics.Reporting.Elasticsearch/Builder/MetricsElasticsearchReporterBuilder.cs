@@ -12,7 +12,7 @@ using App.Metrics.Reporting.Elasticsearch.Client;
 
 // ReSharper disable CheckNamespace
 namespace App.Metrics
-    // ReSharper restore CheckNamespace
+// ReSharper restore CheckNamespace
 {
     /// <summary>
     ///     Builder for configuring metrics Elasticsearch reporting using an
