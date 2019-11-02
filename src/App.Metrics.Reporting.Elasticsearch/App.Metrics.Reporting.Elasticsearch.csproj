@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <Description>Provides Elasticsearch reporting capability to App Metrics.</Description>
-    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks>   
+    <TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>   
     <PackageTags>appmetrics;reporting;elasticsearch</PackageTags>    
   </PropertyGroup>
 
@@ -13,7 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics.Abstractions" Version="$(AppMetricsCoreVersion)" />
+    <Reference Include="System.Net.Http" targetFramework ="net472"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.Abstractions" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="SourceLink.Create.CommandLine" Version="2.8.3" />
+    <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
   </ItemGroup>
 
 </Project>
