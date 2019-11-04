@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using App.Metrics.Formatters.Elasticsearch.Internal;
 using App.Metrics.Serialization;
 using Newtonsoft.Json;
@@ -23,8 +24,7 @@ namespace App.Metrics.Formatters.Elasticsearch
             TextWriter textWriter,
             string elasticsearchIndex,
             Func<string, string, string> metricNameFormatter = null,
-            Func<string, string> metricTagValueFormatter = null,
-            GeneratedMetricNameMapping dataKeys = null)
+            Func<string, string> metricTagValueFormatter = null)
         {
             if (string.IsNullOrWhiteSpace(elasticsearchIndex))
             {
@@ -36,14 +36,7 @@ namespace App.Metrics.Formatters.Elasticsearch
             _bulkPayload = new BulkPayload(serializer, elasticsearchIndex);
             _metricNameFormatter = metricNameFormatter ?? ElasticsearchFormatterConstants.ElasticsearchDefaults.MetricNameFormatter;
             _metricTagValueFormatter = metricTagValueFormatter ?? ElasticsearchFormatterConstants.ElasticsearchDefaults.MetricTagValueFormatter;
-
-            MetricNameMapping = dataKeys ?? new GeneratedMetricNameMapping(
-                                    histogram: ElasticsearchFormatterConstants.ElasticsearchDefaults.CustomHistogramDataKeys,
-                                    meter: ElasticsearchFormatterConstants.ElasticsearchDefaults.CustomMeterDataKeys);
         }
-
-        /// <inheritdoc />
-        public GeneratedMetricNameMapping MetricNameMapping { get; }
 
         /// <inheritdoc />
         public void Dispose()
@@ -53,7 +46,7 @@ namespace App.Metrics.Formatters.Elasticsearch
         }
 
         /// <inheritdoc />
-        public void Write(string context, string name, object value, MetricTags tags, DateTime timestamp)
+        public void Write(string context, string name, string field, object value, MetricTags tags, DateTime timestamp)
         {
             var tagKeyValues = tags.ToDictionary(_metricTagValueFormatter);
             var measurement = _metricNameFormatter(context, name);
@@ -97,9 +90,7 @@ namespace App.Metrics.Formatters.Elasticsearch
             if (disposing)
             {
                 _bulkPayload.Write(_textWriter);
-#if !NETSTANDARD1_6
                 _textWriter?.Close();
-#endif
                 _textWriter?.Dispose();
             }
         }

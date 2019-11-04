@@ -27,6 +27,7 @@ namespace App.Metrics.Formatters.Elasticsearch
 
             _elasticsearchIndex = elasticsearchIndex;
             _options = new MetricsElasticsearchDocumentFormattingOptions();
+            MetricFields = new MetricFields();
         }
 
         public MetricsElasticsearchOutputFormatter(
@@ -40,10 +41,14 @@ namespace App.Metrics.Formatters.Elasticsearch
 
             _elasticsearchIndex = elasticsearchIndex;
             _options = options ?? throw new ArgumentNullException(nameof(options));
+            MetricFields = new MetricFields();
         }
 
         /// <inheritdoc />
         public MetricsMediaTypeValue MediaType => new MetricsMediaTypeValue("text", "vnd.appmetrics.metrics.elasticsearch", "v1", "plain");
+
+        /// <inheritdoc />
+        public MetricFields MetricFields { get; set; }
 
         /// <inheritdoc />
         public Task WriteAsync(
@@ -60,22 +65,11 @@ namespace App.Metrics.Formatters.Elasticsearch
 
             using (var streamWriter = new StreamWriter(output))
             {
-                using (var textWriter = new MetricSnapshotElasticsearchWriter(
-                    streamWriter,
-                    _elasticsearchIndex,
-                    _options.MetricNameFormatter,
-                    _options.MetricTagFormatter,
-                    _options.MetricNameMapping))
-                {
-                    serializer.Serialize(textWriter, metricsData);
-                }
+                using var textWriter = new MetricSnapshotElasticsearchWriter(streamWriter, _elasticsearchIndex);
+                serializer.Serialize(textWriter, metricsData, MetricFields);
             }
 
-#if !NETSTANDARD1_6
-            return AppMetricsTaskHelper.CompletedTask();
-#else
             return Task.CompletedTask;
-#endif
         }
     }
 }

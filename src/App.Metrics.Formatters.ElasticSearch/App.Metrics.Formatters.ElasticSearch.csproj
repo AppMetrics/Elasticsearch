@@ -4,16 +4,21 @@
 
   <PropertyGroup>
     <Description>App Metrics Formatting, formatting metrics data to Elasticsearch formats.</Description>
-    <TargetFrameworks>netstandard1.6;net452</TargetFrameworks> 
+    <TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks> 
     <PackageTags>appmetrics;elasticsearch</PackageTags>    
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics.Core" Version="$(AppMetricsCoreVersion)" />
+    <PackageReference Include="App.Metrics.Core" Version="3.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="SourceLink.Create.CommandLine" Version="2.8.3" />
+    <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
   </ItemGroup>
 
 </Project>

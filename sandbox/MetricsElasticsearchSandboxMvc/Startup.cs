@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace MetricsElasticsearchSandboxMvc
 {
@@ -18,7 +19,7 @@ namespace MetricsElasticsearchSandboxMvc
 
         public IConfiguration Configuration { get; }
 
-        public void Configure(IApplicationBuilder app, IApplicationLifetime lifetime)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
             app.UseTestStuff(lifetime, HaveAppRunSampleRequests);
 
@@ -29,7 +30,7 @@ namespace MetricsElasticsearchSandboxMvc
         {
             services.AddTestStuff();
 
-            services.AddMvc(options => options.AddMetricsResourceFilter());
+            services.AddMvc(o => o.EnableEndpointRouting = false).AddMetrics();
         }
     }
 }
